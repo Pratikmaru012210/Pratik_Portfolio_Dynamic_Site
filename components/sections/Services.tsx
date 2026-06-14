@@ -11,29 +11,14 @@ interface Service {
   description: string;
 }
 
-export default function Services() {
+interface ServicesProps {
+  services: Service[];
+}
+
+export default function Services({ services }: ServicesProps) {
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [services, setServices] = useState<Service[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        setLoading(true);
-        const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
-        const res = await fetch(`${baseUrl}/services`);
-        const data = await res.json();
-        setServices(data.data || []);
-      } catch (err) {
-        console.error("Error fetching services:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchServices();
-  }, []);
 
   // Close modal when clicking outside
   useEffect(() => {
@@ -56,15 +41,6 @@ export default function Services() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openModal]);
-
-  if (loading) {
-    return (
-      <section className="flex flex-col items-center justify-center min-h-[40vh] px-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary border-solid mb-4"></div>
-        <span className="text-primary text-lg font-medium animate-pulse">Loading Services...</span>
-      </section>
-    );
-  }
 
   return (
     <>

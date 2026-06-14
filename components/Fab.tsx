@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export interface FabAction {
   icon: string;
@@ -13,31 +13,68 @@ export interface FabProps {
 
 const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
   const [open, setOpen] = useState(false);
+  const fabRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const checkHashAndOpen = () => {
+      if (window.location.hash === "#contact") {
+        setOpen(true);
+      }
+    };
+
+    // Run on mount
+    checkHashAndOpen();
+
+    const handleOpenFab = () => {
+      setOpen(true);
+    };
+
+    window.addEventListener("open-fab", handleOpenFab);
+    window.addEventListener("hashchange", checkHashAndOpen);
+
+    return () => {
+      window.removeEventListener("open-fab", handleOpenFab);
+      window.removeEventListener("hashchange", checkHashAndOpen);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (fabRef.current && !fabRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleActionClick = () => {
     setOpen(false);
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-3">
+    <div ref={fabRef} className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-3">
       {/* Options */}
       {open && (
         <div className="flex flex-col items-center gap-3 mb-2 rounded-full p-2.5 bg-background/80 border border-border/40 backdrop-blur-md animate-fade-in">
           {actions?.map((action, idx) => (
-            <button
+            <a
               key={idx}
+              href={action.url}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => handleActionClick()}
-              className="w-12 h-12 rounded-full bg-primary text-background shadow-md flex items-center justify-center hover:bg-primary/95 transition-all duration-200 p-2 border border-border hover:scale-105"
-              type="button"
+              className="w-12 h-12 rounded-full bg-primary text-background shadow-md flex items-center justify-center hover:bg-primary/95 transition-all duration-200 p-2 border border-border hover:scale-105 cursor-pointer"
             >
-              <a href={action.url} target="_blank" rel="noopener noreferrer">
-                <img
-                  src={action.icon}
-                  alt="Social icon"
-                  className="w-6 h-6 object-contain filter invert dark:invert-0"
-                />
-              </a>
-            </button>
+              <img
+                src={action.icon}
+                alt="Social icon"
+                className="w-6 h-6 object-contain filter invert dark:invert-0"
+              />
+            </a>
           ))}
         </div>
       )}
@@ -45,7 +82,7 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
       {/* Main FAB */}
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="w-14 h-14 rounded-full text-foreground shadow-lg flex items-center justify-center bg-primary/20 border border-primary/30 hover:bg-primary/40 transition-all duration-200 hover:scale-105 active:scale-95"
+        className="w-14 h-14 rounded-full text-foreground shadow-lg flex items-center justify-center bg-primary/20 border border-primary/30 hover:bg-primary/40 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
         type="button"
       >
         <span className="text-xl">{open ? "❌" : "👀"}</span>

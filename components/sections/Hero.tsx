@@ -1,63 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { homeTxt } from "../../constants/texts";
 import Fab from "../Fab";
 
-export default function Hero() {
-  const [profile, setProfile] = useState({
-    profilePicUrl: "",
-    firstName: "",
-    lastName: "",
-    tagline: "",
-    shortIntro: "",
-    resumeUrl: "",
-    socialMediaLinks: [],
-  });
-  const [loading, setLoading] = useState(true);
+interface SocialMediaLink {
+  url: string;
+  icon: string;
+  iconFileId?: string;
+}
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        setLoading(true);
-        const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
-        const res = await fetch(`${baseUrl}/profile`);
-        const data = await res.json();
-        if (data && data.data) {
-          setProfile({
-            profilePicUrl: data.data.profilePicUrl || "",
-            firstName: data.data.firstName || "",
-            lastName: data.data.lastName || "",
-            tagline: data.data.tagline || "",
-            shortIntro: data.data.shortIntro || "",
-            resumeUrl: data.data.resumeUrl || "",
-            socialMediaLinks: data.data.socialMediaLinks || [],
-          });
-        }
-      } catch (err) {
-        console.error("Error fetching profile:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProfile();
-  }, []);
+interface HeroProps {
+  profile: {
+    profilePicUrl: string;
+    firstName: string;
+    lastName: string;
+    tagline: string;
+    shortIntro: string;
+    resumeUrl: string;
+    socialMediaLinks: SocialMediaLink[];
+  };
+}
 
+export default function Hero({ profile }: HeroProps) {
   const handleNavigation = (id: string) => {
+    if (id === "contact") {
+      window.dispatchEvent(new CustomEvent("open-fab"));
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
-
-  if (loading) {
-    return (
-      <section className="flex flex-col items-center justify-center min-h-[45vh] px-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary border-solid mb-4"></div>
-        <span className="text-primary text-lg font-medium animate-pulse">Loading Hero...</span>
-      </section>
-    );
-  }
 
   return (
     <section className="text-center pt-10 pb-8 sm:pt-12 sm:pb-12 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 animate-fade-in">

@@ -1,20 +1,91 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
+
+const navLinks = [
+  { name: "Home", href: "/#home" },
+  { name: "About", href: "/#about" },
+  { name: "Services", href: "/#services" },
+  { name: "Testimonials", href: "/#testimonials" },
+  { name: "Contact", href: "/#contact" },
+];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isSignedIn, isLoaded } = useUser();
+  const pathname = usePathname();
+  const [activeSection, setActiveSection] = useState("home");
 
-  const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "Projects", href: "#projects" },
-    { name: "Skills", href: "#skills" },
-    { name: "Experience", href: "#experience" },
-    { name: "Contact", href: "#contact" },
-  ];
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const sections = navLinks.map((link) => link.href.replace("/#", "").replace("#", ""));
+    const elements = sections.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+
+    if (elements.length === 0) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-40% 0px -55% 0px", // Trigger active section when it is in the center view area
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, [pathname]);
+
+  const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.endsWith("#contact")) {
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent("open-fab"));
+      window.history.pushState(null, "", href);
+      return;
+    }
+    if (pathname === "/") {
+      const targetId = href.replace("/#", "").replace("#", "");
+      const element = document.getElementById(targetId);
+      if (element) {
+        e.preventDefault();
+        element.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", href);
+        setActiveSection(targetId);
+      }
+    }
+  };
+
+  const handleMobileNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    setIsOpen(false);
+    if (href.endsWith("#contact")) {
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent("open-fab"));
+      window.history.pushState(null, "", href);
+      return;
+    }
+    if (pathname === "/") {
+      const targetId = href.replace("/#", "").replace("#", "");
+      const element = document.getElementById(targetId);
+      if (element) {
+        e.preventDefault();
+        element.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", href);
+        setActiveSection(targetId);
+      }
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/40 backdrop-blur-md transition-all duration-300">
@@ -32,23 +103,36 @@ export default function Navbar() {
           {/* Desktop Navigation Links */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className="relative px-3 py-2 text-sm font-medium text-foreground/80 transition-colors duration-200 hover:text-primary group"
-                >
-                  {link.name}
-                  <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
-                </Link>
-              ))}
-              {isSignedIn && (
+              {navLinks.map((link) => {
+                const targetId = link.href.replace("/#", "").replace("#", "");
+                const isActive = pathname === "/" && activeSection === targetId;
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => handleNavLinkClick(e, link.href)}
+                    className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 hover:text-primary group ${
+                      isActive ? "text-primary" : "text-foreground/80"
+                    }`}
+                  >
+                    {link.name}
+                    <span className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`} />
+                  </Link>
+                );
+              })}
+              {isLoaded && isSignedIn && (
                 <Link
                   href="/admin/dashboard"
-                  className="relative px-3 py-2 text-sm font-medium text-foreground/80 transition-colors duration-200 hover:text-primary group"
+                  className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 hover:text-primary group ${
+                    pathname === "/admin/dashboard" ? "text-primary" : "text-foreground/80"
+                  }`}
                 >
                   Dashboard
-                  <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                    pathname === "/admin/dashboard" ? "w-full" : "w-0 group-hover:w-full"
+                  }`} />
                 </Link>
               )}
             </div>
@@ -131,21 +215,33 @@ export default function Navbar() {
         id="mobile-menu"
       >
         <div className="space-y-1 px-4 py-3">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className="block rounded-lg px-3 py-2 text-base font-medium text-foreground/80 hover:bg-foreground/5 hover:text-primary transition-all duration-200"
-            >
-              {link.name}
-            </Link>
-          ))}
-          {isSignedIn && (
+          {navLinks.map((link) => {
+            const targetId = link.href.replace("/#", "").replace("#", "");
+            const isActive = pathname === "/" && activeSection === targetId;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={(e) => handleMobileNavLinkClick(e, link.href)}
+                className={`block rounded-lg px-3 py-2 text-base font-medium transition-all duration-200 ${
+                  isActive
+                    ? "bg-primary/10 text-primary"
+                    : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+          {isLoaded && isSignedIn && (
             <Link
               href="/admin/dashboard"
               onClick={() => setIsOpen(false)}
-              className="block rounded-lg px-3 py-2 text-base font-medium text-foreground/80 hover:bg-foreground/5 hover:text-primary transition-all duration-200"
+              className={`block rounded-lg px-3 py-2 text-base font-medium transition-all duration-200 ${
+                pathname === "/admin/dashboard"
+                  ? "bg-primary/10 text-primary"
+                  : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
+              }`}
             >
               Dashboard
             </Link>

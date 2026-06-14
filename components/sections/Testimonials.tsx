@@ -16,29 +16,14 @@ interface Project {
   problemSolve?: string;
 }
 
-export default function Testimonials() {
-  const [projects, setProjects] = useState<Project[]>([]);
+interface TestimonialsProps {
+  projects: Project[];
+}
+
+export default function Testimonials({ projects }: TestimonialsProps) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedTestimonial, setSelectedTestimonial] = useState<Project | null>(null);
-  const [loading, setLoading] = useState(true);
   const modalRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
-        const res = await fetch(`${baseUrl}/projects`);
-        const data = await res.json();
-        setProjects(data.data || []);
-      } catch (err) {
-        console.error("Error fetching projects:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
 
   // Close modal when clicking outside
   useEffect(() => {
@@ -61,15 +46,6 @@ export default function Testimonials() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openModal]);
-
-  if (loading) {
-    return (
-      <section className="flex flex-col items-center justify-center min-h-[40vh] px-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary border-solid mb-4"></div>
-        <span className="text-primary text-lg font-medium animate-pulse">Loading Projects...</span>
-      </section>
-    );
-  }
 
   return (
     <section className="flex flex-col items-center w-full pt-10 pb-8 sm:pt-12 sm:pb-12 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 animate-fade-in">

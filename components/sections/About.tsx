@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { aboutTxt } from "../../constants/texts";
 
 interface Skill {
@@ -9,40 +8,12 @@ interface Skill {
   _id?: string;
 }
 
-export default function About() {
-  const [introduction, setIntroduction] = useState<string>("");
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [loading, setLoading] = useState(true);
+interface AboutProps {
+  introduction: string;
+  skills: Skill[];
+}
 
-  useEffect(() => {
-    const fetchAbout = async () => {
-      try {
-        setLoading(true);
-        const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
-        const res = await fetch(`${baseUrl}/about`);
-        const data = await res.json();
-        if (data && data.abouts && data.abouts.length > 0) {
-          setIntroduction(data.abouts[0].introduction || "");
-          setSkills(data.abouts[0].skills || []);
-        }
-      } catch (err) {
-        console.error("Error fetching about info:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchAbout();
-  }, []);
-
-  if (loading) {
-    return (
-      <section className="flex flex-col items-center justify-center min-h-[40vh] px-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary border-solid mb-4"></div>
-        <span className="text-primary text-lg font-medium animate-pulse">Loading About...</span>
-      </section>
-    );
-  }
-
+export default function About({ introduction, skills }: AboutProps) {
   return (
     <section className="flex flex-col items-center w-full pt-10 pb-8 sm:pt-12 sm:pb-12 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 animate-fade-in">
       {/* Introduction Label */}
