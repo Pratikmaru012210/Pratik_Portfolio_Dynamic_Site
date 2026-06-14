@@ -18,6 +18,23 @@ export default function Navbar() {
   const { isSignedIn, isLoaded } = useUser();
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState("home");
+  const [logoName, setLogoName] = useState("DevPortfolio");
+
+  useEffect(() => {
+    const fetchLogoName = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
+        const res = await fetch(`${baseUrl}/profile`);
+        const data = await res.json();
+        if (data && data.data && data.data.firstName) {
+          setLogoName(data.data.firstName);
+        }
+      } catch (err) {
+        console.error("Error fetching logo name:", err);
+      }
+    };
+    fetchLogoName();
+  }, []);
 
   useEffect(() => {
     if (pathname !== "/") return;
@@ -95,7 +112,8 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <Link href="/" className="group flex items-center space-x-2">
               <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent transition-all duration-300 group-hover:opacity-90">
-                DevPortfolio
+                {logoName}
+                <span className="text-primary font-black select-none">.</span>
               </span>
             </Link>
           </div>
