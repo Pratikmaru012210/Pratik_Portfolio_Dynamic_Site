@@ -42,6 +42,15 @@ export default function Navbar() {
                   <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
                 </Link>
               ))}
+              {isSignedIn && (
+                <Link
+                  href="/admin/dashboard"
+                  className="relative px-3 py-2 text-sm font-medium text-foreground/80 transition-colors duration-200 hover:text-primary group"
+                >
+                  Dashboard
+                  <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
+                </Link>
+              )}
             </div>
           </div>
 
@@ -132,6 +141,15 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+          {isSignedIn && (
+            <Link
+              href="/admin/dashboard"
+              onClick={() => setIsOpen(false)}
+              className="block rounded-lg px-3 py-2 text-base font-medium text-foreground/80 hover:bg-foreground/5 hover:text-primary transition-all duration-200"
+            >
+              Dashboard
+            </Link>
+          )}
           <div className="mt-4 border-t border-border/40 pt-4 pb-2">
             {!isLoaded ? (
               <div className="h-9 w-full animate-pulse rounded-lg bg-foreground/10" />
