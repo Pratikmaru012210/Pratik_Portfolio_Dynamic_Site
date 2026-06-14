@@ -25,13 +25,13 @@ export default function Contact() {
     <section className="flex flex-1 items-center justify-center px-4 py-10 sm:py-16 md:py-20 animate-fade-in">
       <div className="max-w-xl sm:max-w-2xl w-full text-center space-y-6">
         <div className="space-y-3">
-          <p className="text-xs sm:text-sm md:text-base tracking-widest uppercase text-foreground/50 font-semibold">
+          <p className="text-overline text-foreground/50">
             {contactTxt.subtitle}
           </p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent">
+          <h1 className="text-heading bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent">
             {contactTxt.title}
           </h1>
-          <p className="text-sm sm:text-base md:text-lg text-foreground/70 leading-relaxed max-w-lg mx-auto">
+          <p className="text-body text-foreground/70 max-w-lg mx-auto">
             {contactTxt.description}
           </p>
         </div>
@@ -50,7 +50,7 @@ export default function Contact() {
                   placeholder={`${contactTxt.namePlaceholder} *`}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="bg-neutral-900/40 text-foreground px-4 py-3 border border-white/5 rounded-xl focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md text-sm sm:text-base w-full transition-all duration-300 shadow-inner"
+                  className="text-body-sm bg-neutral-900/40 text-foreground px-4 py-3 border border-white/5 rounded-xl focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md w-full transition-all duration-300 shadow-inner"
                   required
                 />
               </div>
@@ -60,7 +60,7 @@ export default function Contact() {
                   placeholder={`${contactTxt.emailPlaceholder} *`}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-neutral-900/40 text-foreground px-4 py-3 border border-white/5 rounded-xl focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md text-sm sm:text-base w-full transition-all duration-300 shadow-inner"
+                  className="text-body-sm bg-neutral-900/40 text-foreground px-4 py-3 border border-white/5 rounded-xl focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md w-full transition-all duration-300 shadow-inner"
                   required
                 />
               </div>
@@ -73,7 +73,7 @@ export default function Contact() {
                 onChange={(e) => setMessage(e.target.value)}
                 maxLength={500}
                 rows={5}
-                className="bg-neutral-900/40 text-foreground px-4 py-3 border border-white/5 rounded-xl focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md text-sm sm:text-base w-full transition-all duration-300 shadow-inner"
+                className="text-body-sm bg-neutral-900/40 text-foreground px-4 py-3 border border-white/5 rounded-xl focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md w-full transition-all duration-300 shadow-inner"
                 required
               />
             </div>
@@ -81,7 +81,7 @@ export default function Contact() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-white rounded-full px-8 py-3.5 text-sm sm:text-base font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95"
+                className="text-body-sm inline-flex items-center justify-center gap-2 bg-primary text-white rounded-full px-8 py-3.5 font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95"
               >
                 <Send className="w-4 h-4" />
                 <span>{contactTxt.submitButton}</span>

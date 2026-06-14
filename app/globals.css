@@ -35,7 +35,70 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ─── Typography Scale ─────────────────────────────────────────────────────────
+   Semantic utilities so every section uses the same ramp.
+   Responsive sizes are encoded inside the utility — no sm:/md: repetition needed.
+────────────────────────────────────────────────────────────────────────────── */
+
+/* Hero-level display headline (tagline) */
+@utility text-display {
+  font-size: clamp(2rem, 5vw + 0.5rem, 4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* Section main headings (h1 inside sections) */
+@utility text-heading {
+  font-size: clamp(1.75rem, 3.5vw + 0.25rem, 3rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+/* Card / sub-section headings */
+@utility text-subheading {
+  font-size: clamp(1.05rem, 1.5vw + 0.3rem, 1.375rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* Normal body copy */
+@utility text-body {
+  font-size: clamp(0.9375rem, 1vw + 0.25rem, 1.125rem);
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+/* Secondary / smaller body copy */
+@utility text-body-sm {
+  font-size: clamp(0.8125rem, 0.75vw + 0.25rem, 0.9375rem);
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+/* Small card descriptions, truncated text */
+@utility text-caption {
+  font-size: clamp(0.75rem, 0.6vw + 0.2rem, 0.875rem);
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+/* ALL-CAPS label / overline above headings */
+@utility text-overline {
+  font-size: clamp(0.65rem, 0.5vw + 0.2rem, 0.8125rem);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ─── Glassmorphism Utilities ───────────────────────────────────────────────── */
 
 @utility glass-panel {
   background-color: rgba(10, 10, 10, 0.55);

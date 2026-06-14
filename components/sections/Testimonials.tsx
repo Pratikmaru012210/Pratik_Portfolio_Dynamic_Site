@@ -50,17 +50,17 @@ export default function Testimonials({ projects }: TestimonialsProps) {
   return (
     <section className="flex flex-col items-center w-full pt-10 pb-8 sm:pt-12 sm:pb-12 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 animate-fade-in">
       {/* Label */}
-      <div className="text-center mb-4 text-xs sm:text-sm md:text-base tracking-widest uppercase text-foreground/50 font-semibold">
+      <div className="text-overline text-center mb-4 text-foreground/50">
         {testimonialsText.heading}
       </div>
 
       {/* Sub Heading */}
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-6 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/85 bg-clip-text text-transparent">
+      <h1 className="text-heading text-center mb-6 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/85 bg-clip-text text-transparent">
         {testimonialsText.subHeading}
       </h1>
 
       {/* Intro Text */}
-      <div className="max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center mb-12 text-sm sm:text-base md:text-lg lg:text-xl text-foreground/80 mx-auto px-2 sm:px-4 leading-relaxed">
+      <div className="text-body text-foreground/80 max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center mb-12 mx-auto px-2 sm:px-4">
         {testimonialsText.introduction}
       </div>
 

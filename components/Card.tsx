@@ -61,10 +61,10 @@ const Card = ({ testimonial, onMoreInfo }: CardProps) => {
       {/* Body content */}
       <div className="p-4 sm:p-5 md:p-6 flex flex-col flex-1">
         <div className="flex-1">
-          <h5 className="mb-2 text-md sm:text-lg md:text-xl font-bold tracking-tight text-foreground line-clamp-2 group-hover:text-primary transition-colors">
+          <h5 className="text-subheading mb-2 text-foreground line-clamp-2 group-hover:text-primary transition-colors">
             {testimonial.title}
           </h5>
-          <p className="mb-4 text-xs sm:text-sm text-foreground/70 line-clamp-3 leading-relaxed">
+          <p className="text-caption mb-4 text-foreground/70 line-clamp-3">
             {testimonial.desc.length > 120
               ? testimonial.desc.slice(0, 120) + "..."
               : testimonial.desc}
@@ -75,7 +75,7 @@ const Card = ({ testimonial, onMoreInfo }: CardProps) => {
         <div className="flex flex-wrap gap-2 justify-start items-center">
           <button
             onClick={onMoreInfo}
-            className="inline-flex items-center justify-center px-4 py-2 text-xs sm:text-sm font-semibold text-primary bg-primary/10 border border-primary/20 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+            className="text-caption inline-flex items-center justify-center px-4 py-2 font-semibold text-primary bg-primary/10 border border-primary/20 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
           >
             <Info className="w-4 h-4 mr-1.5" />
             More details
@@ -84,7 +84,7 @@ const Card = ({ testimonial, onMoreInfo }: CardProps) => {
           {testimonial.gitHubLink && (
             <button
               onClick={() => window.open(testimonial.gitHubLink, "_blank")}
-              className="inline-flex items-center justify-center px-4 py-2 text-xs sm:text-sm font-semibold text-primary bg-primary/10 border border-primary/20 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+              className="text-caption inline-flex items-center justify-center px-4 py-2 font-semibold text-primary bg-primary/10 border border-primary/20 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <GithubIcon className="w-4 h-4 mr-1.5" />
               GitHub
@@ -94,7 +94,7 @@ const Card = ({ testimonial, onMoreInfo }: CardProps) => {
           {testimonial.liveLink && (
             <button
               onClick={() => window.open(testimonial.liveLink, "_blank")}
-              className="inline-flex items-center justify-center px-4 py-2 text-xs sm:text-sm font-semibold text-primary bg-primary/10 border border-primary/20 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+              className="text-caption inline-flex items-center justify-center px-4 py-2 font-semibold text-primary bg-primary/10 border border-primary/20 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <ExternalLink className="w-4 h-4 mr-1.5" />
               Live Demo

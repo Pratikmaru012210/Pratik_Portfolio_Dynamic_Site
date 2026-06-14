@@ -55,20 +55,20 @@ export default function Hero({ profile }: HeroProps) {
       </div>
 
       {/* Greeting */}
-      <h2 className="font-semibold text-lg sm:text-xl md:text-2xl mb-3 flex items-center justify-center gap-2 text-foreground/90">
+      <h2 className="text-subheading mb-3 flex items-center justify-center gap-2 text-foreground/90">
         <span>{`${homeTxt.greetingPrefix} ${profile.firstName} ${profile.lastName}`}</span>
-        <span role="img" aria-label="wave" className="text-xl sm:text-2xl animate-bounce">
+        <span role="img" aria-label="wave" className="animate-bounce">
           {homeTxt.waveEmoji}
         </span>
       </h2>
 
       {/* Headline */}
-      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight max-w-4xl mx-auto bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent">
+      <h1 className="text-display mb-6 max-w-4xl mx-auto bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent">
         {profile.tagline}
       </h1>
 
       {/* Description */}
-      <p className="text-foreground/75 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
+      <p className="text-body text-foreground/75 max-w-2xl mx-auto mb-8">
         {profile.shortIntro}
       </p>
 
@@ -76,7 +76,7 @@ export default function Hero({ profile }: HeroProps) {
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
         <button
           onClick={() => handleNavigation("contact")}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-white rounded-full px-8 py-3.5 text-sm sm:text-base md:text-lg font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-white rounded-full px-8 py-3.5 text-body-sm font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95"
         >
           <Send className="h-5 w-5" />
           <span>{homeTxt.connectWithMe}</span>
@@ -84,7 +84,7 @@ export default function Hero({ profile }: HeroProps) {
         {profile.resumeUrl && (
           <button
             onClick={() => window.open(profile.resumeUrl, "_blank")}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 border border-white/10 text-foreground rounded-full px-8 py-3.5 text-sm sm:text-base md:text-lg font-semibold bg-neutral-900/40 backdrop-blur-md transition-all duration-300 hover:bg-white/5 hover:border-primary/50 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.15)] active:scale-95 cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 border border-white/10 text-foreground rounded-full px-8 py-3.5 text-body-sm font-semibold bg-neutral-900/40 backdrop-blur-md transition-all duration-300 hover:bg-white/5 hover:border-primary/50 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.15)] active:scale-95 cursor-pointer"
           >
             <FileText className="h-5 w-5 text-primary" />
             <span>{homeTxt.resume}</span>
