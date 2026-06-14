@@ -5,6 +5,7 @@ import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Services from "@/components/sections/Services";
 import Testimonials from "@/components/sections/Testimonials";
+import { Loader2 } from "lucide-react";
 
 interface SocialMediaLink {
   url: string;
@@ -114,12 +115,9 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="flex min-h-screen items-center justify-center bg-black">
         <div className="flex flex-col items-center gap-4">
-          <div className="relative flex items-center justify-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary border-solid"></div>
-            <div className="absolute animate-ping rounded-full h-10 w-10 bg-primary/20"></div>
-          </div>
+          <Loader2 className="animate-spin h-12 w-12 text-primary" />
           <span className="text-primary text-sm font-semibold tracking-wider uppercase animate-pulse">
             Loading Portfolio...
           </span>

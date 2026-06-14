@@ -2,6 +2,7 @@
 
 import { homeTxt } from "../../constants/texts";
 import Fab from "../Fab";
+import { Send, FileText } from "lucide-react";
 
 interface SocialMediaLink {
   url: string;
@@ -34,9 +35,12 @@ export default function Hero({ profile }: HeroProps) {
   };
 
   return (
-    <section className="text-center pt-10 pb-8 sm:pt-12 sm:pb-12 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 animate-fade-in">
+    <section className="relative overflow-hidden text-center pt-10 pb-8 sm:pt-12 sm:pb-12 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 animate-fade-in">
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full glass-glow pointer-events-none -z-10" />
+
       {/* Profile Picture */}
-      <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full border-3 border-primary p-1 mx-auto mb-6 sm:mb-8 flex items-center justify-center hover:scale-105 transition-transform duration-300">
+      <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full border border-white/10 p-1 mx-auto mb-6 sm:mb-8 flex items-center justify-center hover:scale-105 transition-transform duration-300 bg-neutral-900/40 backdrop-blur-md shadow-[0_0_30px_rgba(37,99,235,0.15)] ring-2 ring-primary/20">
         {profile.profilePicUrl ? (
           <img
             src={profile.profilePicUrl}
@@ -59,7 +63,7 @@ export default function Hero({ profile }: HeroProps) {
       </h2>
 
       {/* Headline */}
-      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight max-w-4xl mx-auto bg-gradient-to-r from-foreground via-foreground/90 to-foreground/85 bg-clip-text text-transparent">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight max-w-4xl mx-auto bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent">
         {profile.tagline}
       </h1>
 
@@ -72,16 +76,18 @@ export default function Hero({ profile }: HeroProps) {
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
         <button
           onClick={() => handleNavigation("contact")}
-          className="w-full sm:w-auto text-center bg-primary text-background rounded-full px-8 py-3.5 text-sm sm:text-base md:text-lg font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/90 hover:scale-105 shadow-md active:scale-95"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-white rounded-full px-8 py-3.5 text-sm sm:text-base md:text-lg font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95"
         >
-          {homeTxt.connectWithMe}
+          <Send className="h-5 w-5" />
+          <span>{homeTxt.connectWithMe}</span>
         </button>
         {profile.resumeUrl && (
           <button
             onClick={() => window.open(profile.resumeUrl, "_blank")}
-            className="w-full sm:w-auto text-center border border-primary/40 text-foreground rounded-full px-8 py-3.5 text-sm sm:text-base md:text-lg font-semibold bg-transparent transition-all duration-300 hover:bg-primary/10 hover:border-primary hover:scale-105 shadow-md active:scale-95 cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 border border-white/10 text-foreground rounded-full px-8 py-3.5 text-sm sm:text-base md:text-lg font-semibold bg-neutral-900/40 backdrop-blur-md transition-all duration-300 hover:bg-white/5 hover:border-primary/50 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.15)] active:scale-95 cursor-pointer"
           >
-            {homeTxt.resume}
+            <FileText className="h-5 w-5 text-primary" />
+            <span>{homeTxt.resume}</span>
           </button>
         )}
       </div>

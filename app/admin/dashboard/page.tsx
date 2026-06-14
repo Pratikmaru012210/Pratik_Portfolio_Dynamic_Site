@@ -2,6 +2,27 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useAuth, RedirectToSignIn } from "@clerk/nextjs";
+import {
+  User,
+  FileText,
+  Briefcase,
+  Code,
+  Eye,
+  Edit,
+  Plus,
+  Trash2,
+  Menu as MenuIcon,
+  X as XIcon,
+  Mail,
+  Phone,
+  Globe,
+  FileDown,
+  Cpu,
+  PlusCircle,
+  X,
+  ExternalLink,
+  Loader2
+} from "lucide-react";
 
 interface SocialMediaLink {
   url: string;
@@ -41,15 +62,15 @@ export default function Dashboard() {
 
   if (!isLoaded) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background p-6">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary border-solid"></div>
+      <div className="flex min-h-screen items-center justify-center bg-black p-6">
+        <Loader2 className="animate-spin h-10 w-10 text-primary" />
       </div>
     );
   }
 
   if (!isSignedIn) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background p-6">
+      <div className="flex min-h-screen items-center justify-center bg-black p-6">
         <RedirectToSignIn />
       </div>
     );
@@ -627,24 +648,22 @@ function DashboardContent() {
       )}
 
       {/* Mobile Header Bar */}
-      <div className="md:hidden flex items-center justify-between px-6 py-4 border-b border-border/40 bg-background/60 backdrop-blur-md sticky top-0 z-30 w-full">
+      <div className="md:hidden flex items-center justify-between px-6 py-4 border-b border-white/5 bg-neutral-950/45 backdrop-blur-lg sticky top-0 z-30 w-full animate-fade-in">
         <div className="flex items-center gap-2">
           <span className="font-extrabold text-lg text-primary">Admin Dashboard</span>
         </div>
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           type="button"
-          className="inline-flex items-center p-2 text-foreground/80 hover:bg-foreground/5 rounded-xl focus:outline-none cursor-pointer"
+          className="inline-flex items-center p-2 text-foreground/80 hover:bg-white/5 rounded-xl focus:outline-none cursor-pointer"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
+          <MenuIcon className="w-6 h-6" />
         </button>
       </div>
 
       {/* Sidebar Navigation */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-72 bg-background/80 border-r border-border/40 backdrop-blur-md transition-transform duration-300 ease-in-out md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 w-72 bg-neutral-950/45 border-r border-white/5 backdrop-blur-lg transition-transform duration-300 ease-in-out md:translate-x-0 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -656,20 +675,18 @@ function DashboardContent() {
               </span>
               <button
                 onClick={() => setIsSidebarOpen(false)}
-                className="md:hidden text-foreground/60 hover:text-foreground p-1 hover:bg-foreground/5 rounded-lg cursor-pointer"
+                className="md:hidden text-foreground/60 hover:text-foreground p-1.5 hover:bg-white/5 rounded-lg cursor-pointer"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <XIcon className="w-6 h-6" />
               </button>
             </div>
 
             <nav className="space-y-2">
               {[
-                { id: "hero", label: "Hero & Profile", icon: "👤" },
-                { id: "about", label: "About & Skills", icon: "📝" },
-                { id: "services", label: "Services", icon: "💼" },
-                { id: "projects", label: "Projects/Work", icon: "🚀" },
+                { id: "hero", label: "Hero & Profile", icon: <User className="w-5 h-5" /> },
+                { id: "about", label: "About & Skills", icon: <FileText className="w-5 h-5" /> },
+                { id: "services", label: "Services", icon: <Briefcase className="w-5 h-5" /> },
+                { id: "projects", label: "Projects/Work", icon: <Code className="w-5 h-5" /> },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -678,21 +695,21 @@ function DashboardContent() {
                     setActiveTab(tab.id as "hero" | "about" | "services" | "projects");
                     setIsSidebarOpen(false);
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-250 cursor-pointer ${
                     activeTab === tab.id
-                      ? "bg-primary text-background shadow-md shadow-primary/20 scale-[1.02]"
-                      : "text-foreground/75 hover:bg-foreground/5 hover:text-foreground"
+                      ? "bg-primary text-white shadow-md shadow-primary/20 scale-[1.02] border border-primary/30"
+                      : "text-foreground/75 hover:bg-white/5 hover:text-foreground"
                   }`}
                 >
-                  <span className="text-base">{tab.icon}</span>
+                  {tab.icon}
                   <span>{tab.label}</span>
                 </button>
               ))}
             </nav>
           </div>
 
-          <div className="pt-6 border-t border-border/40">
-            <p className="text-xs text-foreground/40 text-center font-medium">Logged in as Admin</p>
+          <div className="pt-6 border-t border-white/5">
+            <p className="text-xs text-foreground/45 text-center font-medium">Logged in as Admin</p>
           </div>
         </div>
       </aside>
@@ -701,7 +718,7 @@ function DashboardContent() {
       {isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(false)}
-          className="fixed inset-0 bg-black/40 z-30 md:hidden backdrop-blur-xs"
+          className="fixed inset-0 bg-black/60 z-30 md:hidden backdrop-blur-sm"
         />
       )}
 
@@ -715,8 +732,8 @@ function DashboardContent() {
 
         {/* LOADING SHIM */}
         {loading && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/50 backdrop-blur-xs">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary border-solid"></div>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 backdrop-blur-sm">
+            <Loader2 className="animate-spin h-10 w-10 text-primary" />
           </div>
         )}
 
@@ -725,25 +742,22 @@ function DashboardContent() {
             ========================================== */}
         {activeTab === "hero" && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-border/20 pb-4 gap-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/10 pb-4 gap-4">
               <div>
                 <h2 className="text-xl font-bold">Hero & Profile</h2>
                 <p className="text-xs text-foreground/60 mt-0.5">Manage your banner profile information and resume.</p>
               </div>
-              <div className="flex bg-foreground/5 p-1 rounded-xl border border-border/40 w-fit">
+              <div className="flex bg-neutral-900/40 p-1 rounded-xl border border-white/5 backdrop-blur-md w-fit shadow-inner">
                 <button
                   type="button"
                   onClick={() => setHeroSubTab("preview")}
                   className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                     heroSubTab === "preview"
-                      ? "bg-primary text-background shadow-md"
+                      ? "bg-primary text-white shadow-md border border-primary/30"
                       : "text-foreground/60 hover:text-foreground"
                   }`}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
+                  <Eye className="w-3.5 h-3.5" />
                   <span>Preview</span>
                 </button>
                 <button
@@ -751,20 +765,18 @@ function DashboardContent() {
                   onClick={() => setHeroSubTab("edit")}
                   className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                     heroSubTab === "edit"
-                      ? "bg-primary text-background shadow-md"
+                      ? "bg-primary text-white shadow-md border border-primary/30"
                       : "text-foreground/60 hover:text-foreground"
                   }`}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                  </svg>
+                  <Edit className="w-3.5 h-3.5" />
                   <span>Edit Details</span>
                 </button>
               </div>
             </div>
 
             {heroSubTab === "preview" ? (
-              <div className="max-w-4xl bg-card border border-border/60 rounded-2xl p-6 sm:p-8 space-y-6 shadow-sm animate-fade-in">
+              <div className="max-w-4xl glass-card rounded-2xl p-6 sm:p-8 space-y-6 animate-fade-in">
                 <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
                   {/* Avatar Container */}
                   <div className="relative group">
@@ -773,11 +785,11 @@ function DashboardContent() {
                       <img
                         src={heroForm.profilePicUrl}
                         alt="Profile Avatar"
-                        className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover border-2 border-border/80 relative z-10 transition-transform duration-300 group-hover:scale-[1.02]"
+                        className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover border border-white/10 relative z-10 transition-transform duration-300 group-hover:scale-[1.02]"
                       />
                     ) : (
-                      <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl border-2 border-dashed border-border/80 bg-foreground/5 flex items-center justify-center relative z-10">
-                        <span className="text-3xl text-foreground/40 font-bold">
+                      <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl border border-dashed border-white/10 bg-neutral-900/40 flex items-center justify-center relative z-10">
+                        <span className="text-3xl text-foreground/45 font-bold">
                           {heroForm.firstName ? heroForm.firstName[0] : ""}{heroForm.lastName ? heroForm.lastName[0] : ""}
                         </span>
                       </div>
@@ -791,7 +803,7 @@ function DashboardContent() {
                         {heroForm.firstName} {heroForm.lastName}
                       </h2>
                       {heroForm.tagline && (
-                        <p className="text-sm font-semibold text-primary/80 mt-1 uppercase tracking-wider">
+                        <p className="text-sm font-semibold text-primary mt-1 uppercase tracking-wider">
                           {heroForm.tagline}
                         </p>
                       )}
@@ -805,13 +817,13 @@ function DashboardContent() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 text-xs sm:text-sm">
                       <div className="flex items-center gap-2.5 justify-center md:justify-start text-foreground/70">
-                        <span>📧</span>
+                        <Mail className="w-4 h-4 text-primary" />
                         <a href={`mailto:${heroForm.emailId}`} className="hover:text-primary transition-colors">
                           {heroForm.emailId}
                         </a>
                       </div>
                       <div className="flex items-center gap-2.5 justify-center md:justify-start text-foreground/70">
-                        <span>📞</span>
+                        <Phone className="w-4 h-4 text-primary" />
                         <span>{heroForm.phoneNumber}</span>
                       </div>
                     </div>
@@ -819,11 +831,11 @@ function DashboardContent() {
                 </div>
 
                 {/* Social Media & Resume Row */}
-                <div className="flex flex-col sm:flex-row justify-between items-center border-t border-border/20 pt-6 gap-4">
+                <div className="flex flex-col sm:flex-row justify-between items-center border-t border-white/10 pt-6 gap-4">
                   {/* Social Icons */}
                   <div className="flex items-center gap-3">
                     {socialLinks.length === 0 ? (
-                      <span className="text-xs italic text-foreground/40">No social media links configured.</span>
+                      <span className="text-xs italic text-foreground/45">No social media links configured.</span>
                     ) : (
                       socialLinks.map((link, idx) => (
                         <a
@@ -831,13 +843,13 @@ function DashboardContent() {
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-9 h-9 rounded-xl bg-foreground/5 border border-border/60 flex items-center justify-center hover:bg-primary/10 hover:border-primary/40 hover:scale-105 transition-all"
+                          className="w-9 h-9 rounded-xl bg-neutral-900/40 border border-white/5 flex items-center justify-center hover:bg-primary/20 hover:border-primary/45 hover:scale-110 transition-all shadow-sm"
                           title={link.url}
                         >
                           {link.icon ? (
                             <img src={link.icon} alt="" className="w-4 h-4 object-contain filter invert dark:invert-0" />
                           ) : (
-                            <span className="text-xs font-bold text-foreground/60">🔗</span>
+                            <Globe className="w-4 h-4 text-primary" />
                           )}
                         </a>
                       ))
@@ -850,19 +862,17 @@ function DashboardContent() {
                       href={heroForm.resumeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 text-xs font-semibold tracking-wide transition-all"
+                      className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 hover:scale-[1.02] text-xs font-semibold tracking-wide transition-all shadow-sm"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
+                      <FileText className="w-4 h-4" />
                       View Resume
                     </a>
                   )}
                 </div>
               </div>
             ) : (
-              <form onSubmit={saveHero} className="space-y-6 max-w-4xl bg-primary/5 border border-border/60 rounded-2xl p-6 sm:p-8">
-                <h2 className="text-xl font-bold border-b border-border/20 pb-3">Edit Profile Details</h2>
+              <form onSubmit={saveHero} className="space-y-6 max-w-4xl bg-neutral-900/35 border border-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-xl">
+                <h2 className="text-xl font-bold border-b border-white/10 pb-3">Edit Profile Details</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold mb-1">First Name *</label>
@@ -871,7 +881,7 @@ function DashboardContent() {
                       required
                       value={heroForm.firstName}
                       onChange={(e) => setHeroForm({ ...heroForm, firstName: e.target.value })}
-                      className="w-full bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl text-sm"
+                      className="w-full bg-neutral-950/40 text-foreground px-4 py-3 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                     />
                   </div>
                   <div>
@@ -881,7 +891,7 @@ function DashboardContent() {
                       required
                       value={heroForm.lastName}
                       onChange={(e) => setHeroForm({ ...heroForm, lastName: e.target.value })}
-                      className="w-full bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl text-sm"
+                      className="w-full bg-neutral-950/40 text-foreground px-4 py-3 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                     />
                   </div>
                 </div>
@@ -893,7 +903,7 @@ function DashboardContent() {
                       required
                       value={heroForm.emailId}
                       onChange={(e) => setHeroForm({ ...heroForm, emailId: e.target.value })}
-                      className="w-full bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl text-sm"
+                      className="w-full bg-neutral-950/40 text-foreground px-4 py-3 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                     />
                   </div>
                   <div>
@@ -903,7 +913,7 @@ function DashboardContent() {
                       required
                       value={heroForm.phoneNumber}
                       onChange={(e) => setHeroForm({ ...heroForm, phoneNumber: e.target.value })}
-                      className="w-full bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl text-sm"
+                      className="w-full bg-neutral-950/40 text-foreground px-4 py-3 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                     />
                   </div>
                 </div>
@@ -915,7 +925,7 @@ function DashboardContent() {
                       value={heroForm.profilePicUrl}
                       onChange={(e) => setHeroForm({ ...heroForm, profilePicUrl: e.target.value })}
                       placeholder="Paste URL here..."
-                      className="w-full bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl text-sm mb-2"
+                      className="w-full bg-neutral-950/40 text-foreground px-4 py-3 border border-white/5 rounded-xl text-sm mb-2 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                     />
                     <input
                       type="file"
@@ -932,7 +942,7 @@ function DashboardContent() {
                       value={heroForm.resumeUrl}
                       onChange={(e) => setHeroForm({ ...heroForm, resumeUrl: e.target.value })}
                       placeholder="Paste URL here..."
-                      className="w-full bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl text-sm mb-2"
+                      className="w-full bg-neutral-950/40 text-foreground px-4 py-3 border border-white/5 rounded-xl text-sm mb-2 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                     />
                     <input
                       type="file"
@@ -949,7 +959,7 @@ function DashboardContent() {
                     type="text"
                     value={heroForm.tagline}
                     onChange={(e) => setHeroForm({ ...heroForm, tagline: e.target.value })}
-                    className="w-full bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl text-sm"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-3 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                 </div>
                 <div>
@@ -959,12 +969,12 @@ function DashboardContent() {
                     rows={4}
                     value={heroForm.shortIntro}
                     onChange={(e) => setHeroForm({ ...heroForm, shortIntro: e.target.value })}
-                    className="w-full bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl text-sm"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-3 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                 </div>
 
                 {/* Social Links Sub-form */}
-                <div className="space-y-4 pt-4 border-t border-border/20">
+                <div className="space-y-4 pt-4 border-t border-white/10">
                   <h3 className="font-bold text-md text-primary">Social Media Links</h3>
                   <div className="flex flex-col sm:flex-row gap-3 items-end sm:items-center">
                     <input
@@ -972,7 +982,7 @@ function DashboardContent() {
                       placeholder="Profile URL (e.g. https://github.com/username)"
                       value={newSocialUrl}
                       onChange={(e) => setNewSocialUrl(e.target.value)}
-                      className="flex-1 bg-background text-foreground px-4 py-2.5 border border-border/60 rounded-xl text-xs sm:text-sm w-full"
+                      className="flex-1 bg-neutral-950/40 text-foreground px-4 py-2.5 border border-white/5 rounded-xl text-xs sm:text-sm w-full focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                     />
                     <div className="flex-1 w-full flex flex-col gap-1">
                       <input
@@ -980,7 +990,7 @@ function DashboardContent() {
                         placeholder="Icon URL (Optional)"
                         value={newSocialIcon}
                         onChange={(e) => setNewSocialIcon(e.target.value)}
-                        className="bg-background text-foreground px-4 py-2 border border-border/60 rounded-xl text-xs"
+                        className="bg-neutral-950/40 text-foreground px-4 py-2 border border-white/5 rounded-xl text-xs w-full focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                       />
                       <input
                         type="file"
@@ -993,7 +1003,7 @@ function DashboardContent() {
                     <button
                       type="button"
                       onClick={addSocial}
-                      className="bg-primary/20 text-primary border border-primary/30 font-semibold px-5 py-2.5 rounded-xl hover:bg-primary/30 transition-all text-sm cursor-pointer"
+                      className="bg-primary/20 text-primary border border-primary/30 font-semibold px-5 py-2.5 rounded-xl hover:bg-primary/30 transition-all text-sm cursor-pointer hover:scale-105 active:scale-95"
                     >
                       Add
                     </button>
@@ -1002,19 +1012,23 @@ function DashboardContent() {
                   {/* Social pills */}
                   <div className="flex flex-wrap gap-2 pt-2">
                     {socialLinks.length === 0 && (
-                      <span className="text-xs italic text-foreground/50">No social media links added yet.</span>
+                      <span className="text-xs italic text-foreground/45">No social media links added yet.</span>
                     )}
                     {socialLinks.map((link, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-foreground/5 border border-border/40 text-xs text-foreground/90 font-medium"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-900/40 border border-white/5 text-xs text-foreground/90 font-medium shadow-sm"
                       >
-                        {link.icon && <img src={link.icon} alt="" className="w-4 h-4 object-contain filter invert dark:invert-0" />}
+                        {link.icon ? (
+                          <img src={link.icon} alt="" className="w-4 h-4 object-contain filter invert dark:invert-0" />
+                        ) : (
+                          <Globe className="w-4 h-4 text-primary" />
+                        )}
                         <span className="max-w-[150px] truncate">{link.url}</span>
                         <button
                           type="button"
                           onClick={() => removeSocial(idx)}
-                          className="text-red-500 hover:text-red-650 font-bold ml-1 cursor-pointer"
+                          className="text-red-500 hover:text-red-650 font-bold ml-1 cursor-pointer text-sm"
                         >
                           ×
                         </button>
@@ -1025,7 +1039,7 @@ function DashboardContent() {
 
                 <button
                   type="submit"
-                  className="w-full bg-primary text-background rounded-xl py-3 font-bold text-sm sm:text-base hover:bg-primary/95 transition-all shadow-md active:scale-98 cursor-pointer mt-4"
+                  className="w-full bg-primary text-white rounded-xl py-3.5 font-bold text-sm sm:text-base hover:bg-primary/95 hover:shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all shadow-md active:scale-[0.99] cursor-pointer mt-4"
                 >
                   Save Profile Details
                 </button>
@@ -1039,25 +1053,22 @@ function DashboardContent() {
             ========================================== */}
         {activeTab === "about" && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-border/20 pb-4 gap-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/10 pb-4 gap-4">
               <div>
                 <h2 className="text-xl font-bold text-foreground">About & Skills</h2>
                 <p className="text-xs text-foreground/60 mt-0.5">Manage your bio summary and interactive tech skills.</p>
               </div>
-              <div className="flex bg-foreground/5 p-1 rounded-xl border border-border/40 w-fit">
+              <div className="flex bg-neutral-900/40 p-1 rounded-xl border border-white/5 backdrop-blur-md w-fit shadow-inner">
                 <button
                   type="button"
                   onClick={() => setAboutSubTab("preview")}
                   className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                     aboutSubTab === "preview"
-                      ? "bg-primary text-background shadow-md"
+                      ? "bg-primary text-white shadow-md border border-primary/30"
                       : "text-foreground/60 hover:text-foreground"
                   }`}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
+                  <Eye className="w-3.5 h-3.5" />
                   <span>Preview</span>
                 </button>
                 <button
@@ -1065,13 +1076,11 @@ function DashboardContent() {
                   onClick={() => setAboutSubTab("edit")}
                   className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                     aboutSubTab === "edit"
-                      ? "bg-primary text-background shadow-md"
+                      ? "bg-primary text-white shadow-md border border-primary/30"
                       : "text-foreground/60 hover:text-foreground"
                   }`}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                  </svg>
+                  <Edit className="w-3.5 h-3.5" />
                   <span>Edit Details</span>
                 </button>
               </div>
@@ -1080,29 +1089,29 @@ function DashboardContent() {
             {aboutSubTab === "preview" ? (
               <div className="max-w-4xl space-y-6 animate-fade-in">
                 {/* Introduction Card */}
-                <div className="bg-card border border-border/60 rounded-2xl p-6 sm:p-8 space-y-4 shadow-sm">
-                  <h3 className="text-lg font-bold border-b border-border/20 pb-2 text-primary">Biography</h3>
+                <div className="glass-card rounded-2xl p-6 sm:p-8 space-y-4">
+                  <h3 className="text-lg font-bold border-b border-white/10 pb-2 text-primary">Biography</h3>
                   <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed whitespace-pre-line">
                     {introduction || "No biography details added yet."}
                   </p>
                 </div>
 
                 {/* Skills Card */}
-                <div className="bg-card border border-border/60 rounded-2xl p-6 sm:p-8 space-y-5 shadow-sm">
-                  <h3 className="text-lg font-bold border-b border-border/20 pb-2 text-primary">Skills List</h3>
+                <div className="glass-card rounded-2xl p-6 sm:p-8 space-y-5">
+                  <h3 className="text-lg font-bold border-b border-white/10 pb-2 text-primary">Skills List</h3>
                   {skills.length === 0 ? (
-                    <p className="text-xs italic text-foreground/40 text-center py-6">No skills added yet.</p>
+                    <p className="text-xs italic text-foreground/45 text-center py-6">No skills added yet.</p>
                   ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                       {skills.map((skill, idx) => (
                         <div
                           key={idx}
-                          className="flex items-center gap-3 p-3.5 rounded-xl bg-background border border-border/65 hover:border-primary/40 hover:scale-[1.02] transition-all group cursor-default shadow-xs"
+                          className="flex items-center gap-3 p-3.5 rounded-xl bg-neutral-900/40 border border-white/5 hover:border-primary/40 hover:scale-[1.02] transition-all group cursor-default shadow-sm"
                         >
                           {skill.icon ? (
                             <img src={skill.icon} alt={skill.skill} className="w-6 h-6 object-contain group-hover:rotate-6 transition-transform duration-300" />
                           ) : (
-                            <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center text-[10px] text-primary font-bold">⚙️</div>
+                            <Cpu className="w-6 h-6 text-primary" />
                           )}
                           <span className="text-xs font-semibold text-foreground/90 group-hover:text-primary transition-colors truncate">{skill.skill}</span>
                         </div>
@@ -1112,8 +1121,8 @@ function DashboardContent() {
                 </div>
               </div>
             ) : (
-              <form onSubmit={saveAbout} className="space-y-6 max-w-4xl bg-primary/5 border border-border/60 rounded-2xl p-6 sm:p-8">
-                <h2 className="text-xl font-bold border-b border-border/20 pb-3">Edit About Me</h2>
+              <form onSubmit={saveAbout} className="space-y-6 max-w-4xl bg-neutral-900/35 border border-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-xl">
+                <h2 className="text-xl font-bold border-b border-white/10 pb-3">Edit About Me</h2>
                 <div>
                   <label className="block text-sm font-semibold mb-1">Bio/Introduction *</label>
                   <textarea
@@ -1121,12 +1130,12 @@ function DashboardContent() {
                     rows={6}
                     value={introduction}
                     onChange={(e) => setIntroduction(e.target.value)}
-                    className="w-full bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl text-sm"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-3 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                 </div>
 
                 {/* Skills Sub-form */}
-                <div className="space-y-4 pt-4 border-t border-border/20">
+                <div className="space-y-4 pt-4 border-t border-white/10">
                   <h3 className="font-bold text-md text-primary">Skills List</h3>
                   <div className="flex flex-col sm:flex-row gap-3 items-end sm:items-center">
                     <input
@@ -1134,7 +1143,7 @@ function DashboardContent() {
                       placeholder="Skill name (e.g. React)"
                       value={newSkillName}
                       onChange={(e) => setNewSkillName(e.target.value)}
-                      className="flex-1 bg-background text-foreground px-4 py-2.5 border border-border/60 rounded-xl text-xs sm:text-sm w-full"
+                      className="flex-1 bg-neutral-950/40 text-foreground px-4 py-2.5 border border-white/5 rounded-xl text-xs sm:text-sm w-full focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                     />
                     <div className="flex-1 w-full flex flex-col gap-1">
                       <input
@@ -1142,7 +1151,7 @@ function DashboardContent() {
                         placeholder="Icon Image URL"
                         value={newSkillIcon}
                         onChange={(e) => setNewSkillIcon(e.target.value)}
-                        className="bg-background text-foreground px-4 py-2 border border-border/60 rounded-xl text-xs w-full"
+                        className="bg-neutral-950/40 text-foreground px-4 py-2 border border-white/5 rounded-xl text-xs w-full focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                       />
                       <input
                         type="file"
@@ -1155,7 +1164,7 @@ function DashboardContent() {
                     <button
                       type="button"
                       onClick={addSkill}
-                      className="bg-primary/20 text-primary border border-primary/30 font-semibold px-5 py-2.5 rounded-xl hover:bg-primary/30 transition-all text-sm cursor-pointer"
+                      className="bg-primary/20 text-primary border border-primary/30 font-semibold px-5 py-2.5 rounded-xl hover:bg-primary/30 transition-all text-sm cursor-pointer hover:scale-105 active:scale-95"
                     >
                       Add Skill
                     </button>
@@ -1164,12 +1173,12 @@ function DashboardContent() {
                   {/* Skills pills */}
                   <div className="flex flex-wrap gap-2.5 pt-2">
                     {skills.length === 0 && (
-                      <span className="text-xs italic text-foreground/50">No skills added yet.</span>
+                      <span className="text-xs italic text-foreground/45">No skills added yet.</span>
                     )}
                     {skills.map((skill, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-background border border-border/60 text-xs text-foreground/90 font-medium hover:border-primary/50 transition-all"
+                        className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-neutral-900/40 border border-white/5 text-xs text-foreground/90 font-medium hover:border-primary/50 transition-all shadow-sm"
                       >
                         {skill.icon && <img src={skill.icon} alt="" className="w-5 h-5 object-contain" />}
                         <span>{skill.skill}</span>
@@ -1187,7 +1196,7 @@ function DashboardContent() {
 
                 <button
                   type="submit"
-                  className="w-full bg-primary text-background rounded-xl py-3 font-bold text-sm sm:text-base hover:bg-primary/95 transition-all shadow-md active:scale-98 cursor-pointer mt-4"
+                  className="w-full bg-primary text-white rounded-xl py-3.5 font-bold text-sm sm:text-base hover:bg-primary/95 hover:shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all shadow-md active:scale-[0.99] cursor-pointer mt-4"
                 >
                   Save About & Skills
                 </button>
@@ -1201,25 +1210,22 @@ function DashboardContent() {
             ========================================== */}
         {activeTab === "services" && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-border/20 pb-4 gap-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/10 pb-4 gap-4">
               <div>
                 <h2 className="text-xl font-bold">Services</h2>
                 <p className="text-xs text-foreground/60 mt-0.5">Manage and preview the services you offer.</p>
               </div>
-              <div className="flex bg-foreground/5 p-1 rounded-xl border border-border/40 w-fit">
+              <div className="flex bg-neutral-900/40 p-1 rounded-xl border border-white/5 backdrop-blur-md w-fit shadow-inner">
                 <button
                   type="button"
                   onClick={() => setServicesSubTab("preview")}
                   className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                     servicesSubTab === "preview"
-                      ? "bg-primary text-background shadow-md"
+                      ? "bg-primary text-white shadow-md border border-primary/30"
                       : "text-foreground/60 hover:text-foreground"
                   }`}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
+                  <Eye className="w-3.5 h-3.5" />
                   <span>Preview ({services.length})</span>
                 </button>
                 <button
@@ -1231,13 +1237,11 @@ function DashboardContent() {
                   }}
                   className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                     servicesSubTab === "edit"
-                      ? "bg-primary text-background shadow-md"
+                      ? "bg-primary text-white shadow-md border border-primary/30"
                       : "text-foreground/60 hover:text-foreground"
                   }`}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                  <Plus className="w-3.5 h-3.5" />
                   <span>{serviceForm._id ? "Modify Service" : "Add New"}</span>
                 </button>
               </div>
@@ -1245,8 +1249,8 @@ function DashboardContent() {
 
             {servicesSubTab === "edit" ? (
               /* Form */
-              <form onSubmit={saveService} className="max-w-2xl bg-primary/5 border border-border/60 rounded-2xl p-6 space-y-5 animate-fade-in mx-auto">
-                <h3 className="text-lg font-bold border-b border-border/20 pb-2">
+              <form onSubmit={saveService} className="max-w-2xl bg-neutral-900/35 border border-white/5 backdrop-blur-md rounded-2xl p-6 space-y-5 animate-fade-in mx-auto shadow-xl">
+                <h3 className="text-lg font-bold border-b border-white/10 pb-2">
                   {serviceForm._id ? "Modify Service" : "Create New Service"}
                 </h3>
                 <div>
@@ -1257,7 +1261,7 @@ function DashboardContent() {
                     value={serviceForm.service}
                     onChange={(e) => setServiceForm({ ...serviceForm, service: e.target.value })}
                     placeholder="e.g. Web Development"
-                    className="w-full bg-background text-foreground px-4 py-2.5 border border-border/60 rounded-xl text-sm"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-2.5 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                 </div>
                 <div>
@@ -1267,7 +1271,7 @@ function DashboardContent() {
                     value={serviceForm.icon}
                     onChange={(e) => setServiceForm({ ...serviceForm, icon: e.target.value })}
                     placeholder="Paste URL or upload file below"
-                    className="w-full bg-background text-foreground px-4 py-2.5 border border-border/60 rounded-xl text-sm mb-2"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-2.5 border border-white/5 rounded-xl text-sm mb-2 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                   <input
                     type="file"
@@ -1285,13 +1289,13 @@ function DashboardContent() {
                     value={serviceForm.description}
                     onChange={(e) => setServiceForm({ ...serviceForm, description: e.target.value })}
                     placeholder="Describe what you offer..."
-                    className="w-full bg-background text-foreground px-4 py-2.5 border border-border/60 rounded-xl text-sm"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-2.5 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                 </div>
                 <div className="flex gap-2 pt-2">
                   <button
                     type="submit"
-                    className="flex-1 bg-primary text-background rounded-xl py-2.5 font-bold text-sm hover:bg-primary/95 transition-all cursor-pointer"
+                    className="flex-1 bg-primary text-white rounded-xl py-2.5 font-bold text-sm hover:bg-primary/95 hover:shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all shadow-md cursor-pointer"
                   >
                     Save Service
                   </button>
@@ -1302,7 +1306,7 @@ function DashboardContent() {
                       if (serviceIconRef.current) serviceIconRef.current.value = "";
                       setServicesSubTab("preview");
                     }}
-                    className="px-4 bg-foreground/10 rounded-xl text-foreground font-semibold hover:bg-foreground/20 text-xs transition-all cursor-pointer"
+                    className="px-4 bg-white/5 rounded-xl text-foreground font-semibold hover:bg-white/10 text-xs transition-all cursor-pointer border border-white/5"
                   >
                     Cancel
                   </button>
@@ -1312,7 +1316,7 @@ function DashboardContent() {
               /* List */
               <div className="space-y-4 animate-fade-in">
                 {services.length === 0 && (
-                  <div className="text-center p-12 border border-dashed border-border/50 rounded-2xl text-foreground/50 text-sm">
+                  <div className="text-center p-12 border border-dashed border-white/10 rounded-2xl text-foreground/45 text-sm bg-neutral-900/10">
                     No services added yet. Click &quot;Add New&quot; to create one.
                   </div>
                 )}
@@ -1320,13 +1324,13 @@ function DashboardContent() {
                   {services.map((srv) => (
                     <div
                       key={srv._id}
-                      className="p-6 bg-background border border-border/60 rounded-2xl flex flex-col hover:border-primary/45 transition-all relative group shadow-sm"
+                      className="p-6 glass-card rounded-2xl flex flex-col hover:border-primary/45 hover:scale-[1.02] transition-all relative group"
                     >
                       <div className="flex items-center justify-between mb-4">
                         {srv.icon ? (
                           <img src={srv.icon} alt="" className="w-10 h-10 object-contain" />
                         ) : (
-                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold">💼</div>
+                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold"><Briefcase className="w-5 h-5" /></div>
                         )}
                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
@@ -1340,19 +1344,21 @@ function DashboardContent() {
                               });
                               setServicesSubTab("edit");
                             }}
-                            className="px-3 py-1 text-[11px] bg-primary/10 text-primary border border-primary/20 rounded-full font-semibold hover:bg-primary/20 cursor-pointer"
+                            className="px-3 py-1 text-[11px] bg-primary/10 text-primary border border-primary/20 rounded-full font-semibold hover:bg-primary/20 cursor-pointer flex items-center gap-0.5"
                           >
+                            <Edit className="w-3 h-3" />
                             Edit
                           </button>
                           <button
                             onClick={() => deleteService(srv)}
-                            className="px-3 py-1 text-[11px] bg-red-500/10 text-red-500 border border-red-500/20 rounded-full font-semibold hover:bg-red-500/20 cursor-pointer"
+                            className="px-3 py-1 text-[11px] bg-red-500/10 text-red-500 border border-red-500/20 rounded-full font-semibold hover:bg-red-500/20 cursor-pointer flex items-center gap-0.5"
                           >
+                            <Trash2 className="w-3 h-3" />
                             Delete
                           </button>
                         </div>
                       </div>
-                      <h3 className="font-extrabold text-foreground text-base mb-2">{srv.service}</h3>
+                      <h3 className="font-extrabold text-foreground text-base mb-2 group-hover:text-primary transition-colors">{srv.service}</h3>
                       <p className="text-xs text-foreground/75 leading-relaxed flex-grow">{srv.description}</p>
                     </div>
                   ))}
@@ -1367,25 +1373,22 @@ function DashboardContent() {
             ========================================== */}
         {activeTab === "projects" && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-border/20 pb-4 gap-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/10 pb-4 gap-4">
               <div>
                 <h2 className="text-xl font-bold">Projects</h2>
                 <p className="text-xs text-foreground/60 mt-0.5">Manage and showcase your portfolio works.</p>
               </div>
-              <div className="flex bg-foreground/5 p-1 rounded-xl border border-border/40 w-fit">
+              <div className="flex bg-neutral-900/40 p-1 rounded-xl border border-white/5 backdrop-blur-md w-fit shadow-inner">
                 <button
                   type="button"
                   onClick={() => setProjectsSubTab("preview")}
                   className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                     projectsSubTab === "preview"
-                      ? "bg-primary text-background shadow-md"
+                      ? "bg-primary text-white shadow-md border border-primary/30"
                       : "text-foreground/60 hover:text-foreground"
                   }`}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
+                  <Eye className="w-3.5 h-3.5" />
                   <span>Preview ({projects.length})</span>
                 </button>
                 <button
@@ -1407,13 +1410,11 @@ function DashboardContent() {
                   }}
                   className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                     projectsSubTab === "edit"
-                      ? "bg-primary text-background shadow-md"
+                      ? "bg-primary text-white shadow-md border border-primary/30"
                       : "text-foreground/60 hover:text-foreground"
                   }`}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                  <Plus className="w-3.5 h-3.5" />
                   <span>{projectForm._id ? "Modify Project" : "Add New"}</span>
                 </button>
               </div>
@@ -1421,8 +1422,8 @@ function DashboardContent() {
 
             {projectsSubTab === "edit" ? (
               /* Form */
-              <form onSubmit={saveProject} className="max-w-2xl bg-primary/5 border border-border/60 rounded-2xl p-6 space-y-4 animate-fade-in mx-auto">
-                <h3 className="text-lg font-bold border-b border-border/20 pb-2">
+              <form onSubmit={saveProject} className="max-w-2xl bg-neutral-900/35 border border-white/5 backdrop-blur-md rounded-2xl p-6 space-y-4 animate-fade-in mx-auto shadow-xl">
+                <h3 className="text-lg font-bold border-b border-white/10 pb-2">
                   {projectForm._id ? "Modify Project" : "Add New Project"}
                 </h3>
                 <div>
@@ -1433,7 +1434,7 @@ function DashboardContent() {
                     value={projectForm.projectName}
                     onChange={(e) => setProjectForm({ ...projectForm, projectName: e.target.value })}
                     placeholder="e.g. E-Commerce Platform"
-                    className="w-full bg-background text-foreground px-4 py-2 border border-border/60 rounded-xl text-sm"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-2 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                 </div>
                 <div>
@@ -1444,7 +1445,7 @@ function DashboardContent() {
                     value={projectForm.imageUrl}
                     onChange={(e) => setProjectForm({ ...projectForm, imageUrl: e.target.value })}
                     placeholder="Image URL or upload below"
-                    className="w-full bg-background text-foreground px-4 py-2 border border-border/60 rounded-xl text-sm mb-2"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-2 border border-white/5 rounded-xl text-sm mb-2 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                   <input
                     type="file"
@@ -1462,7 +1463,7 @@ function DashboardContent() {
                       value={projectForm.gitHubLink}
                       onChange={(e) => setProjectForm({ ...projectForm, gitHubLink: e.target.value })}
                       placeholder="https://..."
-                      className="w-full bg-background text-foreground px-4 py-2 border border-border/60 rounded-xl text-sm"
+                      className="w-full bg-neutral-950/40 text-foreground px-4 py-2 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                     />
                   </div>
                   <div>
@@ -1472,7 +1473,7 @@ function DashboardContent() {
                       value={projectForm.liveLink}
                       onChange={(e) => setProjectForm({ ...projectForm, liveLink: e.target.value })}
                       placeholder="https://..."
-                      className="w-full bg-background text-foreground px-4 py-2 border border-border/60 rounded-xl text-sm"
+                      className="w-full bg-neutral-950/40 text-foreground px-4 py-2 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                     />
                   </div>
                 </div>
@@ -1483,7 +1484,7 @@ function DashboardContent() {
                     value={projectForm.techStackRaw}
                     onChange={(e) => setProjectForm({ ...projectForm, techStackRaw: e.target.value })}
                     placeholder="React, Tailwind, Node, MongoDB"
-                    className="w-full bg-background text-foreground px-4 py-2 border border-border/60 rounded-xl text-sm"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-2 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                 </div>
                 <div>
@@ -1493,7 +1494,7 @@ function DashboardContent() {
                     value={projectForm.problemSolve}
                     onChange={(e) => setProjectForm({ ...projectForm, problemSolve: e.target.value })}
                     placeholder="What challenges did this project solve?"
-                    className="w-full bg-background text-foreground px-4 py-2 border border-border/60 rounded-xl text-sm"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-2 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                 </div>
                 <div>
@@ -1504,13 +1505,13 @@ function DashboardContent() {
                     value={projectForm.description}
                     onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })}
                     placeholder="Describe your project work..."
-                    className="w-full bg-background text-foreground px-4 py-2 border border-border/60 rounded-xl text-sm"
+                    className="w-full bg-neutral-950/40 text-foreground px-4 py-2 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
                   />
                 </div>
                 <div className="flex gap-2 pt-2">
                   <button
                     type="submit"
-                    className="flex-1 bg-primary text-background rounded-xl py-2.5 font-bold text-sm hover:bg-primary/95 transition-all cursor-pointer"
+                    className="flex-1 bg-primary text-white rounded-xl py-2.5 font-bold text-sm hover:bg-primary/95 hover:shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all shadow-md cursor-pointer"
                   >
                     Save Project
                   </button>
@@ -1531,7 +1532,7 @@ function DashboardContent() {
                       if (projectImageRef.current) projectImageRef.current.value = "";
                       setProjectsSubTab("preview");
                     }}
-                    className="px-4 bg-foreground/10 rounded-xl text-foreground font-semibold hover:bg-foreground/20 text-xs transition-all cursor-pointer"
+                    className="px-4 bg-white/5 rounded-xl text-foreground font-semibold hover:bg-white/10 text-xs transition-all cursor-pointer border border-white/5"
                   >
                     Cancel
                   </button>
@@ -1541,7 +1542,7 @@ function DashboardContent() {
               /* List */
               <div className="space-y-4 animate-fade-in">
                 {projects.length === 0 && (
-                  <div className="text-center p-12 border border-dashed border-border/50 rounded-2xl text-foreground/50 text-sm">
+                  <div className="text-center p-12 border border-dashed border-white/10 rounded-2xl text-foreground/45 text-sm bg-neutral-900/10">
                     No projects added yet. Click &quot;Add New&quot; to showcase a project.
                   </div>
                 )}
@@ -1549,10 +1550,10 @@ function DashboardContent() {
                   {projects.map((proj) => (
                     <div
                       key={proj._id}
-                      className="bg-background border border-border/60 rounded-2xl flex flex-col hover:border-primary/45 transition-all relative group overflow-hidden shadow-sm"
+                      className="glass-card rounded-2xl flex flex-col hover:border-primary/45 hover:scale-[1.02] transition-all relative group overflow-hidden"
                     >
-                      <div className="w-full h-44 bg-foreground/5 relative overflow-hidden">
-                        <img src={proj.imageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <div className="w-full h-44 bg-neutral-950/40 relative overflow-hidden border-b border-white/5">
+                        <img src={proj.imageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         <div className="absolute top-3 right-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
                             onClick={() => {
@@ -1569,30 +1570,32 @@ function DashboardContent() {
                               });
                               setProjectsSubTab("edit");
                             }}
-                            className="px-3 py-1.5 text-[10px] bg-primary text-background rounded-full font-bold shadow hover:bg-primary/90 cursor-pointer"
+                            className="px-3 py-1.5 text-[10px] bg-primary text-white rounded-full font-bold shadow hover:bg-primary/90 cursor-pointer flex items-center gap-0.5"
                           >
+                            <Edit className="w-3 h-3" />
                             Edit
                           </button>
                           <button
                             onClick={() => deleteProject(proj)}
-                            className="px-3 py-1.5 text-[10px] bg-red-650 text-background rounded-full font-bold shadow hover:bg-red-700 cursor-pointer"
+                            className="px-3 py-1.5 text-[10px] bg-red-650 text-white rounded-full font-bold shadow hover:bg-red-700 cursor-pointer flex items-center gap-0.5"
                           >
+                            <Trash2 className="w-3 h-3" />
                             Delete
                           </button>
                         </div>
                       </div>
                       <div className="p-6 flex flex-col flex-grow">
-                        <h3 className="font-extrabold text-foreground text-base mb-2 truncate">{proj.projectName}</h3>
+                        <h3 className="font-extrabold text-foreground text-base mb-2 truncate group-hover:text-primary transition-colors">{proj.projectName}</h3>
                         <p className="text-xs text-foreground/75 leading-relaxed line-clamp-4 mb-4 flex-grow">{proj.description}</p>
                         {proj.techStack && (
                           <div className="flex flex-wrap gap-1.5 mt-auto">
                             {proj.techStack.slice(0, 3).map((tag, i) => (
-                              <span key={i} className="text-[10px] bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full font-semibold">
+                              <span key={i} className="text-[10px] bg-primary/10 text-primary border border-primary/20 px-2.5 py-0.5 rounded-full font-semibold">
                                 {tag}
                               </span>
                             ))}
                             {proj.techStack.length > 3 && (
-                              <span className="text-[10px] text-foreground/50 px-1 py-0.5 font-medium">
+                              <span className="text-[10px] text-foreground/45 px-1 py-0.5 font-medium">
                                 +{proj.techStack.length - 3} more
                               </span>
                             )}

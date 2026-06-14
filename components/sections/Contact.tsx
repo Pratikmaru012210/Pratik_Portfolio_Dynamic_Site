@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { contactTxt } from "../../constants/texts";
+import { Sparkles, Send } from "lucide-react";
 
 export default function Contact() {
   const [name, setName] = useState("");
@@ -36,8 +37,9 @@ export default function Contact() {
         </div>
 
         {submitted ? (
-          <div className="bg-primary/10 border border-primary/20 text-primary p-4 rounded-2xl animate-fade-in font-semibold">
-            ✨ Message simulated successfully! Thank you for reaching out.
+          <div className="flex items-center justify-center gap-2 bg-primary/10 border border-primary/20 text-primary p-4 rounded-2xl animate-fade-in font-semibold">
+            <Sparkles className="w-5 h-5" />
+            <span>Message simulated successfully! Thank you for reaching out.</span>
           </div>
         ) : (
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -48,7 +50,7 @@ export default function Contact() {
                   placeholder={`${contactTxt.namePlaceholder} *`}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm sm:text-base w-full transition-all duration-300"
+                  className="bg-neutral-900/40 text-foreground px-4 py-3 border border-white/5 rounded-xl focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md text-sm sm:text-base w-full transition-all duration-300 shadow-inner"
                   required
                 />
               </div>
@@ -58,7 +60,7 @@ export default function Contact() {
                   placeholder={`${contactTxt.emailPlaceholder} *`}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm sm:text-base w-full transition-all duration-300"
+                  className="bg-neutral-900/40 text-foreground px-4 py-3 border border-white/5 rounded-xl focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md text-sm sm:text-base w-full transition-all duration-300 shadow-inner"
                   required
                 />
               </div>
@@ -71,7 +73,7 @@ export default function Contact() {
                 onChange={(e) => setMessage(e.target.value)}
                 maxLength={500}
                 rows={5}
-                className="bg-background text-foreground px-4 py-3 border border-border/60 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm sm:text-base w-full transition-all duration-300"
+                className="bg-neutral-900/40 text-foreground px-4 py-3 border border-white/5 rounded-xl focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md text-sm sm:text-base w-full transition-all duration-300 shadow-inner"
                 required
               />
             </div>
@@ -79,9 +81,10 @@ export default function Contact() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="inline-flex items-center justify-center bg-primary text-background rounded-full px-8 py-3 text-sm sm:text-base font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 shadow-md active:scale-95"
+                className="inline-flex items-center justify-center gap-2 bg-primary text-white rounded-full px-8 py-3.5 text-sm sm:text-base font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95"
               >
-                {contactTxt.submitButton}
+                <Send className="w-4 h-4" />
+                <span>{contactTxt.submitButton}</span>
               </button>
             </div>
           </form>

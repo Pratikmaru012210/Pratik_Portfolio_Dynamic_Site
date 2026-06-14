@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { X } from "lucide-react";
 
 interface CardModalProps {
   openModal: boolean;
@@ -31,32 +32,20 @@ const CardModal = ({
   }, [openModal]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-3 sm:p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-3 sm:p-4">
       <div
         ref={modalRef}
-        className={`bg-background border border-border/60 rounded-2xl shadow-xl w-full max-w-2xl max-h-[85vh] sm:max-h-[80vh] p-5 sm:p-6 md:p-8 mx-2 sm:mx-4 text-foreground flex flex-col transform transition-all duration-300 ease-out animate-fade-in ${className}`}
+        className={`glass-panel rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] sm:max-h-[80vh] p-5 sm:p-6 md:p-8 mx-2 sm:mx-4 text-foreground flex flex-col transform transition-all duration-300 ease-out animate-fade-in ${className}`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border/30 pb-4 mb-4">
+        <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
           <h3 className="text-xl sm:text-2xl font-extrabold text-foreground">{title}</h3>
           <button
             onClick={() => setOpenModal(false)}
-            className="p-1.5 rounded-full hover:bg-foreground/10 text-foreground/70 hover:text-primary transition-all cursor-pointer"
+            className="p-1.5 rounded-full hover:bg-white/10 text-foreground/75 hover:text-primary transition-all cursor-pointer"
             aria-label="Close modal"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <X className="w-6 h-6" />
           </button>
         </div>
 

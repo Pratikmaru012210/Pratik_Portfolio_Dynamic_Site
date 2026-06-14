@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { servicesText } from "../../constants/texts";
 import CardModal from "../CardModal";
+import { Monitor, Server, Layers, ShieldCheck, Cpu, ArrowRight } from "lucide-react";
 
 interface Service {
   _id: string;
@@ -42,6 +43,26 @@ export default function Services({ services }: ServicesProps) {
     };
   }, [openModal]);
 
+  const getLucideIcon = (title: string, iconUrl: string) => {
+    if (iconUrl && (iconUrl.startsWith("http") || iconUrl.startsWith("/") || iconUrl.includes("."))) {
+      return null;
+    }
+    const cleanTitle = title.toLowerCase();
+    if (cleanTitle.includes("web") || cleanTitle.includes("frontend") || cleanTitle.includes("design") || cleanTitle.includes("ui") || cleanTitle.includes("ux")) {
+      return <Monitor className="w-6 h-6 sm:w-8 sm:h-8" />;
+    }
+    if (cleanTitle.includes("backend") || cleanTitle.includes("api") || cleanTitle.includes("database") || cleanTitle.includes("server")) {
+      return <Server className="w-6 h-6 sm:w-8 sm:h-8" />;
+    }
+    if (cleanTitle.includes("cloud") || cleanTitle.includes("devops") || cleanTitle.includes("system") || cleanTitle.includes("stack")) {
+      return <Layers className="w-6 h-6 sm:w-8 sm:h-8" />;
+    }
+    if (cleanTitle.includes("security") || cleanTitle.includes("auth") || cleanTitle.includes("shield")) {
+      return <ShieldCheck className="w-6 h-6 sm:w-8 sm:h-8" />;
+    }
+    return <Cpu className="w-6 h-6 sm:w-8 sm:h-8" />;
+  };
+
   return (
     <>
       <section className="flex flex-col items-center w-full pt-10 pb-8 sm:pt-12 sm:pb-12 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 animate-fade-in">
@@ -67,6 +88,8 @@ export default function Services({ services }: ServicesProps) {
               const displayIcon = service.icon && service.icon.includes("imagekit.io")
                 ? `${service.icon}?tr=w-80,h-80,bg-FFFFFF00,fit-contain`
                 : service.icon;
+              const lucideIcon = getLucideIcon(service.service, service.icon);
+
               return (
                 <div
                   onClick={() => {
@@ -74,18 +97,20 @@ export default function Services({ services }: ServicesProps) {
                     setOpenModal(true);
                   }}
                   key={service._id}
-                  className="flex-shrink-0 flex flex-col items-start rounded-2xl border border-border/60 bg-background/40 p-5 sm:p-6 md:p-8 w-[85vw] max-w-[260px] sm:min-w-[260px] md:min-w-[280px] sm:max-w-[300px] md:max-w-[360px] transition-all duration-300 cursor-pointer hover:shadow-xl hover:border-primary/50 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.15)] group relative overflow-hidden"
+                  className="glass-card flex-shrink-0 flex flex-col items-start rounded-2xl p-5 sm:p-6 md:p-8 w-[85vw] max-w-[260px] sm:min-w-[260px] md:min-w-[280px] sm:max-w-[300px] md:max-w-[360px] cursor-pointer hover:scale-[1.04] hover:border-primary/40 hover:shadow-[0_8px_30px_rgba(37,99,235,0.15)] group relative overflow-hidden"
                 >
                   {/* Service Icon */}
-                  <div className="mb-4 rounded-xl p-3 flex items-center justify-center bg-primary/10 border border-primary/20 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-background">
-                    {service.icon ? (
+                  <div className="mb-4 rounded-xl p-3 flex items-center justify-center bg-primary/10 border border-primary/20 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                    {lucideIcon ? (
+                      lucideIcon
+                    ) : service.icon ? (
                       <img
                         src={displayIcon}
                         alt="icon"
                         className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 object-contain filter group-hover:invert-0 dark:group-hover:invert group-hover:brightness-0"
                       />
                     ) : (
-                      <span className="text-xl font-bold">⚙️</span>
+                      <Cpu className="w-6 h-6 sm:w-8 sm:h-8" />
                     )}
                   </div>
 
@@ -102,7 +127,7 @@ export default function Services({ services }: ServicesProps) {
                   {/* Read More */}
                   <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-primary group-hover:gap-2.5 transition-all mt-auto">
                     Read more
-                    <span>→</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
               );

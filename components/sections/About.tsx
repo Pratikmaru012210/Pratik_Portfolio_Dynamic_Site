@@ -42,19 +42,19 @@ export default function About({ introduction, skills }: AboutProps) {
             return (
               <div
                 key={idx}
-                className="relative group rounded-xl border border-border/60 p-4 flex flex-col items-center justify-center w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 hover:border-primary/70 hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.25)] transition-all duration-300 transform hover:scale-105 bg-background/50 cursor-pointer"
+                className="glass-card relative group rounded-2xl p-4 flex flex-col items-center justify-center w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 hover:scale-110 hover:border-primary/40 hover:shadow-[0_0_25px_rgba(37,99,235,0.25)] cursor-pointer"
               >
                 <img
                   src={displayIcon}
                   alt={skill.skill + " icon"}
-                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain"
+                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain filter transition-transform duration-300 group-hover:scale-105"
                 />
 
                 {/* Tooltip */}
-                <div className="absolute bottom-full mb-3 px-3 py-1.5 text-xs sm:text-sm bg-primary text-background font-semibold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10 shadow-lg">
+                <div className="absolute bottom-full mb-3 px-3 py-1.5 text-xs sm:text-sm bg-neutral-950/90 text-foreground border border-white/10 backdrop-blur-md font-semibold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10 shadow-lg pointer-events-none select-none">
                   {skill.skill}
                   {/* Arrow */}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-primary"></div>
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-neutral-950/90"></div>
                 </div>
               </div>
             );
