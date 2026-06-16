@@ -63,7 +63,7 @@ const userDetailsSchema = new Schema(
             type: String,
             required: true,
             validate(value: string) {
-              if (!validator.isURL(value)) {
+              if (!validator.isURL(value) && !value.startsWith("mailto:")) {
                 throw new Error(schemaMessages.URL_INVALID);
               }
             },
