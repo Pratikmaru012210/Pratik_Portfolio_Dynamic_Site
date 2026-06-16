@@ -111,7 +111,7 @@ export default async function Home() {
       <HashScrollHandler />
       {/* Background radial glow */}
       <div
-        className="hidden md:block absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80 pointer-events-none"
+        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80 pointer-events-none"
         aria-hidden="true"
       >
         <div
@@ -133,7 +133,7 @@ export default async function Home() {
 
       {/* Decorative blurred background orb on right */}
       <div
-        className="hidden md:block absolute inset-x-0 bottom-10 -z-10 transform-gpu overflow-hidden blur-3xl pointer-events-none"
+        className="absolute inset-x-0 bottom-10 -z-10 transform-gpu overflow-hidden blur-3xl pointer-events-none"
         aria-hidden="true"
       >
         <div
@@ -144,6 +144,15 @@ export default async function Home() {
           }}
         />
       </div>
+
+      {/* Float social links FAB globally pinned to viewport */}
+      {profile.socialMediaLinks && profile.socialMediaLinks.length > 0 && (
+        <div className="fixed bottom-0 right-0 z-[9999] pointer-events-none w-full h-full">
+          <div className="absolute bottom-0 right-0 p-4 pointer-events-auto">
+            <Fab actions={profile.socialMediaLinks} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

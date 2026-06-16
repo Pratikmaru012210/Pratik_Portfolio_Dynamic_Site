@@ -45,21 +45,17 @@ export default function About({ introduction, skills }: AboutProps) {
             return (
               <div
                 key={idx}
-                className="glass-card relative group rounded-2xl p-2 sm:p-3.5 flex flex-col items-center justify-center w-[4.5rem] h-[4.5rem] sm:w-20 sm:h-20 md:w-22 md:h-22 lg:w-24 lg:h-24 border-primary/20 shadow-[0_0_15px_rgba(var(--primary-rgb),0.1)] hover:scale-110 hover:border-primary/50 hover:shadow-[0_0_25px_8px_rgba(var(--primary-rgb),0.35)] cursor-pointer"
+                tabIndex={0}
+                className="glass-card relative group rounded-2xl p-2 sm:p-3.5 flex flex-col items-center justify-center w-[4.5rem] h-[4.5rem] sm:w-20 sm:h-20 md:w-22 md:h-22 lg:w-24 lg:h-24 border-primary/20 shadow-[0_0_15px_rgba(var(--primary-rgb),0.1)] hover:scale-110 active:scale-110 focus:scale-110 focus:outline-none hover:border-primary/50 focus:border-primary/50 hover:shadow-[0_0_25px_8px_rgba(var(--primary-rgb),0.35)] cursor-pointer"
               >
                 <img
                   src={displayIcon}
                   alt={skill.skill + " icon"}
-                  className="w-6 h-6 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 object-contain filter transition-transform duration-300 group-hover:scale-105"
+                  className="w-6 h-6 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 object-contain filter transition-transform duration-300 group-hover:scale-105 group-focus:scale-105 group-active:scale-105"
                 />
-                
-                {/* Mobile text (hidden on sm+) */}
-                <span className="mt-1 text-[0.6rem] font-medium text-foreground/80 text-center leading-tight sm:hidden line-clamp-1 w-full px-0.5">
-                  {skill.skill}
-                </span>
 
-                {/* Desktop Tooltip (hidden on mobile, visible on sm+ hover) */}
-                <div className="hidden sm:block text-caption absolute bottom-full mb-3 px-3 py-1.5 bg-neutral-950/90 text-foreground border border-white/10 backdrop-blur-md font-semibold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10 shadow-lg pointer-events-none select-none">
+                {/* Tooltip (visible on hover, long-press, or tap) */}
+                <div className="text-caption absolute bottom-full mb-3 px-3 py-1.5 bg-neutral-950/90 text-foreground border border-white/10 backdrop-blur-md font-semibold rounded-lg opacity-0 group-hover:opacity-100 group-active:opacity-100 group-focus:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10 shadow-lg pointer-events-none select-none">
                   {skill.skill}
                   {/* Arrow */}
                   <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-neutral-950/90"></div>

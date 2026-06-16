@@ -79,10 +79,6 @@ export default function Hero({ profile }: HeroProps) {
         )}
       </div>
 
-      {/* Float social links FAB at bottom-right of viewport */}
-      {profile.socialMediaLinks && profile.socialMediaLinks.length > 0 && (
-        <Fab actions={profile.socialMediaLinks} />
-      )}
     </section>
   );
 }

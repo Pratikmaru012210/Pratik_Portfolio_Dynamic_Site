@@ -46,9 +46,17 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
       }
     };
 
+    const handleScroll = () => {
+      // Close on scroll
+      setOpen(false);
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -57,7 +65,7 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
   };
 
   return (
-    <div ref={fabRef} className="fixed bottom-8 right-8 z-[9999] flex flex-col items-end gap-3">
+    <div ref={fabRef} className="relative flex flex-col items-end gap-3 z-[9999]">
       {/* Options */}
       {open && (
         <div className="flex flex-col items-center gap-3 mb-2 rounded-3xl p-2 bg-neutral-900/60 border border-white/10 backdrop-blur-lg shadow-2xl animate-fade-in">
