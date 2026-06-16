@@ -10,7 +10,8 @@ export async function apiRequest<T = any>(
   options: RequestOptions = {},
   token?: string | null
 ): Promise<T> {
-  const url = `${getBaseUrl()}${path}`;
+  const isServerless = path === "/profile" || path === "/about" || path.startsWith("/about/");
+  const url = isServerless ? `/api${path}` : `${getBaseUrl()}${path}`;
   const headers = new Headers(options.headers || {});
 
   // Set default content type unless body is FormData (which sets boundary automatically)

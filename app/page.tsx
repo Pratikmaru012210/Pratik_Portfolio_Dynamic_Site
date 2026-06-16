@@ -3,36 +3,46 @@ import About from "@/components/sections/About";
 import Services from "@/components/sections/Services";
 import Testimonials from "@/components/sections/Testimonials";
 import HashScrollHandler from "@/components/HashScrollHandler";
-import { ProfileData, Skill, Service, Project } from "@/types";
+import { ProfileData, Skill, Service, Project, SocialMediaLink } from "@/types";
+import connectDB from "@/lib/mongoose";
+import UserDetails from "@/models/UserDetails";
+import AboutModel from "@/models/About";
 
 async function getPortfolioData() {
   const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
 
   try {
-    // Fetch all endpoints in parallel on the server with Incremental Static Regeneration (ISR) revalidation
-    const [profileRes, aboutRes, servicesRes, projectsRes] = await Promise.all([
-      fetch(`${baseUrl}/profile`, { next: { revalidate: 60 } }),
-      fetch(`${baseUrl}/about`, { next: { revalidate: 60 } }),
+    // Connect to database and fetch profile & about details directly
+    await connectDB();
+    const [profileDoc, aboutDoc] = await Promise.all([
+      UserDetails.findOne().lean(),
+      AboutModel.findOne().lean(),
+    ]);
+
+    // Fetch other endpoints in parallel on the server with Incremental Static Regeneration (ISR) revalidation
+    const [servicesRes, projectsRes] = await Promise.all([
       fetch(`${baseUrl}/services`, { next: { revalidate: 60 } }),
       fetch(`${baseUrl}/projects`, { next: { revalidate: 60 } }),
     ]);
 
-    const [profileData, aboutData, servicesData, projectsData] = await Promise.all([
-      profileRes.json(),
-      aboutRes.json(),
+    const [servicesData, projectsData] = await Promise.all([
       servicesRes.json(),
       projectsRes.json(),
     ]);
 
-    const profile: ProfileData = profileData?.data
+    const profile: ProfileData = profileDoc
       ? {
-          firstName: profileData.data.firstName || "",
-          lastName: profileData.data.lastName || "",
-          tagline: profileData.data.tagline || "",
-          shortIntro: profileData.data.shortIntro || "",
-          resumeUrl: profileData.data.resumeUrl || "",
-          profilePicUrl: profileData.data.profilePicUrl || "",
-          socialMediaLinks: profileData.data.socialMediaLinks || [],
+          firstName: profileDoc.firstName || "",
+          lastName: profileDoc.lastName || "",
+          tagline: profileDoc.tagline || "",
+          shortIntro: profileDoc.shortIntro || "",
+          resumeUrl: profileDoc.resumeUrl || "",
+          profilePicUrl: profileDoc.profilePicUrl || "",
+          socialMediaLinks: (profileDoc.socialMediaLinks || []).map((link: SocialMediaLink) => ({
+            url: link.url || "",
+            icon: link.icon || "",
+            iconFileId: link.iconFileId || "",
+          })),
         }
       : {
           firstName: "",
@@ -44,8 +54,13 @@ async function getPortfolioData() {
           socialMediaLinks: [],
         };
 
-    const aboutIntroduction = aboutData?.abouts?.[0]?.introduction || "";
-    const skills: Skill[] = aboutData?.abouts?.[0]?.skills || [];
+    const aboutIntroduction = aboutDoc?.introduction || "";
+    const skills: Skill[] = (aboutDoc?.skills || []).map((skill: { _id?: { toString(): string } | string; skill: string; icon: string; iconFileId?: string }) => ({
+      _id: skill._id ? skill._id.toString() : "",
+      skill: skill.skill || "",
+      icon: skill.icon || "",
+      iconFileId: skill.iconFileId || "",
+    }));
     const services: Service[] = servicesData?.data || [];
     const projects: Project[] = projectsData?.data || [];
 

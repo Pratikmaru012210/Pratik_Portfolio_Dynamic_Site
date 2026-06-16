@@ -28,8 +28,7 @@ export default function Navbar() {
   useEffect(() => {
     const fetchLogoName = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
-        const res = await fetch(`${baseUrl}/profile`);
+        const res = await fetch("/api/profile");
         const data = await res.json();
         if (data?.data?.firstName) {
           setLogoName(data.data.firstName);
