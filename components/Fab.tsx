@@ -65,7 +65,15 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
   };
 
   return (
-    <div ref={fabRef} className="relative flex flex-col items-end gap-3 z-[9999]">
+    <>
+      {/* Blur Backdrop */}
+      {open && (
+        <div 
+          className="fixed inset-0 bg-background/50 backdrop-blur-sm z-[-1] animate-fade-in"
+          aria-hidden="true"
+        />
+      )}
+      <div ref={fabRef} className="relative flex flex-col items-end gap-3 z-[9999]">
       {/* Options */}
       {open && (
         <div className="flex flex-col items-center gap-3 mb-2 rounded-3xl p-2 bg-neutral-900/60 border border-white/10 backdrop-blur-lg shadow-2xl animate-fade-in">
@@ -98,6 +106,7 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
         {open ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
       </button>
     </div>
+    </>
   );
 };
 
