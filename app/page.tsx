@@ -8,6 +8,8 @@ import connectDB from "@/lib/mongoose";
 import UserDetails from "@/models/UserDetails";
 import AboutModel from "@/models/About";
 
+export const dynamic = "force-dynamic";
+
 async function getPortfolioData() {
   const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
 
@@ -32,27 +34,27 @@ async function getPortfolioData() {
 
     const profile: ProfileData = profileDoc
       ? {
-          firstName: profileDoc.firstName || "",
-          lastName: profileDoc.lastName || "",
-          tagline: profileDoc.tagline || "",
-          shortIntro: profileDoc.shortIntro || "",
-          resumeUrl: profileDoc.resumeUrl || "",
-          profilePicUrl: profileDoc.profilePicUrl || "",
-          socialMediaLinks: (profileDoc.socialMediaLinks || []).map((link: SocialMediaLink) => ({
-            url: link.url || "",
-            icon: link.icon || "",
-            iconFileId: link.iconFileId || "",
-          })),
-        }
+        firstName: profileDoc.firstName || "",
+        lastName: profileDoc.lastName || "",
+        tagline: profileDoc.tagline || "",
+        shortIntro: profileDoc.shortIntro || "",
+        resumeUrl: profileDoc.resumeUrl || "",
+        profilePicUrl: profileDoc.profilePicUrl || "",
+        socialMediaLinks: (profileDoc.socialMediaLinks || []).map((link: SocialMediaLink) => ({
+          url: link.url || "",
+          icon: link.icon || "",
+          iconFileId: link.iconFileId || "",
+        })),
+      }
       : {
-          firstName: "",
-          lastName: "",
-          tagline: "",
-          shortIntro: "",
-          resumeUrl: "",
-          profilePicUrl: "",
-          socialMediaLinks: [],
-        };
+        firstName: "",
+        lastName: "",
+        tagline: "",
+        shortIntro: "",
+        resumeUrl: "",
+        profilePicUrl: "",
+        socialMediaLinks: [],
+      };
 
     const aboutIntroduction = aboutDoc?.introduction || "";
     const skills: Skill[] = (aboutDoc?.skills || []).map((skill: { _id?: { toString(): string } | string; skill: string; icon: string; iconFileId?: string }) => ({
