@@ -12,6 +12,7 @@ import HeroTab, { HeroFormState } from "./_components/HeroTab";
 import AboutTab from "./_components/AboutTab";
 import ServicesTab from "./_components/ServicesTab";
 import ProjectsTab from "./_components/ProjectsTab";
+import UsersTab from "./_components/UsersTab";
 
 export default function Dashboard() {
   const { isSignedIn, isLoaded } = useAuth();
@@ -46,8 +47,9 @@ export default function Dashboard() {
 
 function DashboardContent() {
   const { getToken } = useAuth();
-  const [activeTab, setActiveTab] = useState<"hero" | "about" | "services" | "projects">("hero");
+  const [activeTab, setActiveTab] = useState<"hero" | "about" | "services" | "projects" | "users">("hero");
   const [loading, setLoading] = useState(false);
+  const [userStatus, setUserStatus] = useState<"loading" | "pending" | "admin">("loading");
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -135,13 +137,49 @@ function DashboardContent() {
     }
   };
 
+  const checkUserStatus = async () => {
+    try {
+      const data = await apiRequest("/auth/me");
+      if (data && data.status) {
+        setUserStatus(data.status);
+      } else {
+        setUserStatus("pending");
+      }
+    } catch (err) {
+      console.error("Failed to fetch user status:", err);
+      setUserStatus("pending");
+    }
+  };
+
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    checkUserStatus();
     fetchHero();
     fetchAbout();
     fetchServices();
     fetchProjects();
   }, []);
+
+  if (userStatus === "loading") {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-black p-6">
+        <Loader2 className="animate-spin h-10 w-10 text-primary" />
+      </div>
+    );
+  }
+
+  if (userStatus === "pending") {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-black p-6 text-center space-y-4">
+        <div className="p-4 bg-amber-500/10 rounded-full border border-amber-500/20 text-amber-500 mb-2">
+          <MenuIcon className="w-8 h-8" />
+        </div>
+        <h2 className="text-2xl font-bold text-white">Pending Approval</h2>
+        <p className="text-foreground/70 max-w-md">
+          We've notified the admin. Once the admin approves, you can update content.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row relative">
@@ -249,6 +287,13 @@ function DashboardContent() {
               showToast={showToast}
               getToken={getToken}
               fetchProjects={fetchProjects}
+            />
+          )}
+
+          {activeTab === "users" && (
+            <UsersTab
+              showToast={showToast}
+              getToken={getToken}
             />
           )}
         </div>

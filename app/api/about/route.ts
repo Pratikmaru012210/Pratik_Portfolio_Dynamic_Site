@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { isAdmin } from "@/lib/auth";
 import connectDB from "@/lib/mongoose";
 import About from "@/models/About";
 
@@ -25,10 +26,10 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { userId } = await auth();
-    if (!userId) {
+    if (!(await isAdmin(userId))) {
       return NextResponse.json(
-        { message: "Unauthorized: Invalid Clerk session" },
-        { status: 401 }
+        { message: "Forbidden: You are not authorized to perform this action" },
+        { status: 403 }
       );
     }
 

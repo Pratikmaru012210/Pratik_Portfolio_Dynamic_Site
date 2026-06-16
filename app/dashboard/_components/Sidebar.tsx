@@ -3,8 +3,8 @@
 import { User, FileText, Briefcase, Code, X as XIcon } from "lucide-react";
 
 interface SidebarProps {
-  activeTab: "hero" | "about" | "services" | "projects";
-  setActiveTab: (tab: "hero" | "about" | "services" | "projects") => void;
+  activeTab: "hero" | "about" | "services" | "projects" | "users";
+  setActiveTab: (tab: "hero" | "about" | "services" | "projects" | "users") => void;
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
 }
@@ -20,6 +20,7 @@ export default function Sidebar({
     { id: "about", label: "About & Skills", icon: <FileText className="w-5 h-5" /> },
     { id: "services", label: "Services", icon: <Briefcase className="w-5 h-5" /> },
     { id: "projects", label: "Projects/Work", icon: <Code className="w-5 h-5" /> },
+    { id: "users", label: "User Management", icon: <User className="w-5 h-5" /> },
   ] as const;
 
   return (

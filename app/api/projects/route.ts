@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import connectDB from "@/lib/mongoose";
 import ProjectDetails from "@/models/ProjectDetails";
+import { isAdmin } from "@/lib/auth";
 
 const allowedFields = [
   "imageUrl",
@@ -40,10 +41,10 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { userId } = await auth();
-    if (!userId) {
+    if (!(await isAdmin(userId))) {
       return NextResponse.json(
-        { message: "Unauthorized: Invalid Clerk session" },
-        { status: 401 }
+        { message: "Forbidden: You are not authorized to perform this action" },
+        { status: 403 }
       );
     }
 
