@@ -35,7 +35,7 @@ export async function POST(request: Request) {
 
     await connectDB();
     const body = await request.json();
-    const service = new ServicesDetails(body);
+    const service = new ServiceDetails(body);
     await service.save();
 
     return NextResponse.json({
