@@ -81,7 +81,7 @@ export default function Contact() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="text-body-sm inline-flex items-center justify-center gap-2 bg-primary text-white rounded-full px-8 py-3.5 font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95"
+                className="text-body-sm inline-flex items-center justify-center gap-2 bg-primary text-white rounded-full px-8 py-3.5 font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.4)] active:scale-95"
               >
                 <Send className="w-4 h-4" />
                 <span>{contactTxt.submitButton}</span>

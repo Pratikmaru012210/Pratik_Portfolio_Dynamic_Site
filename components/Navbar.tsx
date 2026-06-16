@@ -72,6 +72,7 @@ export default function Navbar() {
     if (pathname !== "/") return;
 
     // Run once on mount so the initial hash is correct
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     updateActiveSection();
 
     window.addEventListener("scroll", updateActiveSection, { passive: true });
@@ -83,6 +84,7 @@ export default function Navbar() {
     if (pathname !== "/") return;
     const hash = window.location.hash.replace("#", "");
     if (hash && SECTION_IDS.includes(hash)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveSection(hash);
     }
   }, [pathname]);
@@ -145,15 +147,13 @@ export default function Navbar() {
                     key={link.name}
                     href={`#${link.id}`}
                     onClick={(e) => handleNavLinkClick(e, link.id)}
-                    className={`relative px-3 py-2 text-body-sm font-medium transition-colors duration-200 hover:text-primary group ${
-                      isActive ? "text-primary" : "text-foreground/80"
-                    }`}
+                    className={`relative px-3 py-2 text-body-sm font-medium transition-colors duration-200 hover:text-primary group ${isActive ? "text-primary" : "text-foreground/80"
+                      }`}
                   >
                     {link.name}
                     <span
-                      className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                        isActive ? "w-full" : "w-0 group-hover:w-full"
-                      }`}
+                      className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"
+                        }`}
                     />
                   </Link>
                 );
@@ -161,15 +161,13 @@ export default function Navbar() {
               {isLoaded && isSignedIn && (
                 <Link
                   href="/admin/dashboard"
-                  className={`relative px-3 py-2 text-body-sm font-medium transition-colors duration-200 hover:text-primary group ${
-                    pathname === "/admin/dashboard" ? "text-primary" : "text-foreground/80"
-                  }`}
+                  className={`relative px-3 py-2 text-body-sm font-medium transition-colors duration-200 hover:text-primary group ${pathname === "/admin/dashboard" ? "text-primary" : "text-foreground/80"
+                    }`}
                 >
                   Dashboard
                   <span
-                    className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      pathname === "/admin/dashboard" ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
+                    className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${pathname === "/admin/dashboard" ? "w-full" : "w-0 group-hover:w-full"
+                      }`}
                   />
                 </Link>
               )}
@@ -221,11 +219,10 @@ export default function Navbar() {
 
       {/* Mobile Menu panel */}
       <div
-        className={`md:hidden transition-all duration-300 ease-in-out ${
-          isOpen
-            ? "max-h-96 opacity-100 border-t border-border/40"
-            : "max-h-0 opacity-0 overflow-hidden"
-        } bg-background/60 backdrop-blur-lg`}
+        className={`md:hidden transition-all duration-300 ease-in-out ${isOpen
+          ? "max-h-96 opacity-100 border-t border-border/40"
+          : "max-h-0 opacity-0 overflow-hidden"
+          } bg-background/60 backdrop-blur-lg`}
         id="mobile-menu"
       >
         <div className="space-y-1 px-4 py-3">
@@ -236,11 +233,10 @@ export default function Navbar() {
                 key={link.name}
                 href={`#${link.id}`}
                 onClick={(e) => handleMobileNavLinkClick(e, link.id)}
-                className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? "bg-primary/10 text-primary"
-                    : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
-                }`}
+                className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${isActive
+                  ? "bg-primary/10 text-primary"
+                  : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
+                  }`}
               >
                 {link.name}
               </Link>
@@ -250,11 +246,10 @@ export default function Navbar() {
             <Link
               href="/admin/dashboard"
               onClick={() => setIsOpen(false)}
-              className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${
-                pathname === "/admin/dashboard"
-                  ? "bg-primary/10 text-primary"
-                  : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
-              }`}
+              className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${pathname === "/admin/dashboard"
+                ? "bg-primary/10 text-primary"
+                : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
+                }`}
             >
               Dashboard
             </Link>

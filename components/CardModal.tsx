@@ -32,14 +32,14 @@ const CardModal = ({
   }, [openModal]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-3 sm:p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 backdrop-blur-lg p-3 sm:p-4 animate-fade-in">
       <div
         ref={modalRef}
-        className={`glass-panel rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] sm:max-h-[80vh] p-5 sm:p-6 md:p-8 mx-2 sm:mx-4 text-foreground flex flex-col transform transition-all duration-300 ease-out animate-fade-in ${className}`}
+        className={`glass-panel rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] sm:max-h-[80vh] p-5 sm:p-6 md:p-8 mx-2 sm:mx-4 text-foreground flex flex-col transform transition-all duration-300 ease-out animate-fade-in-up ${className}`}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
-          <h3 className="text-xl sm:text-2xl font-extrabold text-foreground">{title}</h3>
+          <h3 className="text-heading bg-gradient-to-r from-foreground via-foreground/90 to-foreground/85 bg-clip-text text-transparent">{title}</h3>
           <button
             onClick={() => setOpenModal(false)}
             className="p-1.5 rounded-full hover:bg-white/10 text-foreground/75 hover:text-primary transition-all cursor-pointer"

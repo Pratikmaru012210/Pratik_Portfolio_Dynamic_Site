@@ -68,12 +68,12 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => handleActionClick()}
-              className="w-12 h-12 rounded-full bg-neutral-950/40 text-foreground shadow-md flex items-center justify-center hover:bg-primary/20 border border-white/5 hover:border-primary/40 transition-all duration-300 p-2.5 hover:scale-110 cursor-pointer"
+              className="w-14 h-14 rounded-full bg-neutral-950/40 text-foreground shadow-md flex items-center justify-center hover:bg-primary/20 border border-white/5 hover:border-primary/40 transition-all duration-300 p-3 hover:scale-110 cursor-pointer"
             >
               <img
                 src={action.icon}
                 alt="Social icon"
-                className="w-6 h-6 object-contain filter invert dark:invert-0"
+                className="w-8 h-8 object-contain filter invert dark:invert-0"
               />
             </a>
           ))}
@@ -83,7 +83,7 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
       {/* Main FAB */}
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="w-14 h-14 rounded-full text-white shadow-lg flex items-center justify-center bg-primary border border-primary/40 hover:bg-primary/90 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
+        className="w-14 h-14 rounded-full text-white shadow-lg flex items-center justify-center bg-primary border border-primary/40 hover:bg-primary/90 hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.4)] transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
         type="button"
         aria-label="Toggle contact menu"
       >

@@ -83,7 +83,7 @@ export default function Services({ services }: ServicesProps) {
 
         {/* Services List Scroll Container */}
         <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
-          <div className="flex flex-nowrap md:justify-center gap-4 sm:gap-6 md:gap-8 px-4 pb-4 w-max min-w-full">
+          <div className="flex flex-nowrap md:justify-center gap-4 sm:gap-6 md:gap-8 pt-6 px-4 pb-6 w-max min-w-full">
             {services.map((service) => {
               const displayIcon = service.icon && service.icon.includes("imagekit.io")
                 ? `${service.icon}?tr=w-80,h-80,bg-FFFFFF00,fit-contain`
@@ -97,17 +97,17 @@ export default function Services({ services }: ServicesProps) {
                     setOpenModal(true);
                   }}
                   key={service._id}
-                  className="glass-card flex-shrink-0 flex flex-col items-start rounded-2xl p-5 sm:p-6 md:p-8 w-[85vw] max-w-[260px] sm:min-w-[260px] md:min-w-[280px] sm:max-w-[300px] md:max-w-[360px] cursor-pointer hover:scale-[1.04] hover:border-primary/40 hover:shadow-[0_8px_30px_rgba(37,99,235,0.15)] group relative overflow-hidden"
+                  className="glass-card flex-shrink-0 flex flex-col items-start rounded-2xl p-5 sm:p-6 md:p-8 w-[85vw] max-w-[260px] sm:min-w-[260px] md:min-w-[280px] sm:max-w-[300px] md:max-w-[360px] min-h-[340px] sm:min-h-[380px] md:min-h-[420px] cursor-pointer hover:scale-[1.04] hover:border-primary/40 hover:shadow-[0_8px_30px_rgba(var(--primary-rgb),0.15)] group relative overflow-hidden"
                 >
                   {/* Service Icon */}
-                  <div className="mb-4 rounded-xl p-3 flex items-center justify-center bg-primary/10 border border-primary/20 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                  <div className="mb-4 rounded-xl p-3 flex items-center justify-center bg-primary/10 border border-primary/20 text-primary transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(var(--primary-rgb),0.4)]">
                     {lucideIcon ? (
                       lucideIcon
                     ) : service.icon ? (
                       <img
                         src={displayIcon}
                         alt="icon"
-                        className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 object-contain filter group-hover:invert-0 dark:group-hover:invert group-hover:brightness-0"
+                        className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 object-contain"
                       />
                     ) : (
                       <Cpu className="w-6 h-6 sm:w-8 sm:h-8" />
@@ -115,14 +115,14 @@ export default function Services({ services }: ServicesProps) {
                   </div>
 
                   {/* Title */}
-                  <div className="text-subheading mb-2 text-foreground">
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 text-foreground">
                     {service.service}
-                  </div>
+                  </h3>
 
                   {/* Description Snippet */}
-                  <div className="text-caption text-foreground/70 mb-4 line-clamp-3">
+                  <p className="text-body-sm sm:text-body text-foreground/70 mb-4 line-clamp-6">
                     {service.description}
-                  </div>
+                  </p>
 
                   {/* Read More */}
                   <div className="text-body-sm flex items-center gap-1.5 font-bold text-primary group-hover:gap-2.5 transition-all mt-auto">

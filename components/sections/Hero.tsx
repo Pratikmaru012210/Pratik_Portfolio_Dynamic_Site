@@ -40,15 +40,15 @@ export default function Hero({ profile }: HeroProps) {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full glass-glow pointer-events-none -z-10" />
 
       {/* Profile Picture */}
-      <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full border border-white/10 p-1 mx-auto mb-6 sm:mb-8 flex items-center justify-center hover:scale-105 transition-transform duration-300 bg-neutral-900/40 backdrop-blur-md shadow-[0_0_30px_rgba(37,99,235,0.15)] ring-2 ring-primary/20">
+      <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full border-2 border-primary/40 p-0 mx-auto mb-6 sm:mb-8 flex items-center justify-center hover:scale-105 transition-all duration-300 bg-transparent shadow-[0_0_35px_8px_rgba(var(--primary-rgb),0.45)] ring-4 ring-primary/10 hover:shadow-[0_0_50px_12px_rgba(var(--primary-rgb),0.6)] hover:border-primary/60">
         {profile.profilePicUrl ? (
           <img
             src={profile.profilePicUrl}
             alt="Profile"
-            className="w-20 h-20 sm:w-26 sm:h-26 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full object-cover"
+            className="w-full h-full rounded-full object-cover border-2 border-white/40"
           />
         ) : (
-          <div className="w-20 h-20 sm:w-26 sm:h-26 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xl">
+          <div className="w-full h-full rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xl border-2 border-white/40">
             {profile.firstName ? profile.firstName.charAt(0) : "D"}
           </div>
         )}
@@ -76,7 +76,7 @@ export default function Hero({ profile }: HeroProps) {
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
         <button
           onClick={() => handleNavigation("contact")}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-white rounded-full px-8 py-3.5 text-body-sm font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-white rounded-full px-8 py-3.5 text-body-sm font-semibold cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:scale-105 hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.4)] active:scale-95"
         >
           <Send className="h-5 w-5" />
           <span>{homeTxt.connectWithMe}</span>
@@ -84,7 +84,7 @@ export default function Hero({ profile }: HeroProps) {
         {profile.resumeUrl && (
           <button
             onClick={() => window.open(profile.resumeUrl, "_blank")}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 border border-white/10 text-foreground rounded-full px-8 py-3.5 text-body-sm font-semibold bg-neutral-900/40 backdrop-blur-md transition-all duration-300 hover:bg-white/5 hover:border-primary/50 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.15)] active:scale-95 cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 border border-white/10 text-foreground rounded-full px-8 py-3.5 text-body-sm font-semibold bg-neutral-900/40 backdrop-blur-md transition-all duration-300 hover:bg-white/5 hover:border-primary/50 hover:scale-105 hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.15)] active:scale-95 cursor-pointer"
           >
             <FileText className="h-5 w-5 text-primary" />
             <span>{homeTxt.resume}</span>

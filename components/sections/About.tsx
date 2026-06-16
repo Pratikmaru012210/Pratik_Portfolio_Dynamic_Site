@@ -17,18 +17,26 @@ export default function About({ introduction, skills }: AboutProps) {
   return (
     <section className="flex flex-col items-center w-full pt-10 pb-8 sm:pt-12 sm:pb-12 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 animate-fade-in">
       {/* Introduction Label */}
-      <div className="text-overline text-center mb-4 text-foreground/50">
-        {aboutTxt.introduction}
+      <div className="flex items-center justify-center gap-2 mb-5">
+        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+        <span className="text-overline text-foreground/50">{aboutTxt.introduction}</span>
+        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
       </div>
 
-      {/* Main Heading */}
-      <h1 className="text-heading text-center mb-6 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent">
-        {aboutTxt.about}
-      </h1>
+      {/* Main Heading with accent bar */}
+      <div className="text-center mb-8">
+        <h1 className="text-heading bg-gradient-to-r from-foreground via-foreground/95 to-foreground/80 bg-clip-text text-transparent inline-block">
+          {aboutTxt.about}
+        </h1>
+        {/* Decorative underline */}
+        <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-gradient-to-r from-primary/60 via-primary to-primary/60" />
+      </div>
 
-      {/* Introduction Text */}
-      <div className="text-body text-foreground/80 max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center mb-10 sm:mb-12 lg:mb-16 mx-auto px-2 sm:px-4">
-        {introduction}
+      {/* Introduction Text — styled callout card */}
+      <div className="w-full max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto mb-12 sm:mb-14 lg:mb-16 px-2 sm:px-0">
+        <div className="glass-card rounded-2xl px-6 py-5 border-l-2 border-l-primary/60 text-body text-foreground/80 leading-relaxed text-left sm:text-center">
+          {introduction}
+        </div>
       </div>
 
       {/* Skills Section */}
@@ -42,12 +50,12 @@ export default function About({ introduction, skills }: AboutProps) {
             return (
               <div
                 key={idx}
-                className="glass-card relative group rounded-2xl p-4 flex flex-col items-center justify-center w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 hover:scale-110 hover:border-primary/40 hover:shadow-[0_0_25px_rgba(37,99,235,0.25)] cursor-pointer"
+                className="glass-card relative group rounded-2xl p-3.5 flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 lg:w-24 lg:h-24 border-primary/20 shadow-[0_0_15px_rgba(var(--primary-rgb),0.1)] hover:scale-110 hover:border-primary/50 hover:shadow-[0_0_25px_8px_rgba(var(--primary-rgb),0.35)] cursor-pointer"
               >
                 <img
                   src={displayIcon}
                   alt={skill.skill + " icon"}
-                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain filter transition-transform duration-300 group-hover:scale-105"
+                  className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 object-contain filter transition-transform duration-300 group-hover:scale-105"
                 />
 
                 {/* Tooltip */}
