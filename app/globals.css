@@ -51,8 +51,8 @@
   }
 }
 
-html {
-  scroll-behavior: smooth;
+html, body {
+  overflow-x: hidden;
 }
 
 body {
@@ -63,6 +63,10 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a, button, input, textarea {
+  touch-action: manipulation;
 }
 
 /* ─── Typography Scale ─────────────────────────────────────────────────────────

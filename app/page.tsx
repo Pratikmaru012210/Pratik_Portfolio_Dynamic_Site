@@ -107,7 +107,7 @@ export default async function Home() {
   ];
 
   return (
-    <div className="relative isolate overflow-hidden min-h-screen">
+    <div className="relative isolate min-h-screen">
       <HashScrollHandler />
       {/* Background radial glow */}
       <div
