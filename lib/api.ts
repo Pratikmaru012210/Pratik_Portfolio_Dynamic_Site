@@ -10,7 +10,14 @@ export async function apiRequest<T = any>(
   options: RequestOptions = {},
   token?: string | null
 ): Promise<T> {
-  const isServerless = path === "/profile" || path === "/about" || path.startsWith("/about/");
+  const isServerless =
+    path === "/profile" ||
+    path === "/about" ||
+    path.startsWith("/about/") ||
+    path === "/services" ||
+    path.startsWith("/services/") ||
+    path === "/projects" ||
+    path.startsWith("/projects/");
   const url = isServerless ? `/api${path}` : `${getBaseUrl()}${path}`;
   const headers = new Headers(options.headers || {});
 

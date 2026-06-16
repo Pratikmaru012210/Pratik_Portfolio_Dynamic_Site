@@ -7,29 +7,20 @@ import { ProfileData, Skill, Service, Project, SocialMediaLink } from "@/types";
 import connectDB from "@/lib/mongoose";
 import UserDetails from "@/models/UserDetails";
 import AboutModel from "@/models/About";
+import ServicesDetails from "@/models/ServiceDetails";
+import ProjectDetails from "@/models/ProjectDetails";
 
 export const dynamic = "force-dynamic";
 
 async function getPortfolioData() {
-  const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
-
   try {
-    // Connect to database and fetch profile & about details directly
+    // Connect to database and fetch all details directly
     await connectDB();
-    const [profileDoc, aboutDoc] = await Promise.all([
+    const [profileDoc, aboutDoc, servicesDocs, projectsDocs] = await Promise.all([
       UserDetails.findOne().lean(),
       AboutModel.findOne().lean(),
-    ]);
-
-    // Fetch other endpoints in parallel on the server with Incremental Static Regeneration (ISR) revalidation
-    const [servicesRes, projectsRes] = await Promise.all([
-      fetch(`${baseUrl}/services`, { next: { revalidate: 60 } }),
-      fetch(`${baseUrl}/projects`, { next: { revalidate: 60 } }),
-    ]);
-
-    const [servicesData, projectsData] = await Promise.all([
-      servicesRes.json(),
-      projectsRes.json(),
+      ServicesDetails.find({}).lean(),
+      ProjectDetails.find({}).lean(),
     ]);
 
     const profile: ProfileData = profileDoc
@@ -63,8 +54,26 @@ async function getPortfolioData() {
       icon: skill.icon || "",
       iconFileId: skill.iconFileId || "",
     }));
-    const services: Service[] = servicesData?.data || [];
-    const projects: Project[] = projectsData?.data || [];
+
+    const services: Service[] = (servicesDocs || []).map((service: { _id?: { toString(): string } | string; service: string; description: string; icon: string; iconFileId?: string }) => ({
+      _id: service._id ? service._id.toString() : "",
+      service: service.service || "",
+      description: service.description || "",
+      icon: service.icon || "",
+      iconFileId: service.iconFileId || "",
+    }));
+
+    const projects: Project[] = (projectsDocs || []).map((project: { _id?: { toString(): string } | string; projectName: string; imageUrl?: string; imageFileId?: string; description: string; gitHubLink?: string; liveLink?: string; techStack?: string[]; problemSolve?: string }) => ({
+      _id: project._id ? project._id.toString() : "",
+      projectName: project.projectName || "",
+      imageUrl: project.imageUrl || "",
+      imageFileId: project.imageFileId || "",
+      description: project.description || "",
+      gitHubLink: project.gitHubLink || "",
+      liveLink: project.liveLink || "",
+      techStack: project.techStack || [],
+      problemSolve: project.problemSolve || "",
+    }));
 
     return { profile, aboutIntroduction, skills, services, projects };
   } catch (err) {
