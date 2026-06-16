@@ -1,12 +1,7 @@
 "use client";
 
 import { aboutTxt } from "../../constants/texts";
-
-interface Skill {
-  skill: string;
-  icon: string;
-  _id?: string;
-}
+import { Skill } from "@/types";
 
 interface AboutProps {
   introduction: string;

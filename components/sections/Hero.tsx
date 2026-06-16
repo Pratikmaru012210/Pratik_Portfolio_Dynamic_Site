@@ -3,23 +3,10 @@
 import { homeTxt } from "../../constants/texts";
 import Fab from "../Fab";
 import { Send, FileText } from "lucide-react";
-
-interface SocialMediaLink {
-  url: string;
-  icon: string;
-  iconFileId?: string;
-}
+import { ProfileData } from "@/types";
 
 interface HeroProps {
-  profile: {
-    profilePicUrl: string;
-    firstName: string;
-    lastName: string;
-    tagline: string;
-    shortIntro: string;
-    resumeUrl: string;
-    socialMediaLinks: SocialMediaLink[];
-  };
+  profile: ProfileData;
 }
 
 export default function Hero({ profile }: HeroProps) {

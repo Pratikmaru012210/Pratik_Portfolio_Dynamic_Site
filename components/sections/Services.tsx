@@ -4,13 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { servicesText } from "../../constants/texts";
 import CardModal from "../CardModal";
 import { Monitor, Server, Layers, ShieldCheck, Cpu, ArrowRight } from "lucide-react";
-
-interface Service {
-  _id: string;
-  service: string;
-  icon: string;
-  description: string;
-}
+import { Service } from "@/types";
 
 interface ServicesProps {
   services: Service[];

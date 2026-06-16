@@ -4,19 +4,13 @@ import React from "react";
 import CardModal from "./CardModal";
 import { ExternalLink } from "lucide-react";
 
+import { Project } from "@/types";
+
 interface TestimonialsMoreInfoProps {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   modalRef: React.RefObject<HTMLDivElement | null>;
-  data: {
-    projectName: string;
-    description: string;
-    imageUrl: string;
-    gitHubLink?: string;
-    liveLink?: string;
-    techStack?: string[];
-    problemSolve?: string;
-  };
+  data: Project;
 }
 
 const GithubIcon = ({ className = "w-4 h-4" }: { className?: string }) => (

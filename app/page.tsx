@@ -1,145 +1,77 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Services from "@/components/sections/Services";
 import Testimonials from "@/components/sections/Testimonials";
-import { Loader2 } from "lucide-react";
+import HashScrollHandler from "@/components/HashScrollHandler";
+import { ProfileData, Skill, Service, Project } from "@/types";
 
-interface SocialMediaLink {
-  url: string;
-  icon: string;
-  iconFileId?: string;
-}
+async function getPortfolioData() {
+  const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
 
-interface ProfileData {
-  profilePicUrl: string;
-  firstName: string;
-  lastName: string;
-  tagline: string;
-  shortIntro: string;
-  resumeUrl: string;
-  socialMediaLinks: SocialMediaLink[];
-}
+  try {
+    // Fetch all endpoints in parallel on the server with Incremental Static Regeneration (ISR) revalidation
+    const [profileRes, aboutRes, servicesRes, projectsRes] = await Promise.all([
+      fetch(`${baseUrl}/profile`, { next: { revalidate: 60 } }),
+      fetch(`${baseUrl}/about`, { next: { revalidate: 60 } }),
+      fetch(`${baseUrl}/services`, { next: { revalidate: 60 } }),
+      fetch(`${baseUrl}/projects`, { next: { revalidate: 60 } }),
+    ]);
 
-interface Skill {
-  skill: string;
-  icon: string;
-  _id?: string;
-}
+    const [profileData, aboutData, servicesData, projectsData] = await Promise.all([
+      profileRes.json(),
+      aboutRes.json(),
+      servicesRes.json(),
+      projectsRes.json(),
+    ]);
 
-interface Service {
-  _id: string;
-  service: string;
-  icon: string;
-  description: string;
-}
-
-interface Project {
-  _id: string;
-  projectName: string;
-  description: string;
-  imageUrl: string;
-  gitHubLink?: string;
-  liveLink?: string;
-  techStack?: string[];
-  problemSolve?: string;
-}
-
-export default function Home() {
-  const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<ProfileData>({
-    profilePicUrl: "",
-    firstName: "",
-    lastName: "",
-    tagline: "",
-    shortIntro: "",
-    resumeUrl: "",
-    socialMediaLinks: [],
-  });
-  const [aboutIntroduction, setAboutIntroduction] = useState<string>("");
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [services, setServices] = useState<Service[]>([]);
-  const [projects, setProjects] = useState<Project[]>([]);
-
-  useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        setLoading(true);
-        const baseUrl = process.env.NEXT_PUBLIC_BE_URL || "http://localhost:3001";
-        
-        // Fetch all endpoints in parallel
-        const [profileRes, aboutRes, servicesRes, projectsRes] = await Promise.all([
-          fetch(`${baseUrl}/profile`),
-          fetch(`${baseUrl}/about`),
-          fetch(`${baseUrl}/services`),
-          fetch(`${baseUrl}/projects`),
-        ]);
-
-        const [profileData, aboutData, servicesData, projectsData] = await Promise.all([
-          profileRes.json(),
-          aboutRes.json(),
-          servicesRes.json(),
-          projectsRes.json(),
-        ]);
-
-        if (profileData && profileData.data) {
-          setProfile({
-            profilePicUrl: profileData.data.profilePicUrl || "",
-            firstName: profileData.data.firstName || "",
-            lastName: profileData.data.lastName || "",
-            tagline: profileData.data.tagline || "",
-            shortIntro: profileData.data.shortIntro || "",
-            resumeUrl: profileData.data.resumeUrl || "",
-            socialMediaLinks: profileData.data.socialMediaLinks || [],
-          });
+    const profile: ProfileData = profileData?.data
+      ? {
+          firstName: profileData.data.firstName || "",
+          lastName: profileData.data.lastName || "",
+          tagline: profileData.data.tagline || "",
+          shortIntro: profileData.data.shortIntro || "",
+          resumeUrl: profileData.data.resumeUrl || "",
+          profilePicUrl: profileData.data.profilePicUrl || "",
+          socialMediaLinks: profileData.data.socialMediaLinks || [],
         }
+      : {
+          firstName: "",
+          lastName: "",
+          tagline: "",
+          shortIntro: "",
+          resumeUrl: "",
+          profilePicUrl: "",
+          socialMediaLinks: [],
+        };
 
-        if (aboutData && aboutData.abouts && aboutData.abouts.length > 0) {
-          setAboutIntroduction(aboutData.abouts[0].introduction || "");
-          setSkills(aboutData.abouts[0].skills || []);
-        }
+    const aboutIntroduction = aboutData?.abouts?.[0]?.introduction || "";
+    const skills: Skill[] = aboutData?.abouts?.[0]?.skills || [];
+    const services: Service[] = servicesData?.data || [];
+    const projects: Project[] = projectsData?.data || [];
 
-        setServices(servicesData.data || []);
-        setProjects(projectsData.data || []);
-      } catch (err) {
-        console.error("Error loading portfolio details:", err);
-      } finally {
-        setLoading(false);
-      }
+    return { profile, aboutIntroduction, skills, services, projects };
+  } catch (err) {
+    console.error("Error loading portfolio details on server:", err);
+    return {
+      profile: {
+        firstName: "",
+        lastName: "",
+        tagline: "",
+        shortIntro: "",
+        resumeUrl: "",
+        profilePicUrl: "",
+        socialMediaLinks: [],
+      },
+      aboutIntroduction: "",
+      skills: [],
+      services: [],
+      projects: [],
     };
-
-    fetchAllData();
-  }, []);
-
-  useEffect(() => {
-    if (!loading) {
-      const timer = setTimeout(() => {
-        const hash = window.location.hash.replace("#", "");
-        if (hash) {
-          const element = document.getElementById(hash);
-          if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-          }
-        }
-      }, 150);
-      return () => clearTimeout(timer);
-    }
-  }, [loading]);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-black">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="animate-spin h-12 w-12 text-primary" />
-          <span className="text-primary text-sm font-semibold tracking-wider uppercase animate-pulse">
-            Loading Portfolio...
-          </span>
-        </div>
-      </div>
-    );
   }
+}
+
+export default async function Home() {
+  const { profile, aboutIntroduction, skills, services, projects } = await getPortfolioData();
 
   const sections = [
     { id: "home", component: <Hero profile={profile} /> },
@@ -150,6 +82,7 @@ export default function Home() {
 
   return (
     <div className="relative isolate overflow-hidden min-h-screen">
+      <HashScrollHandler />
       {/* Background radial glow */}
       <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80 pointer-events-none"

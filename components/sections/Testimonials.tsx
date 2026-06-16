@@ -4,17 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { testimonialsText } from "../../constants/texts";
 import Card from "../Card";
 import TestimonialsMoreInfo from "../TestimonialsMoreInfo";
-
-interface Project {
-  _id: string;
-  projectName: string;
-  description: string;
-  imageUrl: string;
-  gitHubLink?: string;
-  liveLink?: string;
-  techStack?: string[];
-  problemSolve?: string;
-}
+import { Project } from "@/types";
 
 interface TestimonialsProps {
   projects: Project[];
