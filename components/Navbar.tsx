@@ -123,7 +123,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-white/5 bg-neutral-950/45 backdrop-blur-lg transition-all duration-300">
+    <nav className="sticky top-0 z-50 w-full border-b border-white/5 bg-neutral-950/95 md:bg-neutral-950/45 md:backdrop-blur-lg transition-all duration-300">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}

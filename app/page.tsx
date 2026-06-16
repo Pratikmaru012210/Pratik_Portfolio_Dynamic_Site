@@ -111,7 +111,7 @@ export default async function Home() {
       <HashScrollHandler />
       {/* Background radial glow */}
       <div
-        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80 pointer-events-none"
+        className="hidden md:block absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80 pointer-events-none"
         aria-hidden="true"
       >
         <div
@@ -133,7 +133,7 @@ export default async function Home() {
 
       {/* Decorative blurred background orb on right */}
       <div
-        className="absolute inset-x-0 bottom-10 -z-10 transform-gpu overflow-hidden blur-3xl pointer-events-none"
+        className="hidden md:block absolute inset-x-0 bottom-10 -z-10 transform-gpu overflow-hidden blur-3xl pointer-events-none"
         aria-hidden="true"
       >
         <div
