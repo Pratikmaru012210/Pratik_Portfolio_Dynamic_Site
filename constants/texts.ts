@@ -9,14 +9,14 @@ export const servicesText = {
   offerTxt: "What I offers ?",
   heading: "My services",
   shortIntro:
-    "I am a frontend developer from California, USA with 10 years of experience in multiple companies like Microsoft, Tesla and Apple.",
+    "I help businesses transform ideas into production-ready applications by combining modern full-stack engineering with Generative AI. From intelligent agents and RAG systems to enterprise web platforms, I build solutions that create measurable business impact.",
 };
 
 export const testimonialsText = {
   heading: "My portfolio",
   subHeading: "My latest work",
   introduction:
-    "Welcome to my web development portfolio! Explore a collection of projects showcasing my expertise in front-end development.",
+    "A collection of projects spanning Generative AI, intelligent automation, full-stack development, and modern web technologies. These projects demonstrate my approach to building scalable, user-centric solutions that combine strong engineering fundamentals with AI-driven innovation.",
   addSuccess: "Project added successfully!",
   requiredField: "All fields are required!",
 };
