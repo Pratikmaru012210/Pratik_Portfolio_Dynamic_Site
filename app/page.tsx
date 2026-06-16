@@ -3,6 +3,7 @@ import About from "@/components/sections/About";
 import Services from "@/components/sections/Services";
 import Testimonials from "@/components/sections/Testimonials";
 import HashScrollHandler from "@/components/HashScrollHandler";
+import Fab from "@/components/Fab";
 import { ProfileData, Skill, Service, Project, SocialMediaLink } from "@/types";
 import connectDB from "@/lib/mongoose";
 import UserDetails from "@/models/UserDetails";

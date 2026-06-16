@@ -61,15 +61,15 @@ export default function Navbar() {
         bestId = id;
       }
     }
-
-    setActiveSection((prevId) => {
-      if (prevId !== bestId) {
-        // Only update URL hash if the section actually changed
-        window.history.replaceState(null, "", `#${bestId}`);
-      }
-      return bestId;
-    });
+    setActiveSection((prevId) => bestId);
   }, [pathname]);
+
+  // Sync the URL hash safely after render whenever activeSection changes
+  useEffect(() => {
+    if (pathname === "/" && activeSection) {
+      window.history.replaceState(null, "", `#${activeSection}`);
+    }
+  }, [activeSection, pathname]);
 
   useEffect(() => {
     if (pathname !== "/") return;
