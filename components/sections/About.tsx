@@ -33,14 +33,14 @@ export default function About({ introduction, skills }: AboutProps) {
       </div>
 
       {/* Introduction Text — styled callout card */}
-      <div className="w-full max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto mb-12 sm:mb-14 lg:mb-16 px-2 sm:px-0">
+      <div className="w-full max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto mb-12 sm:mb-14 lg:mb-16 px-2 sm:px-0">
         <div className="glass-card rounded-2xl px-6 py-5 border-l-2 border-l-primary/60 text-body text-foreground/80 leading-relaxed text-left sm:text-center">
           {introduction}
         </div>
       </div>
 
       {/* Skills Section */}
-      <div className="w-full max-w-xs sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl">
+      <div className="w-full max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl">
         {/* Skills Grid */}
         <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
           {skills.map((skill: Skill, idx: number) => {

@@ -113,6 +113,21 @@ export default function Home() {
     fetchAllData();
   }, []);
 
+  useEffect(() => {
+    if (!loading) {
+      const timer = setTimeout(() => {
+        const hash = window.location.hash.replace("#", "");
+        if (hash) {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black">

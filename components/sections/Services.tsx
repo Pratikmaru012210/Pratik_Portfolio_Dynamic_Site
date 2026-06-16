@@ -77,7 +77,7 @@ export default function Services({ services }: ServicesProps) {
         </h1>
 
         {/* Introduction Text */}
-        <div className="text-body text-foreground/80 max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center mb-12 mx-auto px-2 sm:px-4">
+        <div className="text-body text-foreground/80 max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center mb-12 mx-auto px-2 sm:px-4">
           {servicesText.shortIntro}
         </div>
 

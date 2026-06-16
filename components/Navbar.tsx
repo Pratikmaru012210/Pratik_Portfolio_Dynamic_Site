@@ -145,7 +145,7 @@ export default function Navbar() {
                 return (
                   <Link
                     key={link.name}
-                    href={`#${link.id}`}
+                    href={pathname === "/" ? `#${link.id}` : `/#${link.id}`}
                     onClick={(e) => handleNavLinkClick(e, link.id)}
                     className={`relative px-3 py-2 text-body-sm font-medium transition-colors duration-200 hover:text-primary group ${isActive ? "text-primary" : "text-foreground/80"
                       }`}
@@ -160,13 +160,13 @@ export default function Navbar() {
               })}
               {isLoaded && isSignedIn && (
                 <Link
-                  href="/admin/dashboard"
-                  className={`relative px-3 py-2 text-body-sm font-medium transition-colors duration-200 hover:text-primary group ${pathname === "/admin/dashboard" ? "text-primary" : "text-foreground/80"
+                  href="/dashboard"
+                  className={`relative px-3 py-2 text-body-sm font-medium transition-colors duration-200 hover:text-primary group ${pathname === "/dashboard" ? "text-primary" : "text-foreground/80"
                     }`}
                 >
                   Dashboard
                   <span
-                    className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${pathname === "/admin/dashboard" ? "w-full" : "w-0 group-hover:w-full"
+                    className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${pathname === "/dashboard" ? "w-full" : "w-0 group-hover:w-full"
                       }`}
                   />
                 </Link>
@@ -231,7 +231,7 @@ export default function Navbar() {
             return (
               <Link
                 key={link.name}
-                href={`#${link.id}`}
+                href={pathname === "/" ? `#${link.id}` : `/#${link.id}`}
                 onClick={(e) => handleMobileNavLinkClick(e, link.id)}
                 className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${isActive
                   ? "bg-primary/10 text-primary"
@@ -244,9 +244,9 @@ export default function Navbar() {
           })}
           {isLoaded && isSignedIn && (
             <Link
-              href="/admin/dashboard"
+              href="/dashboard"
               onClick={() => setIsOpen(false)}
-              className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${pathname === "/admin/dashboard"
+              className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${pathname === "/dashboard"
                 ? "bg-primary/10 text-primary"
                 : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
                 }`}

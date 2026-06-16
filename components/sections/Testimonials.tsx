@@ -60,13 +60,13 @@ export default function Testimonials({ projects }: TestimonialsProps) {
       </h1>
 
       {/* Intro Text */}
-      <div className="text-body text-foreground/80 max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center mb-12 mx-auto px-2 sm:px-4">
+      <div className="text-body text-foreground/80 max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center mb-12 mx-auto px-2 sm:px-4">
         {testimonialsText.introduction}
       </div>
 
       {/* Scrollable Container */}
       <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
-        <div className="flex flex-nowrap md:justify-center gap-4 sm:gap-6 lg:gap-8 px-4 pb-4 w-max min-w-full">
+        <div className="flex flex-nowrap md:justify-center gap-4 sm:gap-6 lg:gap-8 pt-6 px-4 pb-6 w-max min-w-full">
           {projects.map((project, idx) => (
             <Card
               key={project._id || idx}

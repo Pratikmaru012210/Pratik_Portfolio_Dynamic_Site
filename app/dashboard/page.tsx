@@ -60,6 +60,15 @@ interface Project {
 export default function Dashboard() {
   const { isSignedIn, isLoaded } = useAuth();
 
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      window.scrollTo(0, 0);
+      if (window.location.hash) {
+        window.history.replaceState(null, "", window.location.pathname);
+      }
+    }
+  }, [isLoaded, isSignedIn]);
+
   if (!isLoaded) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black p-6">
@@ -648,7 +657,7 @@ function DashboardContent() {
       )}
 
       {/* Mobile Header Bar */}
-      <div className="md:hidden flex items-center justify-between px-6 py-4 border-b border-white/5 bg-neutral-950/45 backdrop-blur-lg sticky top-0 z-30 w-full animate-fade-in">
+      <div className="md:hidden flex items-center justify-between px-6 py-4 border-b border-white/5 bg-neutral-950/45 backdrop-blur-lg sticky top-16 z-30 w-full animate-fade-in">
         <div className="flex items-center gap-2">
           <span className="font-extrabold text-lg text-primary">Admin Dashboard</span>
         </div>
@@ -663,7 +672,7 @@ function DashboardContent() {
 
       {/* Sidebar Navigation */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-72 bg-neutral-950/45 border-r border-white/5 backdrop-blur-lg transition-transform duration-300 ease-in-out md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-[70] w-72 bg-neutral-950/45 border-r border-white/5 backdrop-blur-lg transition-transform duration-300 ease-in-out md:translate-x-0 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -718,7 +727,7 @@ function DashboardContent() {
       {isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(false)}
-          className="fixed inset-0 bg-black/60 z-30 md:hidden backdrop-blur-sm"
+          className="fixed inset-0 bg-black/60 z-[60] md:hidden backdrop-blur-sm"
         />
       )}
 
