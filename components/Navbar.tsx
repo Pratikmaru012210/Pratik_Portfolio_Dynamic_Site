@@ -62,9 +62,13 @@ export default function Navbar() {
       }
     }
 
-    setActiveSection(bestId);
-    // Update URL hash without triggering a navigation / scroll
-    window.history.replaceState(null, "", `#${bestId}`);
+    setActiveSection((prevId) => {
+      if (prevId !== bestId) {
+        // Only update URL hash if the section actually changed
+        window.history.replaceState(null, "", `#${bestId}`);
+      }
+      return bestId;
+    });
   }, [pathname]);
 
   useEffect(() => {
