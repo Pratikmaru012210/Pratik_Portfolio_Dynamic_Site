@@ -19,7 +19,9 @@ export async function apiRequest<T = any>(
     path === "/projects" ||
     path.startsWith("/projects/") ||
     path.startsWith("/auth/") ||
-    path.startsWith("/admin/");
+    path.startsWith("/admin/") ||
+    path === "/imageKitAuth" ||
+    path.startsWith("/delete/");
   const url = isServerless ? `/api${path}` : `${getBaseUrl()}${path}`;
   const headers = new Headers(options.headers || {});
 

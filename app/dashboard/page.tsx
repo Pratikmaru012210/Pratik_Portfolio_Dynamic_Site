@@ -190,10 +190,10 @@ function DashboardContent() {
       {/* Toast Alert */}
       {toast && (
         <div
-          className={`fixed bottom-5 right-5 z-[80] px-6 py-3.5 rounded-xl border shadow-lg transition-all duration-300 font-semibold ${
+          className={`fixed bottom-5 right-5 z-[80] px-6 py-3.5 rounded-xl border shadow-xl backdrop-blur-md transition-all duration-300 font-semibold ${
             toast.type === "success"
-              ? "bg-primary/10 border-primary/30 text-primary"
-              : "bg-red-500/10 border-red-500/30 text-red-500"
+              ? "bg-primary/20 border-primary/30 text-primary shadow-primary/10"
+              : "bg-red-500/20 border-red-500/30 text-red-500 shadow-red-500/10"
           }`}
         >
           {toast.message}
