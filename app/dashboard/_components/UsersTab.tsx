@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import { Loader2, Trash2, CheckCircle, Clock, AlertTriangle } from "lucide-react";
+import { Loader2, Trash2, CheckCircle, Clock, AlertTriangle, Mail } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 import { apiRequest } from "@/lib/api";
 import CardModal from "@/components/CardModal";
 
@@ -18,6 +19,7 @@ interface UsersTabProps {
 }
 
 export default function UsersTab({ showToast, getToken }: UsersTabProps) {
+  const { user: currentUser } = useUser();
   const [users, setUsers] = useState<SystemUser[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,6 +45,13 @@ export default function UsersTab({ showToast, getToken }: UsersTabProps) {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  const getMailtoLink = (targetEmail: string) => {
+    const currentUserName = currentUser?.fullName || "Admin";
+    const subject = encodeURIComponent("Welcome to the Admin Dashboard");
+    const body = encodeURIComponent(`Hi there,\n\nI have just approved your request to access the Admin Dashboard. You now have full access to manage the portfolio content.\n\nBest regards,\n${currentUserName}`);
+    return `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+  };
 
   const handleApprove = async () => {
     if (!actionUserId) return;
@@ -152,6 +161,15 @@ export default function UsersTab({ showToast, getToken }: UsersTabProps) {
                       >
                         <CheckCircle className="w-5 h-5" />
                       </button>
+                    )}
+                    {user.status === "admin" && !user.isSuperAdmin && (
+                      <a
+                        href={getMailtoLink(user.email)}
+                        className="p-2 text-blue-500 hover:bg-blue-500/10 rounded-lg transition-colors inline-flex"
+                        title="Send Approval Email"
+                      >
+                        <Mail className="w-5 h-5" />
+                      </a>
                     )}
                     {!user.isSuperAdmin && (
                       <button
