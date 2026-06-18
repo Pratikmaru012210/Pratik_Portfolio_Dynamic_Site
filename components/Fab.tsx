@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { MessageSquare, X } from "lucide-react";
+import { formatExternalLink } from "@/lib/utils";
 
 export interface FabAction {
   icon: string;
@@ -80,7 +81,7 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
           {actions?.map((action, idx) => (
             <a
               key={idx}
-              href={action.url}
+              href={formatExternalLink(action.url)}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => handleActionClick()}

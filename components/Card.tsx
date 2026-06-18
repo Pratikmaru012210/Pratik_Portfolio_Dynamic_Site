@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Info, ExternalLink } from "lucide-react";
+import { formatExternalLink } from "@/lib/utils";
 
 interface CardProps {
   testimonial: {
@@ -49,6 +50,7 @@ const Card = ({ testimonial, onMoreInfo }: CardProps) => {
         ) : (
           <img
             src={testimonial.link}
+            loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             alt={testimonial.title}
           />
@@ -87,7 +89,7 @@ const Card = ({ testimonial, onMoreInfo }: CardProps) => {
 
           {testimonial.gitHubLink && (
             <button
-              onClick={() => window.open(testimonial.gitHubLink, "_blank")}
+              onClick={() => window.open(formatExternalLink(testimonial.gitHubLink || ""), "_blank")}
               className="text-caption inline-flex items-center justify-center px-4 py-2 font-semibold text-primary bg-primary/10 border border-primary/20 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <GithubIcon className="w-4 h-4 mr-1.5" />
@@ -97,7 +99,7 @@ const Card = ({ testimonial, onMoreInfo }: CardProps) => {
 
           {testimonial.liveLink && (
             <button
-              onClick={() => window.open(testimonial.liveLink, "_blank")}
+              onClick={() => window.open(formatExternalLink(testimonial.liveLink || ""), "_blank")}
               className="text-caption inline-flex items-center justify-center px-4 py-2 font-semibold text-primary bg-primary/10 border border-primary/20 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <ExternalLink className="w-4 h-4 mr-1.5" />

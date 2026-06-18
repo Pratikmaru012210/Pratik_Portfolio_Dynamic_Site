@@ -30,6 +30,7 @@ if (!global.mongooseCached) {
 
 export default async function connectDB() {
   if (cached?.conn) {
+    console.log("Using cached MongoDB connection");
     return cached.conn;
   }
 
@@ -38,7 +39,11 @@ export default async function connectDB() {
       bufferCommands: false,
     };
 
+    console.log("Establishing new MongoDB connection...");
+    const startConnect = Date.now();
     cached.promise = mongoose.connect(MONGO_URI!, opts).then((mongooseInstance) => {
+      const endConnect = Date.now();
+      console.log(`MongoDB Connect Time: ${endConnect - startConnect}ms`);
       return mongooseInstance;
     });
   }

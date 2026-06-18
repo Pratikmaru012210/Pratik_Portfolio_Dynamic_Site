@@ -44,3 +44,21 @@ export interface ProfileData {
   resumeFileId?: string;
   socialMediaLinks: SocialMediaLink[];
 }
+
+export interface DynamicRecord {
+  _id?: string;
+  imageUrl?: string;
+  imageFileId?: string;
+  heading: string;
+  description?: string;
+  link?: string;
+  tags?: string[];
+}
+
+export interface DynamicSection {
+  _id?: string;
+  name: string;
+  description?: string;
+  order: number;
+  records: DynamicRecord[];
+}

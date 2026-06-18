@@ -3,6 +3,7 @@
 import React from "react";
 import CardModal from "./CardModal";
 import { ExternalLink } from "lucide-react";
+import { formatExternalLink } from "@/lib/utils";
 
 import { Project } from "@/types";
 
@@ -116,7 +117,7 @@ const TestimonialsMoreInfo = ({
         <div className="flex gap-3 justify-end">
           {data.gitHubLink && (
             <button
-              onClick={() => window.open(data.gitHubLink, "_blank")}
+              onClick={() => window.open(formatExternalLink(data.gitHubLink || ""), "_blank")}
               className="inline-flex items-center justify-center px-4 py-2 text-xs sm:text-sm font-bold text-primary bg-primary/10 border border-primary/25 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <GithubIcon className="w-4 h-4 mr-1.5" />
@@ -125,7 +126,7 @@ const TestimonialsMoreInfo = ({
           )}
           {data.liveLink && (
             <button
-              onClick={() => window.open(data.liveLink, "_blank")}
+              onClick={() => window.open(formatExternalLink(data.liveLink || ""), "_blank")}
               className="inline-flex items-center justify-center px-4 py-2 text-xs sm:text-sm font-bold text-primary bg-primary/10 border border-primary/25 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <ExternalLink className="w-4 h-4 mr-1.5" />

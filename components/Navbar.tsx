@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 // Section IDs in document order
 const SECTION_IDS = ["home", "about", "services", "testimonials", "contact"];
@@ -23,6 +23,8 @@ export default function Navbar() {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState("home");
   const [logoName, setLogoName] = useState("DevPortfolio");
+  const [dynamicSections, setDynamicSections] = useState<{name: string, id: string}[]>([]);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   // Fetch logo name from backend
   useEffect(() => {
@@ -37,7 +39,19 @@ export default function Navbar() {
         // silently ignore
       }
     };
+    const fetchDynamicSections = async () => {
+      try {
+        const res = await fetch("/api/dynamic-sections");
+        const data = await res.json();
+        if (data?.data) {
+          setDynamicSections(data.data.map((s: any) => ({ name: s.name, id: `dynamic-${s._id}` })));
+        }
+      } catch {
+        // silently ignore
+      }
+    };
     fetchLogoName();
+    fetchDynamicSections();
   }, []);
 
   // ── Scroll-based active section tracker ──────────────────────────────────
@@ -51,7 +65,9 @@ export default function Navbar() {
     let bestId = "home";
     let bestTop = -Infinity;
 
-    for (const id of SECTION_IDS) {
+    const allSectionIds = [...SECTION_IDS, ...dynamicSections.map(s => s.id)];
+
+    for (const id of allSectionIds) {
       const el = document.getElementById(id);
       if (!el) continue;
       const rect = el.getBoundingClientRect();
@@ -86,7 +102,8 @@ export default function Navbar() {
   useEffect(() => {
     if (pathname !== "/") return;
     const hash = window.location.hash.replace("#", "");
-    if (hash && SECTION_IDS.includes(hash)) {
+    const allSectionIds = [...SECTION_IDS, ...dynamicSections.map(s => s.id)];
+    if (hash && allSectionIds.includes(hash)) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveSection(hash);
     }
@@ -161,6 +178,36 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+
+              {dynamicSections.length > 0 && (
+                <div
+                  className="relative group"
+                  onMouseEnter={() => setIsMoreOpen(true)}
+                  onMouseLeave={() => setIsMoreOpen(false)}
+                >
+                  <button className={`flex items-center gap-1 px-3 py-2 text-body-sm font-medium transition-colors duration-200 hover:text-primary ${dynamicSections.some(s => s.id === activeSection) ? "text-primary" : "text-foreground/80"}`}>
+                    More <ChevronDown className="w-3.5 h-3.5" />
+                  </button>
+                  {isMoreOpen && (
+                    <div className="absolute top-full right-0 mt-1 w-48 bg-neutral-900 border border-white/10 rounded-xl shadow-xl overflow-hidden py-2 backdrop-blur-md">
+                      {dynamicSections.map(sec => (
+                        <Link
+                          key={sec.id}
+                          href={pathname === "/" ? `#${sec.id}` : `/#${sec.id}`}
+                          onClick={(e) => {
+                            handleNavLinkClick(e, sec.id);
+                            setIsMoreOpen(false);
+                          }}
+                          className={`block px-4 py-2 text-sm transition-colors hover:bg-white/5 hover:text-primary ${activeSection === sec.id ? "text-primary bg-primary/5" : "text-foreground/80"}`}
+                        >
+                          {sec.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {isLoaded && isSignedIn && (
                 <Link
                   href="/dashboard"
@@ -245,6 +292,27 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          {dynamicSections.length > 0 && (
+            <div className="py-2 border-t border-b border-border/20 my-2">
+              <div className="px-3 py-1 text-xs font-semibold text-foreground/50 uppercase tracking-wider">More</div>
+              {dynamicSections.map(sec => (
+                <Link
+                  key={sec.id}
+                  href={pathname === "/" ? `#${sec.id}` : `/#${sec.id}`}
+                  onClick={(e) => handleMobileNavLinkClick(e, sec.id)}
+                  className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${
+                    pathname === "/" && activeSection === sec.id
+                      ? "bg-primary/10 text-primary"
+                      : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
+                  }`}
+                >
+                  {sec.name}
+                </Link>
+              ))}
+            </div>
+          )}
+
           {isLoaded && isSignedIn && (
             <Link
               href="/dashboard"

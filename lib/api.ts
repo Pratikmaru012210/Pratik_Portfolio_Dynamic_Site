@@ -18,6 +18,7 @@ export async function apiRequest<T = any>(
     path.startsWith("/services/") ||
     path === "/projects" ||
     path.startsWith("/projects/") ||
+    path.startsWith("/dynamic-sections") ||
     path.startsWith("/auth/") ||
     path.startsWith("/admin/") ||
     path === "/imageKitAuth" ||

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth, RedirectToSignIn } from "@clerk/nextjs";
 import { Loader2, Menu as MenuIcon } from "lucide-react";
 
-import { Skill, Service, Project, SocialMediaLink } from "@/types";
+import { Skill, Service, Project, SocialMediaLink, DynamicSection } from "@/types";
 import { apiRequest } from "@/lib/api";
 
 import Sidebar from "./_components/Sidebar";
@@ -13,6 +13,7 @@ import AboutTab from "./_components/AboutTab";
 import ServicesTab from "./_components/ServicesTab";
 import ProjectsTab from "./_components/ProjectsTab";
 import UsersTab from "./_components/UsersTab";
+import DynamicSectionTab from "./_components/DynamicSectionTab";
 
 export default function Dashboard() {
   const { isSignedIn, isLoaded } = useAuth();
@@ -47,7 +48,7 @@ export default function Dashboard() {
 
 function DashboardContent() {
   const { getToken } = useAuth();
-  const [activeTab, setActiveTab] = useState<"hero" | "about" | "services" | "projects" | "users">("hero");
+  const [activeTab, setActiveTab] = useState<string>("hero");
   const [loading, setLoading] = useState(false);
   const [userStatus, setUserStatus] = useState<"loading" | "pending" | "admin">("loading");
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
@@ -76,6 +77,9 @@ function DashboardContent() {
   // States for Services & Projects
   const [services, setServices] = useState<Service[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+
+  // States for Dynamic Sections
+  const [dynamicSections, setDynamicSections] = useState<DynamicSection[]>([]);
 
   const showToast = (message: string, type: "success" | "error" = "success") => {
     setToast({ message, type });
@@ -137,6 +141,15 @@ function DashboardContent() {
     }
   };
 
+  const fetchDynamicSections = async () => {
+    try {
+      const data = await apiRequest("/dynamic-sections");
+      setDynamicSections(data.data || []);
+    } catch (err) {
+      console.error("Failed to load dynamic sections:", err);
+    }
+  };
+
   const checkUserStatus = async () => {
     try {
       const data = await apiRequest("/auth/me");
@@ -159,8 +172,9 @@ function DashboardContent() {
       fetchAbout();
       fetchServices();
       fetchProjects();
+      fetchDynamicSections();
     }, 0);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (userStatus === "loading") {
@@ -190,11 +204,10 @@ function DashboardContent() {
       {/* Toast Alert */}
       {toast && (
         <div
-          className={`fixed bottom-5 right-5 z-[80] px-6 py-3.5 rounded-xl border shadow-xl backdrop-blur-md transition-all duration-300 font-semibold ${
-            toast.type === "success"
+          className={`fixed bottom-5 right-5 z-[80] px-6 py-3.5 rounded-xl border shadow-xl backdrop-blur-md transition-all duration-300 font-semibold ${toast.type === "success"
               ? "bg-primary/20 border-primary/30 text-primary shadow-primary/10"
               : "bg-red-500/20 border-red-500/30 text-red-500 shadow-red-500/10"
-          }`}
+            }`}
         >
           {toast.message}
         </div>
@@ -220,6 +233,11 @@ function DashboardContent() {
         setActiveTab={setActiveTab}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
+        dynamicSections={dynamicSections}
+        fetchDynamicSections={fetchDynamicSections}
+        getToken={getToken}
+        showToast={showToast}
+        setLoading={setLoading}
       />
 
       {/* Main Workspace */}
@@ -298,6 +316,18 @@ function DashboardContent() {
             <UsersTab
               showToast={showToast}
               getToken={getToken}
+            />
+          )}
+
+          {activeTab.startsWith("dynamic-") && (
+            <DynamicSectionTab
+              sectionId={activeTab.replace("dynamic-", "")}
+              dynamicSections={dynamicSections}
+              loading={loading}
+              setLoading={setLoading}
+              showToast={showToast}
+              getToken={getToken}
+              fetchDynamicSections={fetchDynamicSections}
             />
           )}
         </div>

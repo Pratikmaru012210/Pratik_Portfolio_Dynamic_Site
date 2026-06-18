@@ -1,28 +1,39 @@
+import nextDynamic from "next/dynamic";
 import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Services from "@/components/sections/Services";
-import Testimonials from "@/components/sections/Testimonials";
 import HashScrollHandler from "@/components/HashScrollHandler";
 import Fab from "@/components/Fab";
-import { ProfileData, Skill, Service, Project, SocialMediaLink } from "@/types";
+import { ProfileData, Skill, Service, Project, SocialMediaLink, DynamicSection, DynamicRecord } from "@/types";
 import connectDB from "@/lib/mongoose";
 import UserDetails from "@/models/UserDetails";
 import AboutModel from "@/models/About";
 import ServicesDetails from "@/models/ServiceDetails";
 import ProjectDetails from "@/models/ProjectDetails";
+import DynamicSectionModel from "@/models/DynamicSection";
+
+const About = nextDynamic(() => import("@/components/sections/About"), { ssr: true });
+const Services = nextDynamic(() => import("@/components/sections/Services"), { ssr: true });
+const Testimonials = nextDynamic(() => import("@/components/sections/Testimonials"), { ssr: true });
 
 export const dynamic = "force-dynamic";
 
 async function getPortfolioData() {
   try {
     // Connect to database and fetch all details directly
+    const startConnect = Date.now();
     await connectDB();
-    const [profileDoc, aboutDoc, servicesDocs, projectsDocs] = await Promise.all([
+    const endConnect = Date.now();
+    console.log(`connectDB (Home) took ${endConnect - startConnect}ms`);
+
+    const startQueries = Date.now();
+    const [profileDoc, aboutDoc, servicesDocs, projectsDocs, dynamicSectionsDocs] = await Promise.all([
       UserDetails.findOne().lean(),
       AboutModel.findOne().lean(),
       ServicesDetails.find({}).lean(),
       ProjectDetails.find({}).lean(),
+      DynamicSectionModel.find({}).sort({ order: 1 }).lean(),
     ]);
+    const endQueries = Date.now();
+    console.log(`MongoDB Queries (Home) took ${endQueries - startQueries}ms`);
 
     const profile: ProfileData = profileDoc
       ? {
@@ -76,7 +87,25 @@ async function getPortfolioData() {
       problemSolve: project.problemSolve || "",
     }));
 
-    return { profile, aboutIntroduction, skills, services, projects };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dynamicSections: DynamicSection[] = (dynamicSectionsDocs || []).map((sec: any) => ({
+      _id: sec._id ? String(sec._id) : "",
+      name: sec.name || "",
+      description: sec.description || "",
+      order: typeof sec.order === "number" ? sec.order : 0,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      records: (sec.records || []).map((rec: any) => ({
+        _id: rec._id ? String(rec._id) : "",
+        heading: rec.heading || "",
+        description: rec.description || "",
+        imageUrl: rec.imageUrl || "",
+        imageFileId: rec.imageFileId || "",
+        link: rec.link || "",
+        tags: rec.tags || [],
+      }))
+    }));
+
+    return { profile, aboutIntroduction, skills, services, projects, dynamicSections };
   } catch (err) {
     console.error("Error loading portfolio details on server:", err);
     return {
@@ -93,12 +122,13 @@ async function getPortfolioData() {
       skills: [],
       services: [],
       projects: [],
+      dynamicSections: [],
     };
   }
 }
 
 export default async function Home() {
-  const { profile, aboutIntroduction, skills, services, projects } = await getPortfolioData();
+  const { profile, aboutIntroduction, skills, services, projects, dynamicSections } = await getPortfolioData();
 
   const sections = [
     { id: "home", component: <Hero profile={profile} /> },
@@ -106,6 +136,41 @@ export default async function Home() {
     { id: "services", component: <Services services={services} /> },
     { id: "testimonials", component: <Testimonials projects={projects} /> },
   ];
+
+  const dynamicSectionBlocks = (dynamicSections || []).map((sec: DynamicSection) => {
+    const formattedProjects: Project[] = (sec.records || []).map((r: DynamicRecord) => ({
+      _id: r._id,
+      projectName: r.heading,
+      description: r.description || "",
+      imageUrl: r.imageUrl || "",
+      imageFileId: r.imageFileId || "",
+      liveLink: r.link || "",
+      techStack: r.tags || [],
+      problemSolve: "",
+    }));
+
+    return {
+      id: `dynamic-${sec._id}`,
+      component: (
+        <div className="py-20">
+          <div className="flex flex-col items-center w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 animate-fade-in">
+            <h1 className="text-heading text-center mb-6 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/85 bg-clip-text text-transparent">
+              {sec.name}
+            </h1>
+            {sec.description && (
+              <div className="text-body text-foreground/80 max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center mb-12 mx-auto px-2 sm:px-4">
+                {sec.description}
+              </div>
+            )}
+          </div>
+          {/* We reuse the UI of Testimonials for the records */}
+          <Testimonials projects={formattedProjects} hideTitle={true} />
+        </div>
+      ),
+    };
+  });
+
+  const allSections = [...sections, ...dynamicSectionBlocks];
 
   return (
     <div className="relative isolate min-h-screen">
@@ -125,7 +190,7 @@ export default async function Home() {
       </div>
 
       <div className="max-w-7xl mx-auto divide-y divide-border/20">
-        {sections.map(({ id, component }) => (
+        {allSections.map(({ id, component }) => (
           <div key={id} id={id} className="scroll-mt-20">
             {component}
           </div>
