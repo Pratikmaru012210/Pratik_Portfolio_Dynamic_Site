@@ -149,11 +149,11 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="group flex items-center space-x-2">
-              <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent transition-all duration-300 group-hover:opacity-90">
+            <Link href="/" className="group flex items-baseline space-x-0.5">
+              <span className="text-primary text-2xl font-extrabold tracking-tight transition-all duration-300 group-hover:opacity-90">
                 {logoName}
-                <span className="text-primary font-black select-none">.</span>
               </span>
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary select-none align-baseline" />
             </Link>
           </div>
 
@@ -267,82 +267,84 @@ export default function Navbar() {
 
       {/* Mobile Menu panel */}
       <div
-        className={`md:hidden transition-all duration-300 ease-in-out ${isOpen
-          ? "max-h-96 opacity-100 border-t border-border/40"
-          : "max-h-0 opacity-0 overflow-hidden"
+        className={`md:hidden grid transition-all duration-300 ease-in-out ${isOpen
+          ? "grid-rows-[1fr] opacity-100 border-t border-border/40"
+          : "grid-rows-[0fr] opacity-0"
           } bg-background/60 backdrop-blur-lg`}
         id="mobile-menu"
       >
-        <div className="space-y-1 px-4 py-3">
-          {navLinks.map((link) => {
-            const isActive = pathname === "/" && activeSection === link.id;
-            return (
+        <div className="overflow-hidden max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <div className="space-y-1 px-4 py-3">
+            {navLinks.map((link) => {
+              const isActive = pathname === "/" && activeSection === link.id;
+              return (
+                <Link
+                  key={link.name}
+                  href={pathname === "/" ? `#${link.id}` : `/#${link.id}`}
+                  onClick={(e) => handleMobileNavLinkClick(e, link.id)}
+                  className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${isActive
+                    ? "bg-primary/10 text-primary"
+                    : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
+                    }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+
+            {dynamicSections.length > 0 && (
+              <div className="py-2 border-t border-b border-border/20 my-2">
+                <div className="px-3 py-1 text-xs font-semibold text-foreground/50 uppercase tracking-wider">More</div>
+                {dynamicSections.map(sec => (
+                  <Link
+                    key={sec.id}
+                    href={pathname === "/" ? `#${sec.id}` : `/#${sec.id}`}
+                    onClick={(e) => handleMobileNavLinkClick(e, sec.id)}
+                    className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${pathname === "/" && activeSection === sec.id
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
+                      }`}
+                  >
+                    {sec.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            {isLoaded && isSignedIn && (
               <Link
-                key={link.name}
-                href={pathname === "/" ? `#${link.id}` : `/#${link.id}`}
-                onClick={(e) => handleMobileNavLinkClick(e, link.id)}
-                className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${isActive
+                href="/dashboard"
+                onClick={() => setIsOpen(false)}
+                className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${pathname === "/dashboard"
                   ? "bg-primary/10 text-primary"
                   : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
                   }`}
               >
-                {link.name}
+                Dashboard
               </Link>
-            );
-          })}
-
-          {dynamicSections.length > 0 && (
-            <div className="py-2 border-t border-b border-border/20 my-2">
-              <div className="px-3 py-1 text-xs font-semibold text-foreground/50 uppercase tracking-wider">More</div>
-              {dynamicSections.map(sec => (
-                <Link
-                  key={sec.id}
-                  href={pathname === "/" ? `#${sec.id}` : `/#${sec.id}`}
-                  onClick={(e) => handleMobileNavLinkClick(e, sec.id)}
-                  className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${pathname === "/" && activeSection === sec.id
-                      ? "bg-primary/10 text-primary"
-                      : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
-                    }`}
-                >
-                  {sec.name}
-                </Link>
-              ))}
-            </div>
-          )}
-
-          {isLoaded && isSignedIn && (
-            <Link
-              href="/dashboard"
-              onClick={() => setIsOpen(false)}
-              className={`block rounded-lg px-3 py-2 text-body-sm font-medium transition-all duration-200 ${pathname === "/dashboard"
-                ? "bg-primary/10 text-primary"
-                : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"
-                }`}
-            >
-              Dashboard
-            </Link>
-          )}
-          <div className="mt-4 border-t border-border/40 pt-4 pb-2">
-            {!isLoaded ? (
-              <div className="h-9 w-full animate-pulse rounded-lg bg-foreground/10" />
-            ) : !isSignedIn ? (
-              <SignInButton mode="modal">
-                <button className="w-full cursor-pointer rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-semibold text-foreground shadow-md hover:bg-primary/95 transition-all duration-200">
-                  Sign In
-                </button>
-              </SignInButton>
-            ) : (
-              <div className="flex items-center space-x-3 px-3">
-                <UserButton
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox: "h-9 w-9",
-                    },
-                  }}
-                />
-                <span className="text-sm font-medium text-foreground/80">My Account</span>
-              </div>
             )}
+            <div className="mt-4 border-t border-border/40 pt-4 pb-2">
+              {!isLoaded ? (
+                <div className="h-9 w-full animate-pulse rounded-lg bg-foreground/10" />
+              ) : !isSignedIn ? (
+                <SignInButton mode="modal">
+                  <button className="w-full cursor-pointer rounded-lg bg-primary/10 hover:bg-primary/20 px-4 py-2.5 text-center text-sm font-semibold text-primary border border-primary/30 transition-all duration-200 shadow-sm">
+                    Sign In
+                  </button>
+                </SignInButton>
+              ) : (
+                <div className="flex items-center space-x-3 px-3">
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        userButtonAvatarBox: "h-9 w-9",
+                      },
+                    }}
+                  />
+                  <span className="text-sm font-medium text-foreground/80">My Account</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

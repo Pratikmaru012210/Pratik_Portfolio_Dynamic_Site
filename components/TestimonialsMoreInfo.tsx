@@ -130,7 +130,7 @@ const TestimonialsMoreInfo = ({
               className="inline-flex items-center justify-center px-4 py-2 text-xs sm:text-sm font-bold text-primary bg-primary/10 border border-primary/25 rounded-full hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <ExternalLink className="w-4 h-4 mr-1.5" />
-              Live Demo
+              Link
             </button>
           )}
         </div>

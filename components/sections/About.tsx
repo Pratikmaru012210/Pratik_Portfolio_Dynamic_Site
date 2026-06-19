@@ -23,15 +23,12 @@ export default function About({ introduction, skills }: AboutProps) {
         <h1 className="text-heading bg-gradient-to-r from-foreground via-foreground/95 to-foreground/80 bg-clip-text text-transparent inline-block">
           {aboutTxt.about}
         </h1>
-        {/* Decorative underline */}
-        <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-gradient-to-r from-primary/60 via-primary to-primary/60" />
+
       </div>
 
-      {/* Introduction Text — styled callout card */}
-      <div className="w-full max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto mb-12 sm:mb-14 lg:mb-16 px-2 sm:px-0">
-        <div className="glass-card rounded-2xl px-6 py-5 border-l-2 border-l-primary/60 text-body text-foreground/80 leading-relaxed text-left sm:text-center">
-          {introduction}
-        </div>
+      {/* Introduction Text — plain centered text like services */}
+      <div className="text-body text-foreground/80 max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl text-center mb-12 mx-auto px-2 sm:px-4">
+        {introduction}
       </div>
 
       {/* Skills Section */}

@@ -258,7 +258,7 @@ export default function ProjectsTab({
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold mb-0.5">Live Demo Link</label>
+              <label className="block text-sm font-semibold mb-0.5">Link</label>
               <input
                 type="text"
                 value={projectForm.liveLink}
@@ -417,7 +417,7 @@ export default function ProjectsTab({
                         className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary hover:underline"
                       >
                         <ExternalLink className="w-3 h-3" />
-                        Live Demo
+                        Link
                       </a>
                     )}
                   </div>
