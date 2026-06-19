@@ -26,20 +26,20 @@ const projectSchema = new Schema(
     description: {
       type: String,
       required: true,
-      maxLength: 500,
+      maxLength: 2000,
       validate(value: string) {
-        if (value.length > 500) {
-          throw new Error(schemaMessages.MAX_LEN_500);
+        if (value.length > 2000) {
+          throw new Error(schemaMessages.MAX_LEN_2000);
         }
       },
     },
     problemSolve: {
       type: String,
       required: true,
-      maxLength: 250,
+      maxLength: 500,
       validate(value: string) {
-        if (value.length > 250) {
-          throw new Error(schemaMessages.MAX_LEN_250);
+        if (value.length > 500) {
+          throw new Error(schemaMessages.MAX_LEN_500);
         }
       },
     },
