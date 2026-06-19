@@ -65,6 +65,13 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!open && window.location.hash === "#contact") {
+      window.history.replaceState(null, "", window.location.pathname);
+      window.dispatchEvent(new Event("scroll"));
+    }
+  }, [open]);
+
   const handleActionClick = () => {
     setOpen(false);
   };

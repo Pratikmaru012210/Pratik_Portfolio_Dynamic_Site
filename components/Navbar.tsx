@@ -60,6 +60,7 @@ export default function Navbar() {
   // when scrolled all the way to the bottom.
   const updateActiveSection = useCallback(() => {
     if (pathname !== "/") return;
+    if (window.location.hash === "#contact") return;
 
     const NAVBAR_HEIGHT = 80; // px — a bit more than h-16 (64 px)
     let bestId = "home";
