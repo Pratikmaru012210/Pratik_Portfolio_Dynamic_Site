@@ -139,7 +139,11 @@ export default function Navbar() {
     setIsOpen(false);
     if (pathname === "/" || pathname === "") {
       e.preventDefault();
-      scrollToSection(id);
+      // Delay scrolling until the menu collapse transition completes (300ms)
+      // to avoid incorrect target position calculations due to collapsing layout shifts.
+      setTimeout(() => {
+        scrollToSection(id);
+      }, 300);
     }
   };
 

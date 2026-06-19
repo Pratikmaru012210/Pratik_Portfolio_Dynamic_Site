@@ -21,6 +21,8 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
     const checkHashAndOpen = () => {
       if (window.location.hash === "#contact") {
         setOpen(true);
+      } else {
+        setOpen(false);
       }
     };
 
@@ -48,8 +50,10 @@ const Fab: React.FC<FabProps> = ({ actions }: FabProps) => {
     };
 
     const handleScroll = () => {
-      // Close on scroll
-      setOpen(false);
+      // Close on scroll unless hash is #contact
+      if (window.location.hash !== "#contact") {
+        setOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
