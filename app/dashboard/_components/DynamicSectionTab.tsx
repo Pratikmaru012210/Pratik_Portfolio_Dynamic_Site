@@ -215,8 +215,8 @@ export default function DynamicSectionTab({
             type="button"
             onClick={() => setSubTab("preview")}
             className={`flex items-center whitespace-nowrap gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${subTab === "preview"
-                ? "bg-primary text-white shadow-md border border-primary/30"
-                : "text-foreground/60 hover:text-foreground"
+              ? "bg-primary text-white shadow-md border border-primary/30"
+              : "text-foreground/60 hover:text-foreground"
               }`}
           >
             <Eye className="w-3.5 h-3.5" />
@@ -238,8 +238,8 @@ export default function DynamicSectionTab({
               if (recordImageRef.current) recordImageRef.current.value = "";
             }}
             className={`flex items-center whitespace-nowrap gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${subTab === "edit_record" && !recordForm._id
-                ? "bg-primary text-white shadow-md border border-primary/30"
-                : "text-foreground/60 hover:text-foreground"
+              ? "bg-primary text-white shadow-md border border-primary/30"
+              : "text-foreground/60 hover:text-foreground"
               }`}
           >
             <Plus className="w-3.5 h-3.5" />
@@ -249,8 +249,8 @@ export default function DynamicSectionTab({
             type="button"
             onClick={() => setSubTab("edit_section")}
             className={`flex items-center whitespace-nowrap gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${subTab === "edit_section"
-                ? "bg-primary text-white shadow-md border border-primary/30"
-                : "text-foreground/60 hover:text-foreground"
+              ? "bg-primary text-white shadow-md border border-primary/30"
+              : "text-foreground/60 hover:text-foreground"
               }`}
           >
             <Settings className="w-3.5 h-3.5" />
@@ -355,6 +355,14 @@ export default function DynamicSectionTab({
               onChange={(e) => setRecordForm({ ...recordForm, description: e.target.value })}
               className="w-full bg-neutral-950/40 text-foreground px-4 py-2 border border-white/5 rounded-xl text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 backdrop-blur-md transition-all shadow-inner"
             />
+            <p className={`text-right text-xs mt-1 font-mono ${recordForm.description.length > 2000
+                ? "text-red-400"
+                : recordForm.description.length > 1800
+                  ? "text-yellow-400"
+                  : "text-foreground/40"
+              }`}>
+              {recordForm.description.length}/2000
+            </p>
           </div>
           <div className="flex gap-2 pt-2">
             <button

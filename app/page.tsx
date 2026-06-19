@@ -108,22 +108,7 @@ async function getPortfolioData() {
     return { profile, aboutIntroduction, skills, services, projects, dynamicSections };
   } catch (err) {
     console.error("Error loading portfolio details on server:", err);
-    return {
-      profile: {
-        firstName: "",
-        lastName: "",
-        tagline: "",
-        shortIntro: "",
-        resumeUrl: "",
-        profilePicUrl: "",
-        socialMediaLinks: [],
-      },
-      aboutIntroduction: "",
-      skills: [],
-      services: [],
-      projects: [],
-      dynamicSections: [],
-    };
+    throw err;
   }
 }
 
@@ -152,7 +137,7 @@ export default async function Home() {
     return {
       id: `dynamic-${sec._id}`,
       component: (
-        <div className="py-20">
+        <div className="py-10">
           <div className="flex flex-col items-center w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 animate-fade-in">
             <h1 className="text-heading text-center mb-6 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/85 bg-clip-text text-transparent">
               {sec.name}

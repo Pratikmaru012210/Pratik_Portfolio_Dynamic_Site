@@ -38,31 +38,33 @@ const Card = ({ testimonial, onMoreInfo }: CardProps) => {
   return (
     <div className="glass-card my-2 sm:my-3 lg:my-4 relative rounded-2xl overflow-hidden w-full min-w-[280px] sm:min-w-[320px] md:min-w-[340px] lg:min-w-[360px] max-w-[300px] sm:max-w-sm md:max-w-md lg:max-w-lg flex flex-col hover:scale-[1.03] hover:border-primary/40 hover:shadow-[0_8px_30px_rgba(var(--primary-rgb),0.15)] transition-all duration-300">
       {/* Media container — click opens detail modal */}
-      <div
-        className="w-full h-40 sm:h-48 md:h-52 lg:h-56 bg-neutral-950/40 cursor-pointer overflow-hidden relative group"
-        onClick={onMoreInfo}
-      >
-        {isVideo(testimonial.link) ? (
-          <video
-            src={testimonial.link}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        ) : (
-          <img
-            src={testimonial.link}
-            loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            alt={testimonial.title}
-          />
-        )}
-        {/* Hover overlay hint */}
-        <div className="absolute inset-0 bg-primary/10 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <div className="flex items-center gap-2 bg-black/60 border border-white/10 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
-            <Info className="w-3.5 h-3.5" />
-            View Details
+      {testimonial.link && (
+        <div
+          className="w-full h-40 sm:h-48 md:h-52 lg:h-56 bg-neutral-950/40 cursor-pointer overflow-hidden relative group"
+          onClick={onMoreInfo}
+        >
+          {isVideo(testimonial.link) ? (
+            <video
+              src={testimonial.link}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            <img
+              src={testimonial.link}
+              loading="lazy"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              alt={testimonial.title}
+            />
+          )}
+          {/* Hover overlay hint */}
+          <div className="absolute inset-0 bg-primary/10 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <div className="flex items-center gap-2 bg-black/60 border border-white/10 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+              <Info className="w-3.5 h-3.5" />
+              View Details
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Body content */}
       <div className="p-4 sm:p-5 md:p-6 flex flex-col flex-1">

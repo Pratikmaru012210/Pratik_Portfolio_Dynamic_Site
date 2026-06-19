@@ -8,5 +8,6 @@ export const schemaMessages = {
   INVALID_DATE: "Date is invalid",
   MAX_LEN_50: "Maximum 50 characters allowed",
   MAX_LEN_500: "Maximum 500 characters allowed",
+  MAX_LEN_2000: "Maximum 2000 characters allowed",
   MAX_LEN_250: "Maximum 250 characters allowed",
 } as const;

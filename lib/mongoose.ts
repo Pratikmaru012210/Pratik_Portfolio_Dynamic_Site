@@ -34,26 +34,38 @@ export default async function connectDB() {
     return cached.conn;
   }
 
-  if (!cached?.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
+  const maxRetries = 5;
+  let retryCount = 0;
+  const delay = 1500;
 
-    console.log("Establishing new MongoDB connection...");
-    const startConnect = Date.now();
-    cached.promise = mongoose.connect(MONGO_URI!, opts).then((mongooseInstance) => {
-      const endConnect = Date.now();
-      console.log(`MongoDB Connect Time: ${endConnect - startConnect}ms`);
-      return mongooseInstance;
-    });
+  while (retryCount < maxRetries) {
+    try {
+      if (!cached?.promise) {
+        const opts = {
+          bufferCommands: false,
+          serverSelectionTimeoutMS: 5000,
+        };
+
+        console.log(`Establishing new MongoDB connection (Attempt ${retryCount + 1}/${maxRetries})...`);
+        const startConnect = Date.now();
+        cached.promise = mongoose.connect(MONGO_URI!, opts).then((mongooseInstance) => {
+          const endConnect = Date.now();
+          console.log(`MongoDB Connected in ${endConnect - startConnect}ms`);
+          return mongooseInstance;
+        });
+      }
+
+      cached.conn = await cached.promise;
+      return cached.conn;
+    } catch (e) {
+      console.error(`MongoDB connection attempt ${retryCount + 1} failed:`, e);
+      cached.promise = null; // Clear promise so the next attempt starts a fresh connection
+      retryCount++;
+      if (retryCount >= maxRetries) {
+        throw e;
+      }
+      console.log(`Retrying MongoDB connection in ${delay}ms...`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
   }
-
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
-
-  return cached.conn;
 }

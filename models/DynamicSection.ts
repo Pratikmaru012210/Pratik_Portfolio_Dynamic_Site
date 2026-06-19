@@ -26,10 +26,10 @@ const dynamicRecordSchema = new Schema({
   },
   description: {
     type: String,
-    maxLength: 500,
+    maxLength: 2000,
     validate(value: string) {
-      if (value && value.length > 500) {
-        throw new Error(schemaMessages.MAX_LEN_500);
+      if (value && value.length > 2000) {
+        throw new Error(schemaMessages.MAX_LEN_2000);
       }
     },
   },
