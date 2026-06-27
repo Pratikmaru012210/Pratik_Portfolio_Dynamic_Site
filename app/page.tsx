@@ -2,6 +2,7 @@ import nextDynamic from "next/dynamic";
 import Hero from "@/components/sections/Hero";
 import HashScrollHandler from "@/components/HashScrollHandler";
 import Fab from "@/components/Fab";
+import Footer from "@/components/Footer";
 import { ProfileData, Skill, Service, Project, SocialMediaLink, DynamicSection, DynamicRecord } from "@/types";
 import connectDB from "@/lib/mongoose";
 import UserDetails from "@/models/UserDetails";
@@ -181,6 +182,7 @@ export default async function Home() {
               {component}
             </div>
           ))}
+          <Footer firstName={profile.firstName} lastName={profile.lastName} />
         </div>
 
         {/* Decorative blurred background orb on right */}

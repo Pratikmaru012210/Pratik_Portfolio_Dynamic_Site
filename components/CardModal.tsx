@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 interface CardModalProps {
@@ -12,6 +13,8 @@ interface CardModalProps {
   className?: string;
 }
 
+const emptySubscribe = () => () => {};
+
 const CardModal = ({
   openModal,
   setOpenModal,
@@ -20,6 +23,12 @@ const CardModal = ({
   children,
   className = "",
 }: CardModalProps) => {
+  const isClient = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+
   useEffect(() => {
     if (openModal) {
       document.body.style.overflow = "hidden";
@@ -31,8 +40,10 @@ const CardModal = ({
     };
   }, [openModal]);
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 backdrop-blur-lg p-3 sm:p-4 animate-fade-in">
+  if (!isClient) return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/65 backdrop-blur-lg p-3 sm:p-4 animate-fade-in">
       <div
         ref={modalRef}
         className={`glass-panel rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] sm:max-h-[80vh] p-5 sm:p-6 md:p-8 mx-2 sm:mx-4 text-foreground flex flex-col transform transition-all duration-300 ease-out animate-fade-in-up ${className}`}
@@ -54,7 +65,8 @@ const CardModal = ({
           {children}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

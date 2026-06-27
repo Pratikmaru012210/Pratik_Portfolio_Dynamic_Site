@@ -1,8 +1,7 @@
 "use client";
 
 import { homeTxt } from "../../constants/texts";
-import Fab from "../Fab";
-import { Send, FileText } from "lucide-react";
+import { Send, Eye, Download } from "lucide-react";
 import { ProfileData } from "@/types";
 
 interface HeroProps {
@@ -69,13 +68,56 @@ export default function Hero({ profile }: HeroProps) {
           <span>{homeTxt.connectWithMe}</span>
         </button>
         {profile.resumeUrl && (
-          <button
-            onClick={() => window.open(profile.resumeUrl, "_blank")}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 border border-white/10 text-foreground rounded-full px-8 py-3.5 text-body-sm font-semibold bg-neutral-900/40 backdrop-blur-md transition-all duration-300 hover:bg-white/5 hover:border-primary/50 hover:scale-105 hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.15)] active:scale-95 cursor-pointer"
-          >
-            <FileText className="h-5 w-5 text-primary" />
-            <span>{homeTxt.resume}</span>
-          </button>
+          <div className="w-full sm:w-auto flex items-stretch border border-primary/30 text-foreground rounded-full bg-neutral-900/40 backdrop-blur-md transition-all duration-300 hover:border-primary/60 hover:scale-105 hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.15)] overflow-hidden divide-x divide-primary/20">
+            {/* View Resume (70%) */}
+            <button
+              onClick={() => window.open(profile.resumeUrl, "_blank")}
+              className="flex-[7] sm:flex-initial flex items-center justify-center gap-2 pl-6 pr-4 py-3.5 text-body-sm font-semibold hover:bg-white/5 active:scale-[0.98] transition-all cursor-pointer bg-transparent"
+              title="View Resume"
+            >
+              <Eye className="h-5 w-5 text-primary" />
+              <span>{homeTxt.resume}</span>
+            </button>
+            {/* Download Resume (30%) */}
+            <button
+              onClick={async (e) => {
+                e.stopPropagation();
+                try {
+                  let downloadUrl = profile.resumeUrl;
+                  if (downloadUrl.includes("imagekit.io")) {
+                    const separator = downloadUrl.includes("?") ? "&" : "?";
+                    downloadUrl = `${downloadUrl}${separator}ik-attachment=true`;
+                  }
+
+                  // Try to fetch as blob (handles standard CORS-enabled origins)
+                  const response = await fetch(downloadUrl);
+                  if (!response.ok) throw new Error("Network response was not ok");
+                  const blob = await response.blob();
+                  const blobUrl = window.URL.createObjectURL(blob);
+
+                  const link = document.createElement("a");
+                  link.href = blobUrl;
+                  link.setAttribute("download", "Resume.pdf");
+                  document.body.appendChild(link);
+                  link.click();
+
+                  document.body.removeChild(link);
+                  window.URL.revokeObjectURL(blobUrl);
+                } catch (error) {
+                  console.warn("Direct download failed, falling back to window.open", error);
+                  // Fallback: trigger download by opening URL with attachment parameter
+                  let fallbackUrl = profile.resumeUrl;
+                  const separator = fallbackUrl.includes("?") ? "&" : "?";
+                  fallbackUrl = `${fallbackUrl}${separator}ik-attachment=true`;
+                  window.open(fallbackUrl, "_blank");
+                }
+              }}
+              className="flex-[3] sm:flex-initial flex items-center justify-center px-4 py-3.5 hover:bg-white/5 active:scale-[0.95] transition-all cursor-pointer bg-transparent"
+              title="Download Resume"
+            >
+              <Download className="h-5 w-5 text-foreground/80 hover:text-primary transition-colors" />
+            </button>
+          </div>
         )}
       </div>
 

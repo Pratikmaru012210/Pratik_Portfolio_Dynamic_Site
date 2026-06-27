@@ -231,13 +231,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-4">
             {!isLoaded ? (
               <div className="h-8 w-20 animate-pulse rounded-full bg-foreground/10" />
-            ) : !isSignedIn ? (
-              <SignInButton mode="modal">
-                <button className="cursor-pointer rounded-full bg-primary/10 hover:bg-primary/20 px-5 py-2 text-sm font-semibold text-primary border border-primary/30 transition-all duration-300 hover:shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]">
-                  Sign In
-                </button>
-              </SignInButton>
-            ) : (
+            ) : isSignedIn ? (
               <div className="flex items-center space-x-2 p-1 rounded-full bg-foreground/5 border border-border/40">
                 <UserButton
                   appearance={{
@@ -247,7 +241,7 @@ export default function Navbar() {
                   }}
                 />
               </div>
-            )}
+            ) : null}
           </div>
 
           {/* Mobile Menu Button */}
@@ -328,16 +322,12 @@ export default function Navbar() {
                 Dashboard
               </Link>
             )}
-            <div className="mt-4 border-t border-border/40 pt-4 pb-2">
-              {!isLoaded ? (
+            {!isLoaded ? (
+              <div className="mt-4 border-t border-border/40 pt-4 pb-2">
                 <div className="h-9 w-full animate-pulse rounded-lg bg-foreground/10" />
-              ) : !isSignedIn ? (
-                <SignInButton mode="modal">
-                  <button className="w-full cursor-pointer rounded-lg bg-primary/10 hover:bg-primary/20 px-4 py-2.5 text-center text-sm font-semibold text-primary border border-primary/30 transition-all duration-200 shadow-sm">
-                    Sign In
-                  </button>
-                </SignInButton>
-              ) : (
+              </div>
+            ) : isSignedIn ? (
+              <div className="mt-4 border-t border-border/40 pt-4 pb-2">
                 <div className="flex items-center space-x-3 px-3">
                   <UserButton
                     appearance={{
@@ -348,8 +338,8 @@ export default function Navbar() {
                   />
                   <span className="text-sm font-medium text-foreground/80">My Account</span>
                 </div>
-              )}
-            </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
