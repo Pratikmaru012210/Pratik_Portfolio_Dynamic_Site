@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth, RedirectToSignIn } from "@clerk/nextjs";
 import { Loader2, Menu as MenuIcon } from "lucide-react";
 
-import { Skill, Service, Project, SocialMediaLink, DynamicSection } from "@/types";
+import { Skill, Service, Project, SocialMediaLink, DynamicSection, Cheatsheet } from "@/types";
 import { apiRequest } from "@/lib/api";
 
 import Sidebar from "./_components/Sidebar";
@@ -14,6 +14,7 @@ import ServicesTab from "./_components/ServicesTab";
 import ProjectsTab from "./_components/ProjectsTab";
 import UsersTab from "./_components/UsersTab";
 import DynamicSectionTab from "./_components/DynamicSectionTab";
+import CheatsheetsTab from "./_components/CheatsheetsTab";
 
 export default function Dashboard() {
   const { isSignedIn, isLoaded } = useAuth();
@@ -77,6 +78,7 @@ function DashboardContent() {
   // States for Services & Projects
   const [services, setServices] = useState<Service[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [cheatsheets, setCheatsheets] = useState<Cheatsheet[]>([]);
 
   // States for Dynamic Sections
   const [dynamicSections, setDynamicSections] = useState<DynamicSection[]>([]);
@@ -141,6 +143,15 @@ function DashboardContent() {
     }
   };
 
+  const fetchCheatsheets = async () => {
+    try {
+      const data = await apiRequest("/cheatsheets");
+      setCheatsheets(data.data || []);
+    } catch (err) {
+      console.error("Failed to load cheatsheets:", err);
+    }
+  };
+
   const fetchDynamicSections = async () => {
     try {
       const data = await apiRequest("/dynamic-sections");
@@ -172,6 +183,7 @@ function DashboardContent() {
       fetchAbout();
       fetchServices();
       fetchProjects();
+      fetchCheatsheets();
       fetchDynamicSections();
     }, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -205,8 +217,8 @@ function DashboardContent() {
       {toast && (
         <div
           className={`fixed bottom-5 right-5 z-[80] px-6 py-3.5 rounded-xl border shadow-xl backdrop-blur-md transition-all duration-300 font-semibold ${toast.type === "success"
-              ? "bg-primary/20 border-primary/30 text-primary shadow-primary/10"
-              : "bg-red-500/20 border-red-500/30 text-red-500 shadow-red-500/10"
+            ? "bg-primary/20 border-primary/30 text-primary shadow-primary/10"
+            : "bg-red-500/20 border-red-500/30 text-red-500 shadow-red-500/10"
             }`}
         >
           {toast.message}
@@ -309,6 +321,18 @@ function DashboardContent() {
               showToast={showToast}
               getToken={getToken}
               fetchProjects={fetchProjects}
+            />
+          )}
+
+          {activeTab === "cheatsheets" && (
+            <CheatsheetsTab
+              cheatsheets={cheatsheets}
+              setCheatsheets={setCheatsheets}
+              loading={loading}
+              setLoading={setLoading}
+              showToast={showToast}
+              getToken={getToken}
+              fetchCheatsheets={fetchCheatsheets}
             />
           )}
 

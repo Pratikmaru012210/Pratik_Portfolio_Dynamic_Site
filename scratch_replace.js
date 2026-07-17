@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
 
 const files = [
   'app/api/projects/[id]/route.ts',
@@ -25,13 +25,13 @@ const replacement = `const { userId } = await auth();
     }`;
 
 files.forEach(file => {
-  const filePath = path.join(basePath, file);
-  if (!fs.existsSync(filePath)) {
+  const filePath = join(basePath, file);
+  if (!existsSync(filePath)) {
     console.log('File not found:', filePath);
     return;
   }
   
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = readFileSync(filePath, 'utf8');
   
   if (!content.includes('import { isAdmin }')) {
       const importAuth = 'import { auth } from "@clerk/nextjs/server";\nimport { isAdmin } from "@/lib/auth";';
@@ -40,6 +40,6 @@ files.forEach(file => {
 
   content = content.replace(searchRegex, replacement);
 
-  fs.writeFileSync(filePath, content, 'utf8');
+  writeFileSync(filePath, content, 'utf8');
   console.log('Updated:', file);
 });

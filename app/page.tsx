@@ -3,17 +3,19 @@ import Hero from "@/components/sections/Hero";
 import HashScrollHandler from "@/components/HashScrollHandler";
 import Fab from "@/components/Fab";
 import Footer from "@/components/Footer";
-import { ProfileData, Skill, Service, Project, SocialMediaLink, DynamicSection, DynamicRecord } from "@/types";
+import { ProfileData, Skill, Service, Project, SocialMediaLink, DynamicSection, DynamicRecord, Cheatsheet } from "@/types";
 import connectDB from "@/lib/mongoose";
 import UserDetails from "@/models/UserDetails";
 import AboutModel from "@/models/About";
 import ServicesDetails from "@/models/ServiceDetails";
 import ProjectDetails from "@/models/ProjectDetails";
 import DynamicSectionModel from "@/models/DynamicSection";
+import CheatsheetModel from "@/models/Cheatsheet";
 
 const About = nextDynamic(() => import("@/components/sections/About"), { ssr: true });
 const Services = nextDynamic(() => import("@/components/sections/Services"), { ssr: true });
 const Testimonials = nextDynamic(() => import("@/components/sections/Testimonials"), { ssr: true });
+const Cheatsheets = nextDynamic(() => import("@/components/sections/Cheatsheets"), { ssr: true });
 
 export const dynamic = "force-dynamic";
 
@@ -26,12 +28,13 @@ async function getPortfolioData() {
     console.log(`connectDB (Home) took ${endConnect - startConnect}ms`);
 
     const startQueries = Date.now();
-    const [profileDoc, aboutDoc, servicesDocs, projectsDocs, dynamicSectionsDocs] = await Promise.all([
+    const [profileDoc, aboutDoc, servicesDocs, projectsDocs, dynamicSectionsDocs, cheatsheetsDocs] = await Promise.all([
       UserDetails.findOne().lean(),
       AboutModel.findOne().lean(),
       ServicesDetails.find({}).lean(),
       ProjectDetails.find({}).lean(),
       DynamicSectionModel.find({}).sort({ order: 1 }).lean(),
+      CheatsheetModel.find({}).sort({ createdAt: -1 }).lean(),
     ]);
     const endQueries = Date.now();
     console.log(`MongoDB Queries (Home) took ${endQueries - startQueries}ms`);
@@ -106,7 +109,14 @@ async function getPortfolioData() {
       }))
     }));
 
-    return { profile, aboutIntroduction, skills, services, projects, dynamicSections };
+    const cheatsheets: Cheatsheet[] = (cheatsheetsDocs || []).map((sheet: { _id?: unknown; title?: string; pdfUrl?: string; pdfFileId?: string }) => ({
+      _id: sheet._id ? String(sheet._id) : "",
+      title: sheet.title || "",
+      pdfUrl: sheet.pdfUrl || "",
+      pdfFileId: sheet.pdfFileId || "",
+    }));
+
+    return { profile, aboutIntroduction, skills, services, projects, dynamicSections, cheatsheets };
   } catch (err) {
     console.error("Error loading portfolio details on server:", err);
     throw err;
@@ -114,7 +124,7 @@ async function getPortfolioData() {
 }
 
 export default async function Home() {
-  const { profile, aboutIntroduction, skills, services, projects, dynamicSections } = await getPortfolioData();
+  const { profile, aboutIntroduction, skills, services, projects, dynamicSections, cheatsheets } = await getPortfolioData();
 
   const sections = [
     { id: "home", component: <Hero profile={profile} /> },
@@ -156,7 +166,11 @@ export default async function Home() {
     };
   });
 
-  const allSections = [...sections, ...dynamicSectionBlocks];
+  const allSections = [
+    ...sections,
+    { id: "cheatsheets", component: <Cheatsheets cheatsheets={cheatsheets} /> },
+    ...dynamicSectionBlocks,
+  ];
 
   return (
     <>

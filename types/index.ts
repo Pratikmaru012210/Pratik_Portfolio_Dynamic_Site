@@ -62,3 +62,13 @@ export interface DynamicSection {
   order: number;
   records: DynamicRecord[];
 }
+
+export interface Cheatsheet {
+  _id?: string;
+  title: string;
+  pdfUrl: string;
+  pdfFileId: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+

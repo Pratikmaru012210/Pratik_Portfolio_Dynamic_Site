@@ -7,13 +7,14 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 
 // Section IDs in document order
-const SECTION_IDS = ["home", "about", "services", "testimonials", "contact"];
+const SECTION_IDS = ["home", "about", "services", "testimonials", "cheatsheets", "contact"];
 
 const navLinks = [
   { name: "Home", id: "home" },
   { name: "About", id: "about" },
   { name: "Services", id: "services" },
   { name: "Testimonials", id: "testimonials" },
+  { name: "Cheatsheets", id: "cheatsheets" },
   { name: "Contact", id: "contact" },
 ];
 

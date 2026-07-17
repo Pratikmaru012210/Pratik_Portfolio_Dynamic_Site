@@ -40,3 +40,11 @@ export const homeTxt = {
   connectWithMe: "Let's connect",
   resume: "Resume",
 };
+
+export const cheatsheetsText = {
+  heading: "Resources",
+  subHeading: "My Cheatsheets",
+  introduction:
+    "A collection of quick reference sheets and summaries of technical topics. Click a card to view the cheatsheet in the browser, or click the download icon to save it.",
+};
+

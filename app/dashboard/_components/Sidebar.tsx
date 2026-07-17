@@ -1,6 +1,6 @@
 "use client";
 
-import { User, FileText, Briefcase, Code, X as XIcon, Folder, Trash2, ArrowUp, ArrowDown, Plus } from "lucide-react";
+import { User, FileText, Briefcase, Code, X as XIcon, Folder, Trash2, ArrowUp, ArrowDown, Plus, FileDown } from "lucide-react";
 import { apiRequest } from "@/lib/api";
 import { DynamicSection } from "@/types";
 
@@ -32,6 +32,7 @@ export default function Sidebar({
     { id: "about", label: "About & Skills", icon: <FileText className="w-5 h-5" /> },
     { id: "services", label: "Services", icon: <Briefcase className="w-5 h-5" /> },
     { id: "projects", label: "Projects/Work", icon: <Code className="w-5 h-5" /> },
+    { id: "cheatsheets", label: "Cheatsheets", icon: <FileDown className="w-5 h-5" /> },
     { id: "users", label: "User Management", icon: <User className="w-5 h-5" /> },
   ] as const;
 
