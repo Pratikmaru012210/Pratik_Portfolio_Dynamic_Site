@@ -64,7 +64,7 @@ export default function Cheatsheets({ cheatsheets }: CheatsheetsProps) {
             <div
               onClick={() => handleCardClick(cheatsheet.pdfUrl)}
               key={cheatsheet._id}
-              className="glass-card flex-shrink-0 flex flex-col items-start rounded-2xl p-5 sm:p-6 md:p-8 w-[85vw] max-w-[260px] sm:min-w-[260px] md:min-w-[280px] sm:max-w-[300px] md:max-w-[360px] min-h-[160px] sm:min-h-[180px] md:min-h-[200px] cursor-pointer hover:scale-[1.04] hover:border-primary/40 hover:shadow-[0_8px_30px_rgba(var(--primary-rgb),0.15)] group relative overflow-hidden transition-all duration-300"
+              className="glossy-glass-card flex-shrink-0 flex flex-col items-start rounded-2xl p-5 sm:p-6 md:p-8 w-[85vw] max-w-[260px] sm:min-w-[260px] md:min-w-[280px] sm:max-w-[300px] md:max-w-[360px] min-h-[160px] sm:min-h-[180px] md:min-h-[200px] cursor-pointer hover:scale-[1.04] hover:border-primary/40 hover:shadow-[0_8px_30px_rgba(var(--primary-rgb),0.15)] group relative overflow-hidden transition-all duration-300"
             >
               {/* Card Header Vibe */}
               <div className="flex items-center justify-between w-full mb-4">
@@ -89,7 +89,7 @@ export default function Cheatsheets({ cheatsheets }: CheatsheetsProps) {
               </h3>
               
               {/* Visual Cue - View In Browser */}
-              <div className="text-xs text-foreground/40 mt-auto font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="text-xs text-foreground/45 mt-auto font-medium transition-colors duration-300 group-hover:text-primary/80">
                 Click to view in browser
               </div>
             </div>

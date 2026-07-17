@@ -258,7 +258,7 @@ export default function CheatsheetsTab({
             {cheatsheets.map((sheet) => (
               <div
                 key={sheet._id}
-                className="p-6 glass-card rounded-2xl flex flex-col hover:border-primary/45 hover:scale-[1.02] transition-all relative group min-h-[160px]"
+                className="p-6 glossy-glass-card rounded-2xl flex flex-col hover:border-primary/45 hover:scale-[1.02] transition-all relative group min-h-[160px]"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold">
