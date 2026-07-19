@@ -30,9 +30,12 @@ export default function CheatsheetsTab({
     title: "",
     pdfUrl: "",
     pdfFileId: "",
+    logoUrl: "",
+    logoFileId: "",
   });
 
   const pdfInputRef = useRef<HTMLInputElement>(null);
+  const logoInputRef = useRef<HTMLInputElement>(null);
 
   const saveCheatsheet = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,14 +58,17 @@ export default function CheatsheetsTab({
             title: cheatsheetForm.title,
             pdfUrl: cheatsheetForm.pdfUrl,
             pdfFileId: cheatsheetForm.pdfFileId,
+            logoUrl: cheatsheetForm.logoUrl || null,
+            logoFileId: cheatsheetForm.logoFileId || null,
           }),
         },
         token
       );
 
       showToast(isEdit ? "Cheatsheet updated!" : "Cheatsheet added!");
-      setCheatsheetForm({ _id: "", title: "", pdfUrl: "", pdfFileId: "" });
+      setCheatsheetForm({ _id: "", title: "", pdfUrl: "", pdfFileId: "", logoUrl: "", logoFileId: "" });
       if (pdfInputRef.current) pdfInputRef.current.value = "";
+      if (logoInputRef.current) logoInputRef.current.value = "";
       setSubTab("preview");
       fetchCheatsheets();
     } catch (error) {
@@ -100,6 +106,54 @@ export default function CheatsheetsTab({
     }
   };
 
+  const handleLogoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/svg+xml"];
+      if (!allowedTypes.includes(file.type)) {
+        showToast("Only JPG, PNG, WEBP, and SVG logos are allowed", "error");
+        if (logoInputRef.current) logoInputRef.current.value = "";
+        return;
+      }
+      setLoading(true);
+      try {
+        const res = await uploadToImageKit(file, cheatsheetForm.logoFileId || undefined);
+        setCheatsheetForm((prev) => ({
+          ...prev,
+          logoUrl: res.url,
+          logoFileId: res.fileId,
+        }));
+        showToast("Logo uploaded successfully!");
+      } catch (err) {
+        const error = err as Error;
+        showToast(error.message || "Logo upload failed", "error");
+        if (logoInputRef.current) logoInputRef.current.value = "";
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleRemoveLogo = async () => {
+    if (cheatsheetForm.logoFileId) {
+      setLoading(true);
+      try {
+        await deleteFromImageKit(cheatsheetForm.logoFileId);
+        showToast("Logo removed from storage!");
+      } catch (err) {
+        console.error("Failed to delete logo from ImageKit:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    setCheatsheetForm((prev) => ({
+      ...prev,
+      logoUrl: "",
+      logoFileId: "",
+    }));
+    if (logoInputRef.current) logoInputRef.current.value = "";
+  };
+
   const deleteCheatsheet = async (sheet: Cheatsheet) => {
     if (!confirm("Are you sure you want to delete this cheatsheet?")) return;
     setLoading(true);
@@ -109,6 +163,13 @@ export default function CheatsheetsTab({
           await deleteFromImageKit(sheet.pdfFileId);
         } catch (err) {
           console.error("Failed to delete PDF file from ImageKit:", err);
+        }
+      }
+      if (sheet.logoFileId) {
+        try {
+          await deleteFromImageKit(sheet.logoFileId);
+        } catch (err) {
+          console.error("Failed to delete logo file from ImageKit:", err);
         }
       }
       const token = await getToken();
@@ -172,8 +233,9 @@ export default function CheatsheetsTab({
             type="button"
             onClick={() => {
               setSubTab("edit");
-              setCheatsheetForm({ _id: "", title: "", pdfUrl: "", pdfFileId: "" });
+              setCheatsheetForm({ _id: "", title: "", pdfUrl: "", pdfFileId: "", logoUrl: "", logoFileId: "" });
               if (pdfInputRef.current) pdfInputRef.current.value = "";
+              if (logoInputRef.current) logoInputRef.current.value = "";
             }}
             className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${subTab === "edit" && !cheatsheetForm._id
                 ? "bg-primary text-white shadow-md border border-primary/30"
@@ -226,6 +288,39 @@ export default function CheatsheetsTab({
             <p className="text-[10px] text-foreground/40 mt-1.5">Only PDF documents are allowed.</p>
           </div>
 
+          <div>
+            <label className="block text-sm font-semibold mb-1">Cheatsheet Logo (Optional)</label>
+            {cheatsheetForm.logoUrl && (
+              <div className="flex items-center gap-3 bg-primary/10 border border-primary/20 rounded-xl p-3 mb-3 text-primary">
+                <div className="w-10 h-10 rounded-lg bg-neutral-900 flex items-center justify-center p-1.5 overflow-hidden flex-shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={cheatsheetForm.logoUrl}
+                    alt="Logo Preview"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <span className="truncate flex-grow text-xs">{cheatsheetForm.logoUrl}</span>
+                <button
+                  type="button"
+                  onClick={handleRemoveLogo}
+                  className="p-1.5 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-all border border-red-500/20 cursor-pointer"
+                  title="Remove Logo"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+            <input
+              type="file"
+              ref={logoInputRef}
+              onChange={handleLogoFileChange}
+              accept="image/*"
+              className="w-full text-xs text-foreground/75 file:mr-4 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary/20 file:text-primary file:cursor-pointer"
+            />
+            <p className="text-[10px] text-foreground/40 mt-1.5">Images (PNG, JPG, WEBP, SVG) are allowed.</p>
+          </div>
+
           <div className="flex gap-2 pt-2">
             <button
               type="submit"
@@ -237,8 +332,9 @@ export default function CheatsheetsTab({
             <button
               type="button"
               onClick={() => {
-                setCheatsheetForm({ _id: "", title: "", pdfUrl: "", pdfFileId: "" });
+                setCheatsheetForm({ _id: "", title: "", pdfUrl: "", pdfFileId: "", logoUrl: "", logoFileId: "" });
                 if (pdfInputRef.current) pdfInputRef.current.value = "";
+                if (logoInputRef.current) logoInputRef.current.value = "";
                 setSubTab("preview");
               }}
               className="px-4 bg-white/5 rounded-xl text-foreground font-semibold hover:bg-white/10 text-xs transition-all cursor-pointer border border-white/5"
@@ -261,8 +357,17 @@ export default function CheatsheetsTab({
                 className="p-6 glossy-glass-card rounded-2xl flex flex-col hover:border-primary/45 hover:scale-[1.02] transition-all relative group min-h-[160px]"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold">
-                    <FileText className="w-5 h-5" />
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold overflow-hidden p-1.5">
+                    {sheet.logoUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={sheet.logoUrl}
+                        alt=""
+                        className="w-full h-full object-contain rounded-md"
+                      />
+                    ) : (
+                      <FileText className="w-5 h-5" />
+                    )}
                   </div>
                   <div className="flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                     <button
@@ -272,6 +377,8 @@ export default function CheatsheetsTab({
                           title: sheet.title,
                           pdfUrl: sheet.pdfUrl,
                           pdfFileId: sheet.pdfFileId || "",
+                          logoUrl: sheet.logoUrl || "",
+                          logoFileId: sheet.logoFileId || "",
                         });
                         setSubTab("edit");
                       }}

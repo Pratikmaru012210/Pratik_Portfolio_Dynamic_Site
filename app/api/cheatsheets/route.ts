@@ -4,7 +4,7 @@ import connectDB from "@/lib/mongoose";
 import Cheatsheet from "@/models/Cheatsheet";
 import { isAdmin } from "@/lib/auth";
 
-const allowedFields = ["title", "pdfUrl", "pdfFileId"];
+const allowedFields = ["title", "pdfUrl", "pdfFileId", "logoUrl", "logoFileId"];
 
 function validateCheatsheetData(body: Record<string, unknown>) {
   return Object.keys(body).every((field) => allowedFields.includes(field));

@@ -109,11 +109,13 @@ async function getPortfolioData() {
       }))
     }));
 
-    const cheatsheets: Cheatsheet[] = (cheatsheetsDocs || []).map((sheet: { _id?: unknown; title?: string; pdfUrl?: string; pdfFileId?: string }) => ({
+    const cheatsheets: Cheatsheet[] = (cheatsheetsDocs || []).map((sheet: { _id?: unknown; title?: string; pdfUrl?: string; pdfFileId?: string; logoUrl?: string; logoFileId?: string }) => ({
       _id: sheet._id ? String(sheet._id) : "",
       title: sheet.title || "",
       pdfUrl: sheet.pdfUrl || "",
       pdfFileId: sheet.pdfFileId || "",
+      logoUrl: sheet.logoUrl || "",
+      logoFileId: sheet.logoFileId || "",
     }));
 
     return { profile, aboutIntroduction, skills, services, projects, dynamicSections, cheatsheets };

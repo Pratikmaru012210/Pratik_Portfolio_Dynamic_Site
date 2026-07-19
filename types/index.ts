@@ -68,6 +68,8 @@ export interface Cheatsheet {
   title: string;
   pdfUrl: string;
   pdfFileId: string;
+  logoUrl?: string;
+  logoFileId?: string;
   createdAt?: string;
   updatedAt?: string;
 }

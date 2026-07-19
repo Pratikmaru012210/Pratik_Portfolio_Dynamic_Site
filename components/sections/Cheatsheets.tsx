@@ -68,8 +68,17 @@ export default function Cheatsheets({ cheatsheets }: CheatsheetsProps) {
             >
               {/* Card Header Vibe */}
               <div className="flex items-center justify-between w-full mb-4">
-                <div className="rounded-xl p-3 flex items-center justify-center bg-primary/10 border border-primary/20 text-primary transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(var(--primary-rgb),0.4)]">
-                  <FileText className="w-6 h-6 sm:w-8 sm:h-8" />
+                <div className="rounded-xl p-2.5 flex items-center justify-center bg-primary/10 border border-primary/20 text-primary transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(var(--primary-rgb),0.4)] w-12 h-12 sm:w-14 sm:h-14 overflow-hidden">
+                  {cheatsheet.logoUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={cheatsheet.logoUrl}
+                      alt=""
+                      className="w-full h-full object-contain rounded-md"
+                    />
+                  ) : (
+                    <FileText className="w-6 h-6 sm:w-8 sm:h-8" />
+                  )}
                 </div>
                 
                 {/* Download Button */}

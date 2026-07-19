@@ -1,5 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
+if (mongoose.models && mongoose.models.Cheatsheet) {
+  delete mongoose.models.Cheatsheet;
+}
+
 const cheatsheetSchema = new Schema(
   {
     title: {
@@ -16,6 +20,14 @@ const cheatsheetSchema = new Schema(
     pdfFileId: {
       type: String,
       required: true,
+      trim: true,
+    },
+    logoUrl: {
+      type: String,
+      trim: true,
+    },
+    logoFileId: {
+      type: String,
       trim: true,
     },
   },
