@@ -32,15 +32,15 @@ export default function About({ introduction, skills }: AboutProps) {
       </div>
 
       {/* Skills Section */}
-      <div className="relative w-full">
-        {/* Left & Right Smoky Gradient Fades */}
-        <div className="absolute top-0 bottom-6 left-0 w-6 sm:w-10 bg-gradient-to-r from-background via-background/75 to-transparent pointer-events-none z-10" />
-        <div className="absolute top-0 bottom-6 right-0 w-6 sm:w-10 bg-gradient-to-l from-background via-background/75 to-transparent pointer-events-none z-10" />
+      <div className="relative w-full max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
+        {/* Left & Right Smoky Gradient Fades for Visual Scroll Indication */}
+        <div className="absolute top-0 bottom-6 left-0 w-8 sm:w-12 bg-gradient-to-r from-background via-background/70 to-transparent pointer-events-none z-10 rounded-l-2xl" />
+        <div className="absolute top-0 bottom-6 right-0 w-8 sm:w-12 bg-gradient-to-l from-background via-background/70 to-transparent pointer-events-none z-10 rounded-r-2xl" />
 
         {/* Scrollable Container */}
-        <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent touch-pan-x transform-gpu">
-          {/* Skills Grid — 4 rows on mobile, 3 rows on laptop, matching Services/Cheatsheets padding */}
-          <div className="grid grid-rows-4 md:grid-rows-3 grid-flow-col auto-cols-max md:justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 pt-14 pb-6 px-4 w-max min-w-full">
+        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+          {/* Skills Grid — 4 rows on mobile, 3 rows on laptop, scrolling horizontally with equal left/right padding */}
+          <div className="grid grid-rows-4 md:grid-rows-3 grid-flow-col auto-cols-max justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 pt-9 pb-6 px-6 sm:px-10 w-max min-w-full mx-auto">
             {skills.map((skill: Skill, idx: number) => {
               const displayIcon = skill.icon.includes("imagekit.io")
                 ? `${skill.icon}?tr=w-80,h-80,bg-FFFFFF00,fit-contain`
@@ -51,7 +51,6 @@ export default function About({ introduction, skills }: AboutProps) {
                   tabIndex={0}
                   className="glass-card relative group rounded-2xl p-2 sm:p-3.5 flex flex-col items-center justify-center w-[4.5rem] h-[4.5rem] sm:w-20 sm:h-20 md:w-22 md:h-22 lg:w-24 lg:h-24 border-primary/20 shadow-[0_0_15px_rgba(var(--primary-rgb),0.1)] hover:scale-110 active:scale-110 focus:scale-110 focus:outline-none hover:border-primary/50 focus:border-primary/50 hover:shadow-[0_0_25px_8px_rgba(var(--primary-rgb),0.35)] cursor-pointer"
                 >
-
                   <img
                     src={displayIcon}
                     alt={skill.skill + " icon"}
