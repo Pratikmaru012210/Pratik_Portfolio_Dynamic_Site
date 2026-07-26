@@ -32,34 +32,41 @@ export default function About({ introduction, skills }: AboutProps) {
       </div>
 
       {/* Skills Section */}
-      <div className="w-full max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl">
-        {/* Skills Grid */}
-        <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-          {skills.map((skill: Skill, idx: number) => {
-            const displayIcon = skill.icon.includes("imagekit.io")
-              ? `${skill.icon}?tr=w-80,h-80,bg-FFFFFF00,fit-contain`
-              : skill.icon;
-            return (
-              <div
-                key={idx}
-                tabIndex={0}
-                className="glass-card relative group rounded-2xl p-2 sm:p-3.5 flex flex-col items-center justify-center w-[4.5rem] h-[4.5rem] sm:w-20 sm:h-20 md:w-22 md:h-22 lg:w-24 lg:h-24 border-primary/20 shadow-[0_0_15px_rgba(var(--primary-rgb),0.1)] hover:scale-110 active:scale-110 focus:scale-110 focus:outline-none hover:border-primary/50 focus:border-primary/50 hover:shadow-[0_0_25px_8px_rgba(var(--primary-rgb),0.35)] cursor-pointer"
-              >
-                <img
-                  src={displayIcon}
-                  alt={skill.skill + " icon"}
-                  className="w-6 h-6 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 object-contain filter transition-transform duration-300 group-hover:scale-105 group-focus:scale-105 group-active:scale-105"
-                />
+      <div className="relative w-full max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
+        {/* Left & Right Smoky Gradient Fades for Visual Scroll Indication */}
+        <div className="absolute top-0 bottom-6 left-0 w-8 sm:w-12 bg-gradient-to-r from-background via-background/70 to-transparent pointer-events-none z-10 rounded-l-2xl" />
+        <div className="absolute top-0 bottom-6 right-0 w-8 sm:w-12 bg-gradient-to-l from-background via-background/70 to-transparent pointer-events-none z-10 rounded-r-2xl" />
 
-                {/* Tooltip (visible on hover, long-press, or tap) */}
-                <div className="text-caption absolute bottom-full mb-3 px-3 py-1.5 bg-neutral-950/90 text-foreground border border-white/10 backdrop-blur-md font-semibold rounded-lg opacity-0 group-hover:opacity-100 group-active:opacity-100 group-focus:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10 shadow-lg pointer-events-none select-none">
-                  {skill.skill}
-                  {/* Arrow */}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-neutral-950/90"></div>
+        {/* Scrollable Container */}
+        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+          {/* Skills Grid — 4 rows on mobile, 3 rows on laptop, scrolling horizontally with equal left/right padding */}
+          <div className="grid grid-rows-4 md:grid-rows-3 grid-flow-col auto-cols-max justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 pt-9 pb-6 px-6 sm:px-10 w-max min-w-full mx-auto">
+            {skills.map((skill: Skill, idx: number) => {
+              const displayIcon = skill.icon.includes("imagekit.io")
+                ? `${skill.icon}?tr=w-80,h-80,bg-FFFFFF00,fit-contain`
+                : skill.icon;
+              return (
+                <div
+                  key={idx}
+                  tabIndex={0}
+                  className="glass-card relative group rounded-2xl p-2 sm:p-3.5 flex flex-col items-center justify-center w-[4.5rem] h-[4.5rem] sm:w-20 sm:h-20 md:w-22 md:h-22 lg:w-24 lg:h-24 border-primary/20 shadow-[0_0_15px_rgba(var(--primary-rgb),0.1)] hover:scale-110 active:scale-110 focus:scale-110 focus:outline-none hover:border-primary/50 focus:border-primary/50 hover:shadow-[0_0_25px_8px_rgba(var(--primary-rgb),0.35)] cursor-pointer"
+                >
+                  <img
+                    src={displayIcon}
+                    alt={skill.skill + " icon"}
+                    className="w-6 h-6 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 object-contain filter transition-transform duration-300 group-hover:scale-105 group-focus:scale-105 group-active:scale-105"
+                  />
+
+                  {/* Tooltip (visible on hover, long-press, or tap) */}
+                  <div className="text-caption absolute bottom-full mb-3 px-3 py-1.5 bg-neutral-950/90 text-foreground border border-white/10 backdrop-blur-md font-semibold rounded-lg opacity-0 group-hover:opacity-100 group-active:opacity-100 group-focus:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10 shadow-lg pointer-events-none select-none">
+                    {skill.skill}
+                    {/* Arrow */}
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-neutral-950/90"></div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
