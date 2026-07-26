@@ -27,20 +27,20 @@ export default function About({ introduction, skills }: AboutProps) {
       </div>
 
       {/* Introduction Text — plain centered text like services */}
-      <div className="text-body text-foreground/80 max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl text-center mb-12 mx-auto px-2 sm:px-4">
+      <div className="text-body text-foreground/80 max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl text-center mb-4 mx-auto px-2 sm:px-4">
         {introduction}
       </div>
 
       {/* Skills Section */}
-      <div className="relative w-full max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
-        {/* Left & Right Smoky Gradient Fades for Visual Scroll Indication */}
-        <div className="absolute top-0 bottom-6 left-0 w-8 sm:w-12 bg-gradient-to-r from-background via-background/70 to-transparent pointer-events-none z-10 rounded-l-2xl" />
-        <div className="absolute top-0 bottom-6 right-0 w-8 sm:w-12 bg-gradient-to-l from-background via-background/70 to-transparent pointer-events-none z-10 rounded-r-2xl" />
+      <div className="relative w-full">
+        {/* Left & Right Smoky Gradient Fades */}
+        <div className="absolute top-0 bottom-6 left-0 w-6 sm:w-10 bg-gradient-to-r from-background via-background/75 to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 bottom-6 right-0 w-6 sm:w-10 bg-gradient-to-l from-background via-background/75 to-transparent pointer-events-none z-10" />
 
         {/* Scrollable Container */}
-        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
-          {/* Skills Grid — 4 rows on mobile, 3 rows on laptop, scrolling horizontally with equal left/right padding */}
-          <div className="grid grid-rows-4 md:grid-rows-3 grid-flow-col auto-cols-max justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 pt-9 pb-6 px-6 sm:px-10 w-max min-w-full mx-auto">
+        <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+          {/* Skills Grid — 4 rows on mobile, 3 rows on laptop, matching Services/Cheatsheets padding */}
+          <div className="grid grid-rows-4 md:grid-rows-3 grid-flow-col auto-cols-max md:justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 pt-14 pb-6 px-4 w-max min-w-full">
             {skills.map((skill: Skill, idx: number) => {
               const displayIcon = skill.icon.includes("imagekit.io")
                 ? `${skill.icon}?tr=w-80,h-80,bg-FFFFFF00,fit-contain`
