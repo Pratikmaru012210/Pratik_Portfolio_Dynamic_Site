@@ -38,7 +38,7 @@ export default function About({ introduction, skills }: AboutProps) {
         <div className="absolute top-0 bottom-6 right-0 w-6 sm:w-10 bg-gradient-to-l from-background via-background/75 to-transparent pointer-events-none z-10" />
 
         {/* Scrollable Container */}
-        <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+        <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent touch-pan-x transform-gpu">
           {/* Skills Grid — 4 rows on mobile, 3 rows on laptop, matching Services/Cheatsheets padding */}
           <div className="grid grid-rows-4 md:grid-rows-3 grid-flow-col auto-cols-max md:justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 pt-14 pb-6 px-4 w-max min-w-full">
             {skills.map((skill: Skill, idx: number) => {
